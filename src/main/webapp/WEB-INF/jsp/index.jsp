@@ -9,9 +9,10 @@
     <title>게시판 - 목록</title>
 </head>
 <body>
+<h1><%=request.getAttribute("id")%></h1>
 <div class="container">
     <header class="title"><h1>자유 게시판 - 목록</h1></header>
-<%--    <form method="get" action=<%=request.getContextPath()%>/selectArticles.action>--%>
+    <form method="get" action=<%=request.getContextPath()%>/selectArticles.action>
         <div class="search_nav">
             <div class="date_select_div">
                 <span class="date_span">등록일</span>
