@@ -9,6 +9,9 @@
       <if test="conditionMap != null and conditionMap.keyword != null and !conditionMap.keyword.equals('')" >
         AND title like '%${conditionMap.keyword}%'
       </if>
+      <if test="conditionMap != null and conditionMap.categoryId != null and conditionMap.categoryId != 0">
+        AND category_id = '${conditionMap.categoryId}'
+      </if>
     </trim>
   </sql>
   <select id="selectSearchArticles" resultType="com.example.ebrainstudy__springbootbbs.article.ArticleVO">

@@ -9,7 +9,10 @@ public class FindCategoryNameId {
 	private String category;
 	private Integer category_id;
 	public Integer findCategoryIdFn(String category){
-		if(Objects.equals(category,"JAVA")) {
+		if (Objects.equals(category, "All")){
+			category_id = 0;
+		}
+		else if(Objects.equals(category,"JAVA")) {
 			category_id = 1;
 		} else if (Objects.equals(category,"Javascript")) {
 			category_id = 2;
