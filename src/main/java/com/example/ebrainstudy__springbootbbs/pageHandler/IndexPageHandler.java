@@ -2,6 +2,7 @@ package com.example.ebrainstudy__springbootbbs.pageHandler;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
+import com.example.ebrainstudy__springbootbbs.article.SearchConditionVO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,16 +16,38 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 public class IndexPageHandler implements PageCommandHandler {
+	// DB 데이터 송수신을 위한 DAO 객체 주입을 위한 필드
 	private final ArticleDAO articleDAO;
+	// 쿼리스트링으로 가져온 검색조건
+	private SearchConditionVO searchCondition;
+
+	/**
+	 * "/" 인덱스 페이지 핸들러
+	 * @param req 컨트롤러에서 전달된 HttpServletRequest
+	 * @param res 컨트롤러에서 전달된 HttpServletResponse
+	 */
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse res){
-		Map<String, Object> searchCondition = new HashMap<>();
-		int currentPage = 1;
-		searchCondition.put("articleLimitTo", currentPage*10);
-		List<ArticleVO> searchedArticles = articleDAO.searchArticles(searchCondition);
+		// 매퍼에 전달하기 위한 MAP
+		Map<String, Object> searchConditionMap = new HashMap<>();
+		// 현재 페이지 정보 (초기값 1)
+		int currentPage = searchCondition.getCurrentPage();
+		// 매퍼에 들어갈 SELECT LIMIT (현재페이지*10)-10, 현재페이지*10
+		searchConditionMap.put("articleLimitTo", currentPage*10);
+		// 검색된 게시글
+		List<ArticleVO> searchedArticles = articleDAO.searchArticles(searchConditionMap);
+		// 검색된 게시글 수
 		int articlesCount = articleDAO.getCountArticles();
 		req.setAttribute("articles", searchedArticles);
 		req.setAttribute("articlesCount",articlesCount);
 		req.setAttribute("currentPage",currentPage);
+	}
+
+	/**
+	 * 컨트롤러에서 설정될 검색조건
+	 * @param searchCondition SearchConditionVO
+	 */
+	public void setSearchCondition(SearchConditionVO searchCondition) {
+		this.searchCondition = searchCondition;
 	}
 }
