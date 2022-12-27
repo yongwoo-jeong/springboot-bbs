@@ -3,12 +3,14 @@ package com.example.ebrainstudy__springbootbbs.pageHandler;
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.article.SearchConditionVO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import utils.IsEmpty;
 
 /**
  * index 페이지에서 전체 게시글 혹은 검색 조건에 따른
@@ -49,5 +51,17 @@ public class IndexPageHandler implements PageCommandHandler {
 	 */
 	public void setSearchCondition(SearchConditionVO searchCondition) {
 		this.searchCondition = searchCondition;
+	}
+	public SearchConditionVO getSearchQuerystring(){
+		StringBuilder querystring = null;
+		String keyword = "";
+		String category = "";
+		String startDate = "";
+		String endDate = "";
+		querystring.append("?currentPage="+searchCondition.getCurrentPage());
+		querystring.append("?startDate="+searchCondition.getCurrentPage());
+
+		querystring.append(searchCondition.getKeyword());
+		return searchCondition;
 	}
 }
