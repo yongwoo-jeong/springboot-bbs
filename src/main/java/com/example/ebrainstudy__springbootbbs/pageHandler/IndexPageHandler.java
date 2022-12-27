@@ -2,7 +2,8 @@ package com.example.ebrainstudy__springbootbbs.pageHandler;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
-import com.example.ebrainstudy__springbootbbs.article.SearchConditionVO;
+import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionMaker;
+import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import utils.FindCategoryNameId;
-import utils.IsEmpty;
 
 /**
  * index 페이지에서 전체 게시글 혹은 검색 조건에 따른
@@ -40,7 +40,7 @@ public class IndexPageHandler implements PageCommandHandler {
 		// 검색된 게시글
 		List<ArticleVO> searchedArticles = articleDAO.searchArticles((currentPage-1)*10,searchConditionMap);
 		// 검색조건 유지를 위한 쿼리스트링
-		String SearchQuerystring = getSearchQuerystring();
+		String SearchQuerystring = SearchConditionMaker.makeQuerystring(searchCondition);
 		// 검색된 게시글 수
 		int articlesCount = articleDAO.getCountArticles();
 		req.setAttribute("articles", searchedArticles);
@@ -55,26 +55,5 @@ public class IndexPageHandler implements PageCommandHandler {
 	 */
 	public void setSearchCondition(SearchConditionVO searchCondition) {
 		this.searchCondition = searchCondition;
-	}
-	public String getSearchQuerystring(){
-		StringBuilder querystring = new StringBuilder("");
-		String keyword = "";
-		String startDate = "";
-		String endDate = "";
-		if (!IsEmpty.main(searchCondition.getKeyword())){
-			keyword = searchCondition.getKeyword();
-		}
-		if (!IsEmpty.main(searchCondition.getStartDate())){
-			startDate = searchCondition.getStartDate();
-		}
-		if (!IsEmpty.main(searchCondition.getEndDate())){
-			endDate = searchCondition.getEndDate();
-		}
-		querystring.append("?category="+searchCondition.getCategory());
-		querystring.append("&keyword="+keyword);
-		querystring.append("&startDate="+startDate);
-		querystring.append("&endDate="+endDate);
-		querystring.append("&currentPage=");
-		return querystring.toString();
 	}
 }

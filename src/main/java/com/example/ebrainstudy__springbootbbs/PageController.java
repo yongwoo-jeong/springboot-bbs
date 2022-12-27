@@ -1,7 +1,7 @@
 package com.example.ebrainstudy__springbootbbs;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
-import com.example.ebrainstudy__springbootbbs.article.SearchConditionVO;
+import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import com.example.ebrainstudy__springbootbbs.pageHandler.IndexPageHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

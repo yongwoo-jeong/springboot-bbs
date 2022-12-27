@@ -1,4 +1,4 @@
-package com.example.ebrainstudy__springbootbbs.article;
+package com.example.ebrainstudy__springbootbbs.searchCondition;
 
 import java.util.Date;
 import lombok.Getter;
