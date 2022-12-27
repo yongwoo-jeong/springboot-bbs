@@ -5,5 +5,5 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface PageCommandHandler {
-	public String process(HttpServletRequest req, HttpServletResponse res) throws ServletException;
+	public void process(HttpServletRequest req, HttpServletResponse res) throws ServletException;
 }

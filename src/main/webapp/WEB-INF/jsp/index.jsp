@@ -6,15 +6,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css">
-    <script type="text/javascript" defer src="${pageContext.request.contextPath}/"></script>
+    <link rel="stylesheet" href="/css/index.css">
+    <script type="text/javascript" defer src="/js/index.js"></script>
     <meta charset="UTF-8" />
     <title>게시판 - 목록</title>
 </head>
 <body>
 <div class="container">
     <header class="title"><h1>자유 게시판 - 목록</h1></header>
-    <form method="get" action=<%=request.getContextPath()%>/selectArticles.action>
+    <form method="get" action=<%=request.getContextPath()%>>
         <div class="search_nav">
             <div class="date_select_div">
                 <span class="date_span">등록일</span>

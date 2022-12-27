@@ -7,25 +7,24 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * index 페이지에서 전체 게시글 혹은 검색 조건에 따른
  * 게시글을 모델에서 뷰로 전달하는 컨트롤러
  */
-@Controller
-public class IndexHandler implements PageCommandHandler {
+@RequiredArgsConstructor
+public class IndexPageHandler implements PageCommandHandler {
+	private final ArticleDAO articleDAO;
 	@Override
-	@GetMapping("/")
-	public String process(HttpServletRequest req, HttpServletResponse res){
-		ArticleDAO articleDAO = new ArticleDAO();
+	public void process(HttpServletRequest req, HttpServletResponse res){
 		Map<String, Object> searchCondition = new HashMap<>();
-		searchCondition.put("articleLimitFrom",0);
+		int currentPage = 0;
+		searchCondition.put("articleLimitFrom", currentPage);
 		List<ArticleVO> searchedArticles = articleDAO.searchArticles(searchCondition);
 		int articlesCount = articleDAO.getCountArticles();
 		req.setAttribute("articles", searchedArticles);
 		req.setAttribute("articlesCount",articlesCount);
-		return "index";
 	}
 }
