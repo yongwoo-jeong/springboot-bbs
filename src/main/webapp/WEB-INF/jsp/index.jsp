@@ -18,9 +18,9 @@
         <div class="search_nav">
             <div class="date_select_div">
                 <span class="date_span">등록일</span>
-                <input type="date" name="start_date" class="start_date"/>
+                <input type="date" name="startDate" class="start_date"/>
                 <span>~</span>
-                <input type="date" name="last_date" class="end_date"/>
+                <input type="date" name="lastDate" class="end_date"/>
             </div>
             <div class="category_select_div">
                 <div class="category_drop_down">

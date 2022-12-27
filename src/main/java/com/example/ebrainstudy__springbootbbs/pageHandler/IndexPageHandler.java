@@ -34,6 +34,8 @@ public class IndexPageHandler implements PageCommandHandler {
 		Map<String, Object> searchConditionMap = new HashMap<>();
 		searchConditionMap.put("keyword", searchCondition.getKeyword());
 		searchConditionMap.put("categoryId", new FindCategoryNameId().findCategoryIdFn(searchCondition.getCategory()));
+		searchConditionMap.put("startDate",searchCondition.getStartDate());
+		searchConditionMap.put("endDate",searchCondition.getEndDate());
 		// 현재 페이지 정보 (초기값 1)
 		int currentPage = searchCondition.getCurrentPage();
 		// 매퍼에 들어갈 SELECT LIMIT 오프셋
