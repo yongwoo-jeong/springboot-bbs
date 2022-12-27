@@ -6,7 +6,7 @@
 
   <!-- 검색조건 재활용을 위한 sql 프라그먼트 -->
   <sql id="searchCondition">
-      <if test="_parameter != null">
+      <if test="conditionMap != null">
         WHERE title like '%${conditionMap}.keyword%' AND
               category_id IN <foreach item="category" index="index" collection="${conditionMap}.categories"
                             open="(" separator="," close=")"> ${category.value}</foreach>
@@ -26,7 +26,7 @@
         <property name="searchCondition" value="parameterMap"/>
       </include>
       ORDER BY article_id DESC
-<!--      LIMIT ${articleLimitFrom}, ${articleLimitTo}-->
+      LIMIT ${articleLimitFrom}, ${articleLimitFrom+10}
   </select>
   <select id="selectCountArticles" resultType="int" parameterType="Map" >
     SELECT COUNT(*) FROM article

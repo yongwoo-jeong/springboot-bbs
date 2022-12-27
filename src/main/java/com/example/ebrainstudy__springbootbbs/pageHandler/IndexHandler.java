@@ -2,7 +2,9 @@ package com.example.ebrainstudy__springbootbbs.pageHandler;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,9 @@ public class IndexHandler implements PageCommandHandler {
 	@GetMapping("/")
 	public String process(HttpServletRequest req, HttpServletResponse res){
 		ArticleDAO articleDAO = new ArticleDAO();
-		List<ArticleVO> searchedArticles = articleDAO.searchArticles();
+		Map<String, Object> searchCondition = new HashMap<>();
+		searchCondition.put("articleLimitFrom",0);
+		List<ArticleVO> searchedArticles = articleDAO.searchArticles(searchCondition);
 		int articlesCount = articleDAO.getCountArticles();
 		req.setAttribute("articles", searchedArticles);
 		req.setAttribute("articlesCount",articlesCount);

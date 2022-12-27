@@ -3,6 +3,7 @@ package com.example.ebrainstudy__springbootbbs.article;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -37,8 +38,8 @@ public class ArticleDAO {
 	 * @param selectMap 날짜, 키워드, 카테고리, 페이징 정보가 담긴 Map
 	 * @return List<ArticleVO>
 	 */
-	public List<ArticleVO> searchArticles() {
-		List<ArticleVO> articleVOFromMapper = loadMapper().selectSearchArticles();
+	public List<ArticleVO> searchArticles(Map searchCondition) {
+		List<ArticleVO> articleVOFromMapper = loadMapper().selectSearchArticles(searchCondition);
 		return articleVOFromMapper;
 	}
 	public int getCountArticles(){
