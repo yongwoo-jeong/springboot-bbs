@@ -1,4 +1,4 @@
-<%@ page import="article.ArticleVO" %>
+<%@ page import="com.example.ebrainstudy__springbootbbs.article.ArticleVO" %>
 <%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="article.MapperInterface">
+<mapper namespace="com.example.ebrainstudy__springbootbbs.article.MapperInterface">
   <sql id="searchCondition">
       <if test="_parameter != null">
         WHERE title like '%${conditionMap}.keyword%' AND
@@ -19,7 +19,7 @@
       </if>
   </sql>
 
-  <select id="selectSearchArticles" resultType="article.ArticleVO" parameterType="Map">
+  <select id="selectSearchArticles" resultType="com.example.ebrainstudy__springbootbbs.article.ArticleVO" parameterType="Map">
     SELECT * FROM article
       <include refid="searchCondition">
         <property name="searchCondition" value="parameterMap"/>

@@ -1,4 +1,4 @@
-package article;
+package com.example.ebrainstudy__springbootbbs.article;
 
 import java.sql.Date;
 import lombok.Builder;
