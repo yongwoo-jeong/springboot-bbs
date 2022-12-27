@@ -78,9 +78,8 @@
     <div class="pagination_container">
         <%  Integer currentPage = (Integer) request.getAttribute("currentPage");
             int lastPage = (int) Math.ceil((double) articleCount/10);%>
-        <%for (int i = 1; i<=10; i++){%>
-        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%>index.jsp?page=<%=i%><%=request.getAttribute("urlWithParam")%>><%=i%></a>
-        <%if (i>lastPage) break;%>
+        <%for (int i = 1; i<=lastPage; i++){%>
+        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%>?currentPage=<%=i%>><%=i%></a>
         <%}%>
     </div>
     <div class="upload_container">

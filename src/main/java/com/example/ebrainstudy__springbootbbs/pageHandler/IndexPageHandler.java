@@ -32,8 +32,8 @@ public class IndexPageHandler implements PageCommandHandler {
 		Map<String, Object> searchConditionMap = new HashMap<>();
 		// 현재 페이지 정보 (초기값 1)
 		int currentPage = searchCondition.getCurrentPage();
-		// 매퍼에 들어갈 SELECT LIMIT (현재페이지*10)-10, 현재페이지*10
-		searchConditionMap.put("articleLimitTo", currentPage*10);
+		// 매퍼에 들어갈 SELECT LIMIT 오프셋
+		searchConditionMap.put("articleOffset", (currentPage-1)*10);
 		// 검색된 게시글
 		List<ArticleVO> searchedArticles = articleDAO.searchArticles(searchConditionMap);
 		// 검색된 게시글 수
