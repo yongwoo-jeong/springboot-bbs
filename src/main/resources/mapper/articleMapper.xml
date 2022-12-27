@@ -3,27 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.ebrainstudy__springbootbbs.article.MapperInterface">
-
   <!-- 검색조건 재활용을 위한 sql 프라그먼트 -->
   <sql id="searchCondition">
-      <if test="conditionMap != null">
-        WHERE title like '%${conditionMap}.keyword%' AND
-              category_id IN <foreach item="category" index="index" collection="${conditionMap}.categories"
-                            open="(" separator="," close=")"> ${category.value}</foreach>
-              <trim prefix="AND(" prefixOverrides="AND" suffix=")">
-                <if test="${conditionMap}.startDate!=null">
-                  created_at &gt;= #{conditionMap.startDate}
-                </if>
-                <if test="${conditionMap}.endDate!=null">
-                  AND created_at &lt;= #{conditionMap.endDate}
-                </if>
-              </trim>
+    <trim prefix="where (" suffix=")" prefixOverrides="AND">
+      <if test="conditionMap != null and conditionMap.keyword != null and !conditionMap.keyword.equals('')" >
+        AND title like '%${conditionMap.keyword}%'
       </if>
+    </trim>
   </sql>
-  <select id="selectSearchArticles" resultType="com.example.ebrainstudy__springbootbbs.article.ArticleVO" parameterType="Map">
+  <select id="selectSearchArticles" resultType="com.example.ebrainstudy__springbootbbs.article.ArticleVO">
     SELECT * FROM article
       <include refid="searchCondition">
-        <property name="searchCondition" value="parameterMap"/>
+        <property name="conditionMap" value="conditionMap"/>
       </include>
       ORDER BY article_id DESC
       LIMIT ${articleOffset}, 10
@@ -31,7 +22,7 @@
   <select id="selectCountArticles" resultType="int" parameterType="Map" >
     SELECT COUNT(*) FROM article
       <include refid="searchCondition">
-        <property name="searchCondition" value="parameterMap"/>
+        <property name="conditionMap" value="parameterMap"/>
       </include>
   </select>
 </mapper>

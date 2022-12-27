@@ -83,7 +83,7 @@
         <%}%>
     </div>
     <div class="upload_container">
-        <button class="button upload_button" type="button" onclick="location.href='newArticleInput.jsp'">등록</button>
+        <button class="button upload_button" type="button" onclick=location.href=<%=request.getContextPath()%>"/upload">등록</button>
     </div>
 </div>
 </body>

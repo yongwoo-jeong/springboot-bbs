@@ -40,8 +40,8 @@ public class ArticleDAO {
 	 * @param selectMap 날짜, 키워드, 카테고리, 페이징 정보가 담긴 Map
 	 * @return List<ArticleVO>
 	 */
-	public List<ArticleVO> searchArticles(Map searchCondition) {
-		List<ArticleVO> articleVOFromMapper = loadMapper().selectSearchArticles(searchCondition);
+	public List<ArticleVO> searchArticles(int currentPage,Map searchCondition) {
+		List<ArticleVO> articleVOFromMapper = loadMapper().selectSearchArticles(currentPage,searchCondition);
 		return articleVOFromMapper;
 	}
 	public int getCountArticles(){

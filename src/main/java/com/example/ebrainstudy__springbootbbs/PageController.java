@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PageController {
 	@RequestMapping("/")
-	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
+	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchConditionParameter){
 		IndexPageHandler indexPageHandler = new IndexPageHandler(new ArticleDAO());
-		indexPageHandler.setSearchCondition(searchCondition);
+		indexPageHandler.setSearchCondition(searchConditionParameter);
 		indexPageHandler.process(req,res);
 		return "index";
+	}
+	@RequestMapping("/upload")
+	public String inputNewArticleController(){
+		return "newArticleInput";
 	}
 }

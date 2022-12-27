@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import utils.FindCategoryNameId;
 import utils.IsEmpty;
 
 /**
@@ -19,8 +20,9 @@ import utils.IsEmpty;
 public class IndexPageHandler implements PageCommandHandler {
 	// DB 데이터 송수신을 위한 DAO 객체 주입을 위한 필드
 	private final ArticleDAO articleDAO;
-	// 쿼리스트링으로 가져온 검색조건
+	// 쿼리스트링으로 가져온 검색조건 데이터 오브젝트
 	private SearchConditionVO searchCondition;
+
 	/**
 	 * "/" 인덱스 페이지 핸들러
 	 * @param req 컨트롤러에서 전달된 HttpServletRequest
@@ -30,12 +32,12 @@ public class IndexPageHandler implements PageCommandHandler {
 	public void process(HttpServletRequest req, HttpServletResponse res){
 		// 매퍼에 전달하기 위한 MAP
 		Map<String, Object> searchConditionMap = new HashMap<>();
+		searchConditionMap.put("keyword", searchCondition.getKeyword());
 		// 현재 페이지 정보 (초기값 1)
 		int currentPage = searchCondition.getCurrentPage();
 		// 매퍼에 들어갈 SELECT LIMIT 오프셋
-		searchConditionMap.put("articleOffset", (currentPage-1)*10);
 		// 검색된 게시글
-		List<ArticleVO> searchedArticles = articleDAO.searchArticles(searchConditionMap);
+		List<ArticleVO> searchedArticles = articleDAO.searchArticles(currentPage-1,searchConditionMap);
 		// 검색조건 유지를 위한 쿼리스트링
 		String SearchQuerystring = getSearchQuerystring();
 		// 검색된 게시글 수
