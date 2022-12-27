@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * index 페이지에서 전체 게시글 혹은 검색 조건에 따른
@@ -20,11 +19,12 @@ public class IndexPageHandler implements PageCommandHandler {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse res){
 		Map<String, Object> searchCondition = new HashMap<>();
-		int currentPage = 0;
-		searchCondition.put("articleLimitFrom", currentPage);
+		int currentPage = 1;
+		searchCondition.put("articleLimitTo", currentPage*10);
 		List<ArticleVO> searchedArticles = articleDAO.searchArticles(searchCondition);
 		int articlesCount = articleDAO.getCountArticles();
 		req.setAttribute("articles", searchedArticles);
 		req.setAttribute("articlesCount",articlesCount);
+		req.setAttribute("currentPage",currentPage);
 	}
 }

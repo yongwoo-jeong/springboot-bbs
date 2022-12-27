@@ -26,7 +26,7 @@
         <property name="searchCondition" value="parameterMap"/>
       </include>
       ORDER BY article_id DESC
-      LIMIT ${articleLimitFrom}, ${articleLimitFrom+10}
+      LIMIT ${articleLimitTo-10}, ${articleLimitTo}
   </select>
   <select id="selectCountArticles" resultType="int" parameterType="Map" >
     SELECT COUNT(*) FROM article

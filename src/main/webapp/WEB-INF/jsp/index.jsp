@@ -43,7 +43,8 @@
             </div>
         </div>
     </form>
-    <div class="search_outcome">총 <%=request.getAttribute("articlesCount")%>건</div>
+    <% int articleCount = (int) request.getAttribute("articlesCount");%>
+    <div class="search_outcome">총 <%=articleCount%>건</div>
     <div class="post_container">
         <div class="post post_outline">
             <span>카테고리</span>
@@ -75,12 +76,12 @@
     <% } %>
     </div>
     <div class="pagination_container">
-<%--        <%  Integer currentPage = (Integer) request.getAttribute("currentPage");--%>
-<%--            int lastPage = (int) Math.ceil(totalArticle/10);%>--%>
-<%--        <%for (int i = 1; i<=10; i++){%>--%>
-<%--        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%>index.jsp?page=<%=i%><%=request.getAttribute("urlWithParam")%>><%=i%></a>--%>
-<%--        <%if (i>lastPage) break;%>--%>
-<%--        <%}%>--%>
+        <%  Integer currentPage = (Integer) request.getAttribute("currentPage");
+            int lastPage = (int) Math.ceil((double) articleCount/10);%>
+        <%for (int i = 1; i<=10; i++){%>
+        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%>index.jsp?page=<%=i%><%=request.getAttribute("urlWithParam")%>><%=i%></a>
+        <%if (i>lastPage) break;%>
+        <%}%>
     </div>
     <div class="upload_container">
         <button class="button upload_button" type="button" onclick="location.href='newArticleInput.jsp'">등록</button>
