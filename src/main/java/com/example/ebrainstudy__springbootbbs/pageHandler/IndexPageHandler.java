@@ -3,7 +3,6 @@ package com.example.ebrainstudy__springbootbbs.pageHandler;
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.article.SearchConditionVO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ public class IndexPageHandler implements PageCommandHandler {
 	private final ArticleDAO articleDAO;
 	// 쿼리스트링으로 가져온 검색조건
 	private SearchConditionVO searchCondition;
-
 	/**
 	 * "/" 인덱스 페이지 핸들러
 	 * @param req 컨트롤러에서 전달된 HttpServletRequest
@@ -38,11 +36,14 @@ public class IndexPageHandler implements PageCommandHandler {
 		searchConditionMap.put("articleOffset", (currentPage-1)*10);
 		// 검색된 게시글
 		List<ArticleVO> searchedArticles = articleDAO.searchArticles(searchConditionMap);
+		// 검색조건 유지를 위한 쿼리스트링
+		String SearchQuerystring = getSearchQuerystring();
 		// 검색된 게시글 수
 		int articlesCount = articleDAO.getCountArticles();
 		req.setAttribute("articles", searchedArticles);
 		req.setAttribute("articlesCount",articlesCount);
 		req.setAttribute("currentPage",currentPage);
+		req.setAttribute("queryString",SearchQuerystring);
 	}
 
 	/**
@@ -52,16 +53,25 @@ public class IndexPageHandler implements PageCommandHandler {
 	public void setSearchCondition(SearchConditionVO searchCondition) {
 		this.searchCondition = searchCondition;
 	}
-	public SearchConditionVO getSearchQuerystring(){
-		StringBuilder querystring = null;
+	public String getSearchQuerystring(){
+		StringBuilder querystring = new StringBuilder("");
 		String keyword = "";
-		String category = "";
 		String startDate = "";
 		String endDate = "";
-		querystring.append("?currentPage="+searchCondition.getCurrentPage());
-		querystring.append("?startDate="+searchCondition.getCurrentPage());
-
-		querystring.append(searchCondition.getKeyword());
-		return searchCondition;
+		if (!IsEmpty.main(searchCondition.getKeyword())){
+			keyword = searchCondition.getKeyword();
+		}
+		if (!IsEmpty.main(searchCondition.getStartDate())){
+			startDate = searchCondition.getStartDate();
+		}
+		if (!IsEmpty.main(searchCondition.getEndDate())){
+			endDate = searchCondition.getEndDate();
+		}
+		querystring.append("?category="+searchCondition.getCategory());
+		querystring.append("&keyword="+keyword);
+		querystring.append("&startDate="+startDate);
+		querystring.append("&endDate="+endDate);
+		querystring.append("&currentPage=");
+		return querystring.toString();
 	}
 }

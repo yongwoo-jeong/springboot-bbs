@@ -27,7 +27,7 @@
                     <form action="" method="post">
                         <label for="category"></label>
                         <select name="category" id="category">
-                            <option value="All">전체 카테고리</option>
+                            <option selected="selected" value="All">전체 카테고리</option>
                             <option value="JAVA">JAVA</option>
                             <option value="Javascript">Javascript</option>
                             <option value="Database">Database</option>
@@ -79,7 +79,7 @@
         <%  Integer currentPage = (Integer) request.getAttribute("currentPage");
             int lastPage = (int) Math.ceil((double) articleCount/10);%>
         <%for (int i = 1; i<=lastPage; i++){%>
-        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%>?currentPage=<%=i%>><%=i%></a>
+        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%><%=request.getAttribute("queryString")%><%=i%>><%=i%></a>
         <%}%>
     </div>
     <div class="upload_container">
