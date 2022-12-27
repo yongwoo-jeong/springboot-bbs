@@ -2,38 +2,29 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="article.ArticleMapper">
-  <select id="selectAllArticle" resultType="article.ArticleVO" parameterType="Map">
+<mapper namespace="article.MapperInterface">
+  <sql id="searchCondition">
+      <if test="_parameter != null">
+        WHERE title like '%${conditionMap}.keyword%' AND
+              category_id IN <foreach item="category" index="index" collection="${conditionMap}.categories"
+                            open="(" separator="," close=")"> ${category.value}</foreach>
+              <trim prefix="AND(" prefixOverrides="AND" suffix=")">
+                <if test="${conditionMap}.startDate!=null">
+                  created_at &gt;= #{conditionMap.startDate}
+                </if>
+                <if test="${conditionMap}.endDate!=null">
+                  AND created_at &lt;= #{conditionMap.endDate}
+                </if>
+              </trim>
+      </if>
+  </sql>
+
+  <select id="selectSearchArticles" resultType="article.ArticleVO" parameterType="Map">
     SELECT * FROM article
-      WHERE title like '%${keyword}%' AND
-            category_id IN <foreach item="category" index="index" collection="categories"
-                            open="(" separator="," close=")"> ${category.value}</foreach> AND
-            DATE(created_at) BETWEEN 
-                                        <choose>
-                                          <when test="startDate != null and startDate !='' ">'${startDate}'</when>
-                                          <otherwise>'2020-01-01'</otherwise>
-                                        </choose>
-                                        AND
-                                        <choose>
-                                          <when test="endDate != null and endDate !='' ">'${endDate}'</when>
-                                          <otherwise>'2100-01-01'</otherwise>
-                                        </choose>
+      <include refid="searchCondition">
+        <property name="searchCondition" value="parameterMap"/>
+      </include>
       ORDER BY article_id DESC
-      LIMIT ${articleLimitFrom}, ${articleLimitTo}
+<!--      LIMIT ${articleLimitFrom}, ${articleLimitTo}-->
   </select>
-  <select id="getArticle" resultType="article.ArticleVO" parameterType="int">
-  SELECT * FROM article
-    WHERE article_id = '${articleId}'
-  </select>
-  <insert id="insertArticle" parameterType="article.ArticleVO" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO article ( title, writer, password, content, created_at, category_id)
-      VALUES ("${title}", "${writer}", "${password}", "${content}", NOW(), ${categoryId})
-    <selectKey keyProperty="articleId" resultType="Integer" order="AFTER">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-  </insert>
-  <delete id="deleteArticle" parameterType="int">
-    DELETE FROM article
-      WHERE article_id = ${articleId}
-  </delete>
 </mapper>
