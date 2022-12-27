@@ -6,12 +6,11 @@
 <html>
 <head>
     <link rel="stylesheet" href="../css/index.css">
-    <script type="text/javascript" defer src="js/index.js"></script>
+    <script type="text/javascript" defer src="../js/index.js"></script>
     <meta charset="UTF-8" />
     <title>게시판 - 목록</title>
 </head>
 <body>
-<h1><%=request.getAttribute("id")%></h1>
 <div class="container">
     <header class="title"><h1>자유 게시판 - 목록</h1></header>
     <form method="get" action=<%=request.getContextPath()%>/selectArticles.action>
@@ -43,7 +42,7 @@
             </div>
         </div>
 <%--    </form>--%>
-<%--    <div class="search_outcome">총 <%=totalArticle%>건</div>--%>
+    <div class="search_outcome">총 <%=request.getAttribute("articlesCount")%>건</div>
     <div class="post_container">
         <div class="post post_outline">
             <span>카테고리</span>

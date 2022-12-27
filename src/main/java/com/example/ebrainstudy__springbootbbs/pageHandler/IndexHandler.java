@@ -17,9 +17,11 @@ public class IndexHandler implements PageCommandHandler {
 	@Override
 	@GetMapping("/")
 	public String process(HttpServletRequest req, HttpServletResponse res){
-		List<ArticleVO> searchedArticles = new ArticleDAO().searchArticles();
+		ArticleDAO articleDAO = new ArticleDAO();
+		List<ArticleVO> searchedArticles = articleDAO.searchArticles();
+		int articlesCount = articleDAO.getCountArticles();
 		req.setAttribute("articles", searchedArticles);
-		req.setAttribute("id", "this is ID");
+		req.setAttribute("articlesCount",articlesCount);
 		return "index";
 	}
 }

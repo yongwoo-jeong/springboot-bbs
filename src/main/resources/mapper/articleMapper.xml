@@ -3,6 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.ebrainstudy__springbootbbs.article.MapperInterface">
+
+  <!-- 검색조건 재활용을 위한 sql 프라그먼트 -->
   <sql id="searchCondition">
       <if test="_parameter != null">
         WHERE title like '%${conditionMap}.keyword%' AND
@@ -18,7 +20,6 @@
               </trim>
       </if>
   </sql>
-
   <select id="selectSearchArticles" resultType="com.example.ebrainstudy__springbootbbs.article.ArticleVO" parameterType="Map">
     SELECT * FROM article
       <include refid="searchCondition">
@@ -26,5 +27,11 @@
       </include>
       ORDER BY article_id DESC
 <!--      LIMIT ${articleLimitFrom}, ${articleLimitTo}-->
+  </select>
+  <select id="selectCountArticles" resultType="int" parameterType="Map" >
+    SELECT COUNT(*) FROM article
+      <include refid="searchCondition">
+        <property name="searchCondition" value="parameterMap"/>
+      </include>
   </select>
 </mapper>

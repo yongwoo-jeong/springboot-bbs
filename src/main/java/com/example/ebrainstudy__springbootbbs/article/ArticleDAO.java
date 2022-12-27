@@ -39,7 +39,9 @@ public class ArticleDAO {
 	 */
 	public List<ArticleVO> searchArticles() {
 		List<ArticleVO> articleVOFromMapper = loadMapper().selectSearchArticles();
-		session.close();
 		return articleVOFromMapper;
+	}
+	public int getCountArticles(){
+		return loadMapper().selectCountArticles();
 	}
 }

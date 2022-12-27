@@ -1,4 +1,4 @@
-package com.example.ebrainstudy__springbootbbs;
+package com.example.ebrainstudy__springbootbbs.pageHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
