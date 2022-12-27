@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Param;
 
 public interface MapperInterface {
 	public List<ArticleVO> selectSearchArticles(@Param("articleOffset") int articleOffset, @Param("conditionMap") Map conditionMap);
-	public int selectCountArticles();
+	public int selectCountArticles(@Param("conditionMap") Map conditionMap);
 }

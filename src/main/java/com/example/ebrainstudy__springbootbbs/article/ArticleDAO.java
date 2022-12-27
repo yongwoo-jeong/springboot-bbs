@@ -44,7 +44,7 @@ public class ArticleDAO {
 		List<ArticleVO> articleVOFromMapper = loadMapper().selectSearchArticles(currentPage,searchCondition);
 		return articleVOFromMapper;
 	}
-	public int getCountArticles(){
-		return loadMapper().selectCountArticles();
+	public int getCountArticles(Map<String, Object> searchConditionMap){
+		return loadMapper().selectCountArticles(searchConditionMap);
 	}
 }

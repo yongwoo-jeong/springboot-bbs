@@ -22,10 +22,10 @@
       ORDER BY article_id DESC
       LIMIT ${articleOffset}, 10
   </select>
-  <select id="selectCountArticles" resultType="int" parameterType="Map" >
+  <select id="selectCountArticles" resultType="int" >
     SELECT COUNT(*) FROM article
-      <include refid="searchCondition">
-        <property name="conditionMap" value="parameterMap"/>
-      </include>
+    <include refid="searchCondition">
+      <property name="conditionMap" value="conditionMap"/>
+    </include>
   </select>
 </mapper>

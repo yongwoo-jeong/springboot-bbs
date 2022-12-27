@@ -42,7 +42,7 @@ public class IndexPageHandler implements PageCommandHandler {
 		// 검색조건 유지를 위한 쿼리스트링
 		String SearchQuerystring = SearchConditionMaker.makeQuerystring(searchCondition);
 		// 검색된 게시글 수
-		int articlesCount = articleDAO.getCountArticles();
+		int articlesCount = articleDAO.getCountArticles(searchConditionMap);
 		req.setAttribute("articles", searchedArticles);
 		req.setAttribute("articlesCount",articlesCount);
 		req.setAttribute("currentPage",currentPage);
