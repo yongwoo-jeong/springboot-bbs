@@ -19,9 +19,13 @@ public class PageController {
 	@RequestMapping("/")
 	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchConditionParameter){
 		// DAO 가 static 으로 선언되어야하나?
-		IndexPageHandler indexPageHandler = new IndexPageHandler(new ArticleDAO());
-		indexPageHandler.setSearchCondition(searchConditionParameter);
-		indexPageHandler.process(req,res);
+		try {
+			IndexPageHandler indexPageHandler = new IndexPageHandler(new ArticleDAO());
+			indexPageHandler.setSearchCondition(searchConditionParameter);
+			indexPageHandler.process(req, res);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "index";
 	}
 	@GetMapping("/upload")
@@ -30,9 +34,13 @@ public class PageController {
 	}
 	@PostMapping("/upload")
 	public void postNewArticle(HttpServletRequest req, HttpServletResponse res,@ModelAttribute ArticleVO createdArticle) throws ServletException {
-		InputArticlePageHandler inputHandler = new InputArticlePageHandler(new ArticleDAO());
-		inputHandler.setInsertingArticle(createdArticle);
-		inputHandler.process(req,res);
+		try{
+			InputArticlePageHandler inputHandler = new InputArticlePageHandler(new ArticleDAO());
+			inputHandler.setInsertingArticle(createdArticle);
+			inputHandler.process(req, res);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		}
 
 	}
 }
