@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.ebrainstudy__springbootbbs.article.MapperInterface">
+<mapper namespace="com.example.ebrainstudy__springbootbbs.article.ArticleMapperInterface">
   <!-- 검색조건 재활용을 위한 sql 프라그먼트 -->
   <sql id="searchCondition">
     <trim prefix="where (" suffix=")" prefixOverrides="AND">
@@ -14,9 +14,11 @@
       </if>
       <if test="conditionMap != null and conditionMap.startDate != null and !conditionMap.startDate.equals('')" >
         AND created_at &gt;= #{conditionMap.startDate}
+        OR modified_at &gt;= #{conditionMap.endDate}
       </if>
       <if test="conditionMap != null and conditionMap.endDate != null and !conditionMap.endDate.equals('')" >
         AND created_at &lt;= #{conditionMap.endDate}
+        OR modified_at &gt;= #{conditionMap.endDate}
       </if>
     </trim>
   </sql>
@@ -26,7 +28,7 @@
         <property name="conditionMap" value="conditionMap"/>
       </include>
       ORDER BY article_id DESC
-      LIMIT ${articleOffset}, 10
+      LIMIT ${limitStartOffset}, 10
   </select>
   <select id="selectCountArticles" resultType="int" >
     SELECT COUNT(*) FROM article
