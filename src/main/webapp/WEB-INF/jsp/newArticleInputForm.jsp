@@ -16,17 +16,17 @@
 <header class="title"><h1>게시판 - 등록</h1></header>
 <main>
     <%-- HTML 태그 이외 서버상 제한 처리 필요 - writer, password, title, contet --%>
-    <form enctype="multipart/form-data" method="post" action=<%=request.getContextPath()%>/newArticleInsert.action name="upload">
+    <form enctype="multipart/form-data" method="post" action=<%=request.getContextPath()%>/upload name="upload">
         <div class="upload_form_container">
             <div class="category_row container_row">
                 <div><span>카테고리 *</span></div>
                 <div>
                     <label for="category"></label>
-                    <select name="category" id="category" required>
+                    <select name="categoryId" id="category" required>
                         <option value="" selected>카테고리 선택</option>z
-                        <option value="JAVA">JAVA</option>
-                        <option value="Javascript">Javascript</option>
-                        <option value="Database">Database</option>
+                        <option value="1">JAVA</option>
+                        <option value="2">Javascript</option>
+                        <option value="3">Database</option>
                     </select>
                 </div>
             </div>

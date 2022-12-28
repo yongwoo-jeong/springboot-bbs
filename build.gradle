@@ -15,6 +15,7 @@ configurations {
 }
 
 repositories {
+
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
     maven { url 'https://repo.spring.io/snapshot' }
@@ -26,6 +27,7 @@ dependencies {
     implementation 'javax.servlet:jstl'
     implementation 'org.mybatis:mybatis:3.5.11'
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
+//    implementation 'commons-io:commons-io:2.11.0'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
@@ -33,5 +35,5 @@ dependencies {
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+//    useJUnitPlatform()
 }

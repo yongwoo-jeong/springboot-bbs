@@ -2,7 +2,7 @@ package com.example.ebrainstudy__springbootbbs.pageHandler;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
-import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionMaker;
+import com.example.ebrainstudy__springbootbbs.searchCondition.queryStringMaker;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ import utils.FindCategoryNameId;
  * 게시글을 모델에서 뷰로 전달하는 컨트롤러
  */
 @RequiredArgsConstructor
-public class IndexPageHandler implements PageCommandHandler {
+public class IndexPageHandler implements PageHandlerInterface {
 	// DB 데이터 CRUD 위한 DAO 객체 의존성 주입
 	private ArticleDAO articleDAO;
 	public IndexPageHandler(ArticleDAO articleDAO){
@@ -55,7 +55,7 @@ public class IndexPageHandler implements PageCommandHandler {
 		List<ArticleVO> searchedArticles = articleDAO.searchArticles(limitStartOffset,searchConditionMap);
 		req.setAttribute("articles", searchedArticles);
 		// 검색조건 유지를 위한 쿼리스트링
-		String SearchQuerystring = SearchConditionMaker.makeQuerystring(searchCondition);
+		String SearchQuerystring = queryStringMaker.makeQuerystring(searchCondition);
 		req.setAttribute("queryString",SearchQuerystring);
 		// 검색된 게시글 수
 		int articlesCount = articleDAO.getCountArticles(searchConditionMap);

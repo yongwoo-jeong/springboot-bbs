@@ -52,7 +52,6 @@ public class ArticleVO {
 	 * 게시글 작성시간
 	 * DATETIME NOT NULL
 	 */
-	@NonNull
 	private Date createdAt;
 	/**
 	 * 게시글 수정시간
