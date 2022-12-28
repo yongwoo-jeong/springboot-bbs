@@ -14,11 +14,11 @@
       </if>
       <if test="conditionMap != null and conditionMap.startDate != null and !conditionMap.startDate.equals('')" >
         AND created_at &gt;= #{conditionMap.startDate}
-        OR modified_at &gt;= #{conditionMap.endDate}
+        OR modified_at &gt;= #{conditionMap.startDate}
       </if>
       <if test="conditionMap != null and conditionMap.endDate != null and !conditionMap.endDate.equals('')" >
         AND created_at &lt;= #{conditionMap.endDate}
-        OR modified_at &gt;= #{conditionMap.endDate}
+        OR modified_at &lt;= #{conditionMap.endDate}
       </if>
     </trim>
   </sql>

@@ -32,7 +32,6 @@ public class IndexPageHandler implements PageCommandHandler {
 	public void setSearchCondition(SearchConditionVO searchCondition) {
 		this.searchCondition = searchCondition;
 	}
-
 	/**
 	 * "/" 인덱스 페이지 핸들러
 	 * @param req 컨트롤러에서 전달된 HttpServletRequest

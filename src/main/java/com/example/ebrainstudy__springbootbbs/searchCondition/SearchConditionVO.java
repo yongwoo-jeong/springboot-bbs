@@ -1,9 +1,7 @@
 package com.example.ebrainstudy__springbootbbs.searchCondition;
 
-import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * 검색 조건 VO
