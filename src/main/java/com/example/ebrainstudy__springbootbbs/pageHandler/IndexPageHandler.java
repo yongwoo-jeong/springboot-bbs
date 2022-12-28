@@ -39,7 +39,8 @@ public class IndexPageHandler implements PageCommandHandler {
 	 */
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse res){
-		// 매퍼에 전달하기 위한 검색조건을 가진 MAP
+		// 바티스 매퍼에 전달하기 위한 검색조건을 가진 MAP
+		// 리팩토링 가능할것같은데 ......
 		Map<String, Object> searchConditionMap = new HashMap<>();
 		searchConditionMap.put("keyword", searchCondition.getKeyword());
 		searchConditionMap.put("categoryId", new FindCategoryNameId().findCategoryIdFn(searchCondition.getCategory()));
@@ -47,18 +48,18 @@ public class IndexPageHandler implements PageCommandHandler {
 		searchConditionMap.put("endDate",searchCondition.getEndDate());
 		// 현재 페이지 정보 (초기값 1)
 		int currentPage = searchCondition.getCurrentPage();
+		req.setAttribute("currentPage",currentPage);
+		// 바티스 매퍼에 들어갈 SELECT LIMIT 오프셋
 		int limitStartOffset = (currentPage-1)*10;
-		// 매퍼에 들어갈 SELECT LIMIT 오프셋
 		// 검색된 게시글
 		List<ArticleVO> searchedArticles = articleDAO.searchArticles(limitStartOffset,searchConditionMap);
+		req.setAttribute("articles", searchedArticles);
 		// 검색조건 유지를 위한 쿼리스트링
 		String SearchQuerystring = SearchConditionMaker.makeQuerystring(searchCondition);
+		req.setAttribute("queryString",SearchQuerystring);
 		// 검색된 게시글 수
 		int articlesCount = articleDAO.getCountArticles(searchConditionMap);
-		req.setAttribute("articles", searchedArticles);
 		req.setAttribute("articlesCount",articlesCount);
-		req.setAttribute("currentPage",currentPage);
-		req.setAttribute("queryString",SearchQuerystring);
 	}
 
 
