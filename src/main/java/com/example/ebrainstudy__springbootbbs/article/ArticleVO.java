@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-@Getter
-@Setter
-@Builder
+
 /**
  * 게시글 DAO
  */
+@Getter
+@Setter
+@Builder
 public class ArticleVO {
 	/**
 	 * 게시글

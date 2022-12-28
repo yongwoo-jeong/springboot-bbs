@@ -11,7 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 /**
  * 아티클, 코멘트, 파일 매퍼를 만들어서 반환해주는 클래스
  */
-public class MapperMaker {
+public class batisMapper {
 	private SqlSession session;
 	/**
 	 * 세션팩토리 로드해주는 메서드
@@ -31,6 +31,10 @@ public class MapperMaker {
 		SetSession();
 		ArticleMapperInterface mapper = session.getMapper(ArticleMapperInterface.class);
 		return mapper;
+	}
+
+	public void close(){
+		session.close();
 	}
 
 	public void commitAndClose(){

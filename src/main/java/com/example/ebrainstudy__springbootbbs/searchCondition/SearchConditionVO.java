@@ -2,14 +2,12 @@ package com.example.ebrainstudy__springbootbbs.searchCondition;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 /**
  * 검색 조건 VO
  */
 @Setter
 @Getter
-@Component
 public class SearchConditionVO {
 	/**
 	 * 검색 키워드

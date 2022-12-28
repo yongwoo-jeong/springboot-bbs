@@ -1,6 +1,6 @@
 package com.example.ebrainstudy__springbootbbs.article;
 
-import com.example.ebrainstudy__springbootbbs.MapperMaker;
+import com.example.ebrainstudy__springbootbbs.batisMapper;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
@@ -14,16 +14,16 @@ public class ArticleDAO {
 	 * @return List<ArticleVO>
 	 */
 	public List<ArticleVO> searchArticles(int limitStartOffset,Map searchCondition) {
-		ArticleMapperInterface mapper = new MapperMaker().getArticleMapper();
+		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
 		List<ArticleVO> articleVOFromMapper = mapper.selectSearchArticles(limitStartOffset,searchCondition);
 		return articleVOFromMapper;
 	}
 	public int getCountArticles(Map<String, Object> searchConditionMap){
-		ArticleMapperInterface mapper = new MapperMaker().getArticleMapper();
+		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
 		return mapper.selectCountArticles(searchConditionMap);
 	}
 	public void insertNewArticle(ArticleVO newArticle){
-		MapperMaker mapperMaker = new MapperMaker();
+		batisMapper mapperMaker = new batisMapper();
 		ArticleMapperInterface mapper = mapperMaker.getArticleMapper();
 		mapper.insertArticle(newArticle);
 		mapperMaker.commitAndClose();

@@ -2,15 +2,14 @@ package com.example.ebrainstudy__springbootbbs.pageHandler;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
-import com.example.ebrainstudy__springbootbbs.searchCondition.queryStringMaker;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
+import com.example.ebrainstudy__springbootbbs.searchCondition.queryStringMaker;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utils.FindCategoryNameId;
 
@@ -29,7 +28,6 @@ public class IndexPageHandler implements PageHandlerInterface {
 	 * 컨트롤러에서 설정될 검색조건 의존성 주입
 	 * @param searchCondition SearchConditionVO
 	 */
-	@Autowired
 	public void setSearchCondition(SearchConditionVO searchCondition) {
 		this.searchCondition = searchCondition;
 	}

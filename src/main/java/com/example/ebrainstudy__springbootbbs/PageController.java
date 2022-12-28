@@ -6,6 +6,7 @@ import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.pageHandler.IndexPageHandler;
 import com.example.ebrainstudy__springbootbbs.pageHandler.InputArticlePageHandler;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class PageController {
@@ -56,25 +59,33 @@ public class PageController {
 	 */
 	@GetMapping("/upload")
 	public String inputNewArticleController(){
-		return "newArticleInputForm";
+		return "newArticleInput";
 	}
 	/**
-	 *
+	 * /upload 로 들어오는 POST 요청을 처리
 	 * @param req
 	 * @param res
-	 * @param createdArticle
+	 * @param newArticle newArticleInput 에서 만들어진 Article 객체
 	 * @throws ServletException
 	 */
 	@PostMapping("/upload")
-	public void postNewArticle(HttpServletRequest req, HttpServletResponse res,@ModelAttribute ArticleVO createdArticle) throws ServletException {
-		try{
+	public void postNewArticle(HttpServletRequest req, HttpServletResponse res, @ModelAttribute ArticleVO newArticle,
+								@RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
 			InputArticlePageHandler inputHandler = new InputArticlePageHandler(new ArticleDAO());
-			inputHandler.setInsertingArticle(createdArticle);
-			inputHandler.process(req, res);
-		} catch (ServletException e) {
-			logger.severe(className+"homeController Exception");
-			logger.severe(String.valueOf(e));
-		}
+			inputHandler.setInsertingArticle(newArticle);
+//			inputHandler.process(req, res);
+			String uploadDir = "/Users/jyw/Desktop/project/java/ebrain-study__model2-bbs/apache-tomcat-9.0.10/file/";
+			for (MultipartFile file:multipartFileList ){
+				if (file.getSize() == 0){
+					continue;
+				} else {
+					System.out.println(file.getOriginalFilename());
+				}
+			}
 
+//		 catch (ServletException|IOException e) {
+//			logger.severe(className+"homeController Exception");
+//			logger.severe(String.valueOf(e));
+//		}
 	}
 }
