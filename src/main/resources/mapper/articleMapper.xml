@@ -36,4 +36,11 @@
       <property name="conditionMap" value="conditionMap"/>
     </include>
   </select>
+  <insert id="insertArticle">
+    INSERT INTO article ( title, writer, password, content, created_at, category_id)
+    VALUES ("${newArticle.title}", "${newArticle.writer}", "${newArticle.password}", "${newArticle.content}", NOW(), ${newArticle.categoryId})
+    <selectKey keyProperty="articleId" resultType="Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+  </insert>
 </mapper>

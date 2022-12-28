@@ -10,25 +10,26 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import utils.FindCategoryNameId;
 
 /**
  * index 페이지에서 전체 게시글 혹은 검색 조건에 따른
  * 게시글을 모델에서 뷰로 전달하는 컨트롤러
  */
-@RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor // ArticleDAO 생성자 주입을 위한 롬복 애노테이션
 public class IndexPageHandler implements PageHandlerInterface {
 	// DB 데이터 CRUD 위한 DAO 객체 의존성 주입
-	private ArticleDAO articleDAO;
-	public IndexPageHandler(ArticleDAO articleDAO){
-		this.articleDAO = articleDAO;
-	}
+	private final ArticleDAO articleDAO;
 	// 쿼리스트링으로 가져온 검색조건 데이터 오브젝트
 	private SearchConditionVO searchCondition;
 	/**
 	 * 컨트롤러에서 설정될 검색조건 의존성 주입
 	 * @param searchCondition SearchConditionVO
 	 */
+	@Autowired
 	public void setSearchCondition(SearchConditionVO searchCondition) {
 		this.searchCondition = searchCondition;
 	}
@@ -61,6 +62,5 @@ public class IndexPageHandler implements PageHandlerInterface {
 		int articlesCount = articleDAO.getCountArticles(searchConditionMap);
 		req.setAttribute("articlesCount",articlesCount);
 	}
-
 
 }

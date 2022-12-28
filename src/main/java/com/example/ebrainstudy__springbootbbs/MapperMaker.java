@@ -32,6 +32,11 @@ public class MapperMaker {
 		ArticleMapperInterface mapper = session.getMapper(ArticleMapperInterface.class);
 		return mapper;
 	}
+
+	public void commitAndClose(){
+		session.commit();
+		session.close();
+	}
 }
 
 
