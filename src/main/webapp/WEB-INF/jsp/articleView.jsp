@@ -1,9 +1,5 @@
-<%@ page import="article.ArticleVO" %>
-<%@ page import="comment.CommentVO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="comment.CommentVO" %>
-<%@ page import="article.ArticleVO" %>
-<%@ page import="file.FileVO" %><%--
+<%@ page import="com.example.ebrainstudy__springbootbbs.article.ArticleVO" %><%--
   Created by IntelliJ IDEA.
   User: jyw
   Date: 2022/12/14
@@ -57,27 +53,27 @@
         <p><%=article.getContent()%></p>
     </div>
     <div class="file_container">
-        <%
-            List<FileVO> FileList = (List<FileVO>) request.getAttribute("fileList");
-            for (FileVO file : FileList){
-        %>
-        <div class="file">
-            <a href=download.action?file_id=<%=file.getFileUuid()%>>
-                <%=file.getNameOriginal()%>
-            </a>
-        </div>
-        <% }%>
+<%--        <%--%>
+<%--            List<FileVO> FileList = (List<FileVO>) request.getAttribute("fileList");--%>
+<%--            for (FileVO file : FileList){--%>
+<%--        %>--%>
+<%--        <div class="file">--%>
+<%--            <a href=download.action?file_id=<%=file.getFileUuid()%>>--%>
+<%--                <%=file.getNameOriginal()%>--%>
+<%--            </a>--%>
+<%--        </div>--%>
+<%--        <% }%>--%>
     </div>
     <div class="comments_container">
-        <%
-            List<CommentVO> commentList = (List<CommentVO>) request.getAttribute("commentList");
-            for (CommentVO comment : commentList){
-        %>
+<%--        <%--%>
+<%--            List<CommentVO> commentList = (List<CommentVO>) request.getAttribute("commentList");--%>
+<%--            for (CommentVO comment : commentList){--%>
+<%--        %>--%>
         <div class="comment_row">
-            <div class="comment_date"><%=comment.getCreatedAt()%></div>
-            <div><%=comment.getContent()%></div>
+<%--            <div class="comment_date"><%=comment.getCreatedAt()%></div>--%>
+<%--            <div><%=comment.getContent()%></div>--%>
         </div>
-        <% } %>
+<%--        <% } %>--%>
         <div>
             <form method="post" action=<%=request.getContextPath()%>/commentInsert.action?id=<%=article.getArticleId()%> name="uploadComment">
                 <input name="new_comment" class="comment_input" type="text" placeholder="댓글을 입력해주세요" />

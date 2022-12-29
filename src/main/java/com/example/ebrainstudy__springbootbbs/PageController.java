@@ -58,10 +58,11 @@ public class PageController {
 		return "index";
 	}
 	@GetMapping("/article")
-	public void articleViewController(HttpServletRequest req, HttpServletResponse res, @RequestParam int id){
+	public String articleViewController(HttpServletRequest req, HttpServletResponse res, @RequestParam int id){
 		ArticleViewHandler articleViewHandler = new ArticleViewHandler(new ArticleDAO(), id);
-
-//		return "articleView";
+		articleViewHandler.setTargetArticle();
+		articleViewHandler.process(req,res);
+		return "articleView";
 	}
 	/**
 	 * /upload 로 들어오는 GET 요청을

@@ -51,13 +51,13 @@ public class IndexHandler implements PageHandlerInterface {
 		// 바티스 매퍼에 들어갈 SELECT LIMIT 오프셋
 		int limitStartOffset = (currentPage-1)*10;
 		// 검색된 게시글
-		List<ArticleVO> searchedArticles = articleDAO.searchArticles(limitStartOffset,searchConditionMap);
+		List<ArticleVO> searchedArticles = articleDAO.getSearchedArticles(limitStartOffset,searchConditionMap);
 		req.setAttribute("articles", searchedArticles);
 		// 검색조건 유지를 위한 쿼리스트링
 		String SearchQuerystring = queryStringMaker.makeQuerystring(searchCondition);
 		req.setAttribute("queryString",SearchQuerystring);
 		// 검색된 게시글 수
-		int articlesCount = articleDAO.getCountArticles(searchConditionMap);
+		int articlesCount = articleDAO.getArticlesCount(searchConditionMap);
 		req.setAttribute("articlesCount",articlesCount);
 	}
 

@@ -13,14 +13,18 @@ public class ArticleDAO {
 	 * @param searchCondition 기간, 키워드, 카테고리 정보가 담긴 Map
 	 * @return List<ArticleVO>
 	 */
-	public List<ArticleVO> searchArticles(int limitStartOffset,Map searchCondition) {
+	public List<ArticleVO> getSearchedArticles(int limitStartOffset,Map searchCondition) {
 		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
 		List<ArticleVO> articleVOFromMapper = mapper.selectSearchArticles(limitStartOffset,searchCondition);
 		return articleVOFromMapper;
 	}
-	public int getCountArticles(Map<String, Object> searchConditionMap){
+	public int getArticlesCount(Map<String, Object> searchConditionMap){
 		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
 		return mapper.selectCountArticles(searchConditionMap);
+	}
+	public ArticleVO getArticle(int articleId){
+		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
+		return mapper.selectArticle(articleId);
 	}
 	public void insertNewArticle(ArticleVO newArticle){
 		batisMapper mapperMaker = new batisMapper();
