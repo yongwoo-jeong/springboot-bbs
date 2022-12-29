@@ -10,5 +10,5 @@ public interface ArticleMapperInterface {
 	public int selectCountArticles(@Param("conditionMap") Map conditionMap);
 	public ArticleVO selectArticle(@Param("articleId") int articleId);
 	public void updateViewCount(@Param("articleId") int articleId);
-	public void insertArticle(@Param("newArticle")ArticleVO articleVO);
+	public int insertArticle(@Param("newArticle")ArticleVO articleVO);
 }

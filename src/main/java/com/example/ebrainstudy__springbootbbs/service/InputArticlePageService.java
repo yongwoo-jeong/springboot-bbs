@@ -9,19 +9,20 @@ import java.math.BigInteger;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-@RequiredArgsConstructor
 public class InputArticlePageService implements ServiceInterface {
-
-
 	/**
-	 * 게시글을 INSERT 하기 위해 DAO 객체 생성
+	 * 게시글을 INSERT 하기 위해 DAO 객체 의존성주입
 	 */
 	private final ArticleDAO articleDAO;
+	@Autowired
+	public InputArticlePageService(ArticleDAO articleDAO){
+		this.articleDAO=articleDAO;
+	};
 	/**
 	 * article INSERT 될 새 게시글
 	 */
@@ -36,7 +37,7 @@ public class InputArticlePageService implements ServiceInterface {
 	 * 필드에 입력하기 전 각 항목의 제한 검증
 	 * @param insertingArticle
 	 */
-	public void setInsertingArticle(ArticleVO insertingArticle) throws InputFIeldException {
+	public void verifyAndSetArticle(ArticleVO insertingArticle) throws InputFIeldException {
 		// 카테고리 ID가 정상적으로 들어왔는지 확인
 		List<Integer> existCategory = List.of(1,2,3);
 		Integer getCategoryId = insertingArticle.getCategoryId();
@@ -65,14 +66,15 @@ public class InputArticlePageService implements ServiceInterface {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition) throws IOException {
 		articleDAO.insertNewArticle(insertingArticle);
+		System.out.println("before insert file");
+		Integer articleId = insertingArticle.getArticleId();
+		System.out.println(articleId);
 		for (MultipartFile file : fileList){
-			if (file.getOriginalFilename() == null && file.getSize() == 0) {
+			if (file.getOriginalFilename() == null || file.getSize() == 0) {
 				continue;
 			}
-
 			String nameOnServer = file.getName();
 			String nameOriginal = file.getOriginalFilename();
-			int articleId = insertingArticle.getArticleId();
 //			String filePath = env.getProperty("dev.localPath.file");
 			BigInteger fileSize = BigInteger.valueOf(file.getSize());
 			String fileExtension = file.getOriginalFilename().split("\\.")[1];

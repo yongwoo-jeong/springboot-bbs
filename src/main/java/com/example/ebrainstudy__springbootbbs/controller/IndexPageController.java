@@ -1,6 +1,5 @@
 package com.example.ebrainstudy__springbootbbs.controller;
 
-import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import com.example.ebrainstudy__springbootbbs.service.IndexPageService;
 import javax.servlet.http.HttpServletRequest;
@@ -15,25 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexPageController {
 	/**
-	 * 로깅을 위한 마이로거 인스턴스 획득
+	 * 서비스 생성자 di
 	 */
-	MyLogger logger = MyLogger.getLogger();
-	/**
-	 * 로깅을 위한 현재 클래스 네임 획득
-	 */
-	String className = MyLogger.getClassName();
-	/**
-	 * 서비스 의존성 주입
-	 */
-	private IndexPageService indexPageService;
+	private final IndexPageService indexPageService;
 	@Autowired
-	public void setIndexPageHandler(IndexPageService indexPageService){
+	public IndexPageController(IndexPageService indexPageService){
 		this.indexPageService = indexPageService;
 	}
 	/**
 	 * Index 페이지("/") 컨트롤러
-	 * IndexPageHandler 를 통해 검색 조건을 설정하고
-	 * 조건에 맞는 Article List 를 애트리뷰트로 프론트에 넘겨줌
+	 * IndexPageHandler 를 통해
+	 * 검색 조건에 맞는 Article List를 프론트에 넘겨줌
 	 * @param req
 	 * @param res
 	 * @param searchConditionParameter 쿼리스트링으로 만들어진 검색조건 SearchConditionVO
@@ -41,12 +32,7 @@ public class IndexPageController {
 	 */
 	@RequestMapping("/")
 	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchConditionParameter){
-		try {
-			indexPageService.process(req, res, searchConditionParameter);
-		} catch (RuntimeException e) {
-			logger.severe(className+"homeController RuntimeException occurred");
-			logger.severe(String.valueOf(e));
-		}
+		indexPageService.process(req, res, searchConditionParameter);
 		return "index";
 	}
 }

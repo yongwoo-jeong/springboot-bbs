@@ -1,15 +1,15 @@
 package com.example.ebrainstudy__springbootbbs.controller;
 
-import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
-import com.example.ebrainstudy__springbootbbs.service.InputArticlePageService;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
+import com.example.ebrainstudy__springbootbbs.service.InputArticlePageService;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,7 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class uploadPageController {
+public class UploadPageController {
+	private final InputArticlePageService inputService;
+	@Autowired
+	public UploadPageController(InputArticlePageService inputService){
+		this.inputService = inputService;
+	}
 	/**
 	 * 로깅을 위한 마이로거 인스턴스 획득
 	 */
@@ -52,14 +57,11 @@ public class uploadPageController {
 								@ModelAttribute ArticleVO newArticle,
 								@RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList,
 								SearchConditionVO searchCondition){
+		inputService.verifyAndSetArticle(newArticle);
+		// 파일 리스트가 비어있지 않을경우 setFileList setFileList 호출
+		if (!multipartFileList.isEmpty()){ inputService.setFileList(multipartFileList);}
 		try {
-			InputArticlePageService inputHandler = new InputArticlePageService(new ArticleDAO());
-			inputHandler.setInsertingArticle(newArticle);
-			// 파일 리스트가 비어있지 않을경우 setFileList setFileList 호출
-			if (!multipartFileList.isEmpty()){
-				inputHandler.setFileList(multipartFileList);
-			}
-			inputHandler.process(req, res, searchCondition);
+			inputService.process(req, res, searchCondition);
 		}
 		catch (IOException | InputFIeldException e) {
 			logger.severe(className+"homeController Exception");

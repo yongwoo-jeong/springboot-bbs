@@ -2,6 +2,7 @@ package com.example.ebrainstudy__springbootbbs.service;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
+import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchCondition;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utils.FindCategoryNameId;
 
@@ -18,10 +19,22 @@ import utils.FindCategoryNameId;
  * 게시글을 모델에서 뷰로 전달하는 컨트롤러
  */
 @Service
-@RequiredArgsConstructor // ArticleDAO 생성자 주입을 위한 롬복 애노테이션
 public class IndexPageService implements ServiceInterface {
-	// DB 데이터 CRUD 위한 DAO 객체 의존성 주입
+	// DB 데이터 CRUD 위한 DAO 객체 생성자 DI
 	private final ArticleDAO articleDAO;
+	@Autowired
+	public IndexPageService(ArticleDAO articleDAO) {
+		this.articleDAO = articleDAO;
+	}
+
+	/**
+	 * 로깅을 위한 마이로거 인스턴스
+	 */
+	MyLogger logger = MyLogger.getLogger();
+	/**
+	 * 로깅을 위한 현재 클래스 네임
+	 */
+	String className = MyLogger.getClassName();
 	/**
 	 * "/" 인덱스 페이지 핸들러
 	 * @param req 컨트롤러에서 전달된 HttpServletRequest
@@ -30,7 +43,7 @@ public class IndexPageService implements ServiceInterface {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
 		// 바티스 매퍼에 전달하기 위한 검색조건을 가진 MAP
-		// 리팩토링 가능할것같은데 ......
+		// 리팩토링 가능할것같은데 ...... + 런타임익셉션 가능성도 트라이캐치로 잡아야하는지?
 		Map<String, Object> searchConditionMap = new HashMap<>();
 		searchConditionMap.put("keyword", searchCondition.getKeyword());
 		searchConditionMap.put("categoryId", new FindCategoryNameId().findCategoryIdFn(searchCondition.getCategory()));
