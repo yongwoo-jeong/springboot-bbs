@@ -3,7 +3,7 @@ package com.example.ebrainstudy__springbootbbs.pageHandler;
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
-import com.example.ebrainstudy__springbootbbs.searchCondition.QueryStringMaker;
+import com.example.ebrainstudy__springbootbbs.searchCondition.SearchCondition;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +54,7 @@ public class IndexHandler implements PageHandlerInterface {
 		List<ArticleVO> searchedArticles = articleDAO.getSearchedArticles(limitStartOffset,searchConditionMap);
 		req.setAttribute("articles", searchedArticles);
 		// 검색조건 유지를 위한 쿼리스트링
-		String SearchQuerystring = QueryStringMaker.makeQuerystring(searchCondition);
+		String SearchQuerystring = SearchCondition.makeQuerystring(searchCondition);
 		req.setAttribute("queryString",SearchQuerystring);
 		// 검색된 게시글 수
 		int articlesCount = articleDAO.getArticlesCount(searchConditionMap);

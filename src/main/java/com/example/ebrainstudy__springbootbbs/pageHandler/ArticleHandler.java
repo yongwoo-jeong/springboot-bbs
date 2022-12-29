@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ArticleViewHandler implements PageHandlerInterface {
+public class ArticleHandler implements PageHandlerInterface {
 	private final ArticleDAO articleDAO;
 	private final int targetArticleId;
 	private ArticleVO targetArticle;

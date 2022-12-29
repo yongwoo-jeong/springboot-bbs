@@ -83,7 +83,7 @@
     </div>
     <div class="button_set_container">
         <div class="button_set">
-            <a onclick="history.back();" class="list_button">목록</a>
+            <a href="/" class="list_button">목록</a>
             <a class="modi_del_btn">수정</a>
             <a href=delete.action?id=<%=article.getArticleId()%> class="modi_del_btn">삭제</a>
         </div>

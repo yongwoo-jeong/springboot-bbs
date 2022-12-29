@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class PageController {
-
 	/**
 	 * 로깅을 위한 마이로거 인스턴스 획득
 	 */
@@ -49,7 +48,6 @@ public class PageController {
 		// DAO 가 static 으로 선언될수있나?
 		try {
 			IndexHandler indexPageHandler = new IndexHandler(new ArticleDAO());
-			indexPageHandler.setSearchCondition(searchConditionParameter);
 			indexPageHandler.process(req, res);
 		} catch (RuntimeException e) {
 			logger.severe(className+"homeController RuntimeException occurred");
