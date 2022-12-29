@@ -24,12 +24,11 @@ public class ArticleDAO {
 	}
 	public ArticleVO getArticle(int articleId){
 		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
+		mapper.updateViewCount(articleId);
 		return mapper.selectArticle(articleId);
 	}
 	public void insertNewArticle(ArticleVO newArticle){
-		batisMapper mapperMaker = new batisMapper();
-		ArticleMapperInterface mapper = mapperMaker.getArticleMapper();
+		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
 		mapper.insertArticle(newArticle);
-		mapperMaker.commitAndClose();
 	}
 }

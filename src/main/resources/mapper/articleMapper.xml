@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.ebrainstudy__springbootbbs.article.ArticleMapperInterface">
+<mapper namespace="com.example.ebrainstudy__springbootbbs.BatisMapper.ArticleMapperInterface">
   <!-- 검색조건 재활용을 위한 sql 프라그먼트 -->
   <sql id="searchCondition">
     <trim prefix="where (" suffix=")" prefixOverrides="AND">
@@ -42,6 +42,11 @@
     FROM   article
     WHERE  article_id = #{articleId}
   </select>
+  <update id="updateViewCount">
+    UPDATE article
+    SET view = view+1
+    WHERE  article_id = #{articleId}
+  </update>
   <insert id="insertArticle">
     INSERT INTO article
                 (
@@ -52,7 +57,7 @@
                         created_at,
                         category_id
                 )
-    VALUES
+           VALUES
                 (
                         "${newArticle.title}",
                         "${newArticle.writer}",

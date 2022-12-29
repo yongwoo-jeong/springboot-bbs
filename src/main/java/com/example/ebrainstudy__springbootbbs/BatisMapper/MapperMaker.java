@@ -1,6 +1,5 @@
-package com.example.ebrainstudy__springbootbbs;
+package com.example.ebrainstudy__springbootbbs.BatisMapper;
 
-import com.example.ebrainstudy__springbootbbs.article.ArticleMapperInterface;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.ibatis.io.Resources;
@@ -11,7 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 /**
  * 아티클, 코멘트, 파일 매퍼를 만들어서 반환해주는 클래스
  */
-public class batisMapper {
+public class MapperMaker {
 	private SqlSession session;
 	/**
 	 * 세션팩토리 로드해주는 메서드
@@ -22,7 +21,7 @@ public class batisMapper {
 		try{
 			InputStream inputStream = Resources.getResourceAsStream(resource);
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-			session = sqlSessionFactory.openSession();
+			session = sqlSessionFactory.openSession(true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -33,14 +32,14 @@ public class batisMapper {
 		return mapper;
 	}
 
+	public void commit(){
+		session.commit();
+	}
 	public void close(){
 		session.close();
 	}
 
-	public void commitAndClose(){
-		session.commit();
-		session.close();
-	}
+
 }
 
 
