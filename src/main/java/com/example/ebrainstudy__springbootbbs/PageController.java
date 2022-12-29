@@ -2,14 +2,14 @@ package com.example.ebrainstudy__springbootbbs;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
+import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
-import com.example.ebrainstudy__springbootbbs.pageHandler.ArticleViewHandler;
+import com.example.ebrainstudy__springbootbbs.pageHandler.ArticleHandler;
 import com.example.ebrainstudy__springbootbbs.pageHandler.IndexHandler;
 import com.example.ebrainstudy__springbootbbs.pageHandler.InputArticleHandler;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.IOException;
 import java.util.List;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -38,15 +38,15 @@ public class PageController {
 	/**
 	 * Index 페이지("/") 컨트롤러
 	 * IndexPageHandler 를 통해 검색 조건을 설정하고
-	 * 조건에 맞는 Articles 를 애트리뷰트 형태로 프론트에 넘겨줌
+	 * 조건에 맞는 Article List 를 애트리뷰트로 프론트에 넘겨줌
 	 * @param req
 	 * @param res
 	 * @param searchConditionParameter 쿼리스트링으로 만들어진 검색조건 SearchConditionVO
-	 * @return index.jsp 로 리턴
+	 * @return index.jsp
 	 */
 	@RequestMapping("/")
 	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchConditionParameter){
-		// DAO 가 static 으로 선언되어야하나?
+		// DAO 가 static 으로 선언될수있나?
 		try {
 			IndexHandler indexPageHandler = new IndexHandler(new ArticleDAO());
 			indexPageHandler.setSearchCondition(searchConditionParameter);
@@ -57,9 +57,17 @@ public class PageController {
 		}
 		return "index";
 	}
+	/**
+	 * /article get 요청을 핸들러를 통해 게시글 정보를 받아와
+	 * 애트리뷰트로 뷰에 넘겨줌
+	 * @param req
+	 * @param res
+	 * @param id 쿼리스트링으로 요청된 게시글 id
+	 * @return articleView.jsp
+	 */
 	@GetMapping("/article")
 	public String articleViewController(HttpServletRequest req, HttpServletResponse res, @RequestParam int id){
-		ArticleViewHandler articleViewHandler = new ArticleViewHandler(new ArticleDAO(), id);
+		ArticleHandler articleViewHandler = new ArticleHandler(new ArticleDAO(), id);
 		articleViewHandler.setTargetArticle();
 		articleViewHandler.process(req,res);
 		return "articleView";
@@ -73,30 +81,31 @@ public class PageController {
 	public String inputNewArticleController(){
 		return "newArticleInput";
 	}
+
 	/**
-	 * /upload 로 들어오는 POST 요청을 처리
+	 * /upload post 요청 처리
+	 * 게시글 정보, 파일 리스트를 받아서 컨트롤러 통해 DB에 INSERT
 	 * @param req
 	 * @param res
-	 * @param newArticle newArticleInput 에서 만들어진 Article 객체
-	 * @throws ServletException
+	 * @param newArticle
+	 * @param multipartFileList
+	 * @throws IOException 게시글을 DB에 INSERT 할때 가능한 예외
+	 * @throws InputFIeldException 게시글 업로드 INPUT 입력 조건 검증에 실패했을 경우 발생하는 런타임 예외
 	 */
 	@PostMapping("/upload")
-	public void postNewArticle(HttpServletRequest req, HttpServletResponse res, @ModelAttribute ArticleVO newArticle,
+	public void postNewArticle(HttpServletRequest req, HttpServletResponse res,
+								@ModelAttribute ArticleVO newArticle,
 								@RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
 		try {
 			InputArticleHandler inputHandler = new InputArticleHandler(new ArticleDAO());
 			inputHandler.setInsertingArticle(newArticle);
-			inputHandler.process(req, res);
-			String uploadDir = "/Users/jyw/Desktop/project/java/ebrain-study__model2-bbs/apache-tomcat-9.0.10/file/";
-			for (MultipartFile file : multipartFileList) {
-				if (file.getSize() == 0) {
-					continue;
-				} else {
-					System.out.println(file.getOriginalFilename());
-				}
+			// 파일 리스트가 비어있지 않을경우 setFileList setFileList 호출
+			if (!multipartFileList.isEmpty()){
+				inputHandler.setFileList(multipartFileList);
 			}
+			inputHandler.process(req, res);
 		}
-		 catch (IOException e) {
+		 catch (IOException | InputFIeldException e) {
 			logger.severe(className+"homeController Exception");
 			logger.severe(String.valueOf(e));
 		}

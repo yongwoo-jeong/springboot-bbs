@@ -1,6 +1,7 @@
 package com.example.ebrainstudy__springbootbbs.article;
 
-import com.example.ebrainstudy__springbootbbs.batisMapper;
+import com.example.ebrainstudy__springbootbbs.batisMapper.ArticleMapperInterface;
+import com.example.ebrainstudy__springbootbbs.batisMapper.MapperMaker;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
@@ -14,21 +15,21 @@ public class ArticleDAO {
 	 * @return List<ArticleVO>
 	 */
 	public List<ArticleVO> getSearchedArticles(int limitStartOffset,Map searchCondition) {
-		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
+		ArticleMapperInterface mapper = new MapperMaker().getArticleMapper();
 		List<ArticleVO> articleVOFromMapper = mapper.selectSearchArticles(limitStartOffset,searchCondition);
 		return articleVOFromMapper;
 	}
 	public int getArticlesCount(Map<String, Object> searchConditionMap){
-		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
+		ArticleMapperInterface mapper = new MapperMaker().getArticleMapper();
 		return mapper.selectCountArticles(searchConditionMap);
 	}
 	public ArticleVO getArticle(int articleId){
-		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
+		ArticleMapperInterface mapper = new MapperMaker().getArticleMapper();
 		mapper.updateViewCount(articleId);
 		return mapper.selectArticle(articleId);
 	}
 	public void insertNewArticle(ArticleVO newArticle){
-		ArticleMapperInterface mapper = new batisMapper().getArticleMapper();
+		ArticleMapperInterface mapper = new MapperMaker().getArticleMapper();
 		mapper.insertArticle(newArticle);
 	}
 }

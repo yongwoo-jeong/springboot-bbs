@@ -1,4 +1,4 @@
-package com.example.ebrainstudy__springbootbbs.BatisMapper;
+package com.example.ebrainstudy__springbootbbs.batisMapper;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import java.util.List;
