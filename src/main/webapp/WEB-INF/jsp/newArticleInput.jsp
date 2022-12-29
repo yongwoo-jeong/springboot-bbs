@@ -8,8 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" href="css/upload.css">
-    <script type="text/javascript" defer src="js/articleInput.js"></script>
+    <link rel="stylesheet" href="/css/upload.css">
+    <script type="text/javascript" src="/js/articleInput.js"></script>
     <title>게시판 - 등록</title>
 </head>
 <body>

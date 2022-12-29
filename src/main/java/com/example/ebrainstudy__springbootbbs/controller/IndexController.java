@@ -1,9 +1,8 @@
 package com.example.ebrainstudy__springbootbbs.controller;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
-import com.example.ebrainstudy__springbootbbs.handler.IndexHandler;
+import com.example.ebrainstudy__springbootbbs.service.IndexService;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
-import com.example.ebrainstudy__springbootbbs.searchCondition.SearchCondition;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,12 +33,9 @@ public class IndexController {
 	 */
 	@RequestMapping("/")
 	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchConditionParameter){
-		if (searchConditionParameter!=null){
-			SearchCondition.setSavedCondition(searchConditionParameter);
-		}
 		try {
-			IndexHandler indexPageHandler = new IndexHandler(new ArticleDAO());
-			indexPageHandler.process(req, res);
+			IndexService indexPageHandler = new IndexService(new ArticleDAO());
+			indexPageHandler.process(req, res, searchConditionParameter);
 		} catch (RuntimeException e) {
 			logger.severe(className+"homeController RuntimeException occurred");
 			logger.severe(String.valueOf(e));

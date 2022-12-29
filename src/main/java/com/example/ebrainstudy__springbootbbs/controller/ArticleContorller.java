@@ -1,7 +1,8 @@
 package com.example.ebrainstudy__springbootbbs.controller;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
-import com.example.ebrainstudy__springbootbbs.handler.ArticleHandler;
+import com.example.ebrainstudy__springbootbbs.service.ArticleService;
+import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,10 @@ public class ArticleContorller {
 	 * @return articleView.jsp
 	 */
 	@GetMapping("/article")
-	public String articleViewController(
-			HttpServletRequest req, HttpServletResponse res, @RequestParam int id){
-		ArticleHandler articleViewHandler = new ArticleHandler(new ArticleDAO(), id);
+	public String articleViewController(HttpServletRequest req, HttpServletResponse res, @RequestParam int id, SearchConditionVO searchConditionParameter){
+		ArticleService articleViewHandler = new ArticleService(new ArticleDAO(), id);
 		articleViewHandler.setTargetArticle();
-		articleViewHandler.process(req,res);
+		articleViewHandler.process(req,res, searchConditionParameter);
 		return "articleView";
 	}
 }

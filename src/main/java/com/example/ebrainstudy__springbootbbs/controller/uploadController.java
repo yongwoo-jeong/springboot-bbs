@@ -3,8 +3,9 @@ package com.example.ebrainstudy__springbootbbs.controller;
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
-import com.example.ebrainstudy__springbootbbs.handler.InputArticleHandler;
+import com.example.ebrainstudy__springbootbbs.service.InputArticleService;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
+import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -48,16 +49,17 @@ public class uploadController {
 	 */
 	@PostMapping("/upload")
 	public void postNewArticle(HttpServletRequest req, HttpServletResponse res,
-			@ModelAttribute ArticleVO newArticle,
-			@RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
+								@ModelAttribute ArticleVO newArticle,
+								@RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList,
+								SearchConditionVO searchCondition){
 		try {
-			InputArticleHandler inputHandler = new InputArticleHandler(new ArticleDAO());
+			InputArticleService inputHandler = new InputArticleService(new ArticleDAO());
 			inputHandler.setInsertingArticle(newArticle);
 			// 파일 리스트가 비어있지 않을경우 setFileList setFileList 호출
 			if (!multipartFileList.isEmpty()){
 				inputHandler.setFileList(multipartFileList);
 			}
-			inputHandler.process(req, res);
+			inputHandler.process(req, res, searchCondition);
 		}
 		catch (IOException | InputFIeldException e) {
 			logger.severe(className+"homeController Exception");

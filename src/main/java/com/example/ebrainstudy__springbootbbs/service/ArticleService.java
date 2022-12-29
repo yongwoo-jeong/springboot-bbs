@@ -1,4 +1,4 @@
-package com.example.ebrainstudy__springbootbbs.handler;
+package com.example.ebrainstudy__springbootbbs.service;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ArticleHandler implements PageHandlerInterface {
+public class ArticleService implements ServiceInterface {
 	private final ArticleDAO articleDAO;
 	private final int targetArticleId;
 	private ArticleVO targetArticle;
@@ -17,8 +17,7 @@ public class ArticleHandler implements PageHandlerInterface {
 		this.targetArticle = articleDAO.getArticle(targetArticleId);
 	}
 	@Override
-	public void process(HttpServletRequest req, HttpServletResponse res){
-		SearchConditionVO searchCondition = SearchCondition.getSavedCondition();
+	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
 		if (searchCondition!=null){
 			String searchQueryString = new SearchCondition().makeQuerystring(searchCondition);
 			System.out.println(searchQueryString+searchCondition.getCurrentPage());

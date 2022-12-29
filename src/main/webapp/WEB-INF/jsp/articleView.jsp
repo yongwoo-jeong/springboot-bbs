@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" href="css/view_article.css">
+    <link rel="stylesheet" href="/css/view_article.css">
     <title>Title</title>
 </head>
 <body>
@@ -84,12 +84,12 @@
     </div>
     <div class="button_set_container">
         <div class="button_set">
-            <% Object searchQueryString = request.getAttribute("searchQueryString");%>
-            <% if (searchQueryString!=null) {%>
-            <a href="/<%=searchQueryString%>" class="list_button">목록</a>
-            <%} else { %>
+<%--            <% Object searchQueryString = request.getAttribute("queryString");%>--%>
+<%--            <% if (searchQueryString!=null) {%>--%>
+<%--            <a href="/<%=searchQueryString%>" class="list_button">목록</a>--%>
+<%--            <%} else { %>--%>
             <a href="/" class="list_button">목록</a>
-            <% } %>
+<%--            <% } %>--%>
             <a class="modi_del_btn">수정</a>
             <a href=delete.action?id=<%=article.getArticleId()%> class="modi_del_btn">삭제</a>
         </div>

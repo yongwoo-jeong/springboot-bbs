@@ -1,8 +1,9 @@
-package com.example.ebrainstudy__springbootbbs.handler;
+package com.example.ebrainstudy__springbootbbs.service;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
+import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-public class InputArticleHandler implements PageHandlerInterface {
+public class InputArticleService implements ServiceInterface {
 	/**
 	 * 게시글을 INSERT 하기 위해 DAO 객체 생성
 	 */
@@ -58,7 +59,7 @@ public class InputArticleHandler implements PageHandlerInterface {
 		this.fileList = fileList;
 	}
 	@Override
-	public void process(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition) throws IOException {
 		articleDAO.insertNewArticle(insertingArticle);
 		res.sendRedirect("/");
 	}

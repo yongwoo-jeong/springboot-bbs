@@ -1,4 +1,4 @@
-package com.example.ebrainstudy__springbootbbs.handler;
+package com.example.ebrainstudy__springbootbbs.service;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
@@ -19,7 +19,7 @@ import utils.FindCategoryNameId;
  */
 @Service
 @RequiredArgsConstructor // ArticleDAO 생성자 주입을 위한 롬복 애노테이션
-public class IndexHandler implements PageHandlerInterface {
+public class IndexService implements ServiceInterface {
 	// DB 데이터 CRUD 위한 DAO 객체 의존성 주입
 	private final ArticleDAO articleDAO;
 	/**
@@ -28,11 +28,10 @@ public class IndexHandler implements PageHandlerInterface {
 	 * @param res 컨트롤러에서 전달된 HttpServletResponse
 	 */
 	@Override
-	public void process(HttpServletRequest req, HttpServletResponse res){
+	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
 		// 바티스 매퍼에 전달하기 위한 검색조건을 가진 MAP
 		// 리팩토링 가능할것같은데 ......
 		Map<String, Object> searchConditionMap = new HashMap<>();
-		SearchConditionVO searchCondition = SearchCondition.getSavedCondition();
 		searchConditionMap.put("keyword", searchCondition.getKeyword());
 		searchConditionMap.put("categoryId", new FindCategoryNameId().findCategoryIdFn(searchCondition.getCategory()));
 		searchConditionMap.put("startDate", searchCondition.getStartDate());
@@ -42,15 +41,15 @@ public class IndexHandler implements PageHandlerInterface {
 		req.setAttribute("currentPage",currentPage);
 		// 바티스 매퍼에 들어갈 SELECT LIMIT 오프셋
 		int limitStartOffset = (currentPage-1)*10;
+		// 검색된 게시글 수
+		int articlesCount = articleDAO.getArticlesCount(searchConditionMap);
+		req.setAttribute("articlesCount",articlesCount);
 		// 검색된 게시글
 		List<ArticleVO> searchedArticles = articleDAO.getSearchedArticles(limitStartOffset,searchConditionMap);
 		req.setAttribute("articles", searchedArticles);
 		// 검색조건 유지를 위한 쿼리스트링
 		String SearchQuerystring = new SearchCondition().makeQuerystring(searchCondition);
 		req.setAttribute("queryString",SearchQuerystring);
-		// 검색된 게시글 수
-		int articlesCount = articleDAO.getArticlesCount(searchConditionMap);
-		req.setAttribute("articlesCount",articlesCount);
 	}
 
 }

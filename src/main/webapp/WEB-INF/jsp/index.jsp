@@ -7,7 +7,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/index.css">
-    <script type="text/javascript" defer src="/js/index.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
     <meta charset="UTF-8" />
     <title>게시판 - 목록</title>
 </head>
