@@ -2,8 +2,8 @@ package com.example.ebrainstudy__springbootbbs.pageHandler;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
-import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchCondition;
+import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,29 +22,20 @@ import utils.FindCategoryNameId;
 public class IndexHandler implements PageHandlerInterface {
 	// DB 데이터 CRUD 위한 DAO 객체 의존성 주입
 	private final ArticleDAO articleDAO;
-	// 쿼리스트링으로 가져온 검색조건 데이터 오브젝트
-	private SearchConditionVO searchCondition;
-	/**
-	 * 컨트롤러에서 설정될 검색조건 의존성 주입
-	 * @param searchCondition SearchConditionVO
-	 */
-	public void setSearchCondition(SearchConditionVO searchCondition) {
-		this.searchCondition = searchCondition;
-	}
 	/**
 	 * "/" 인덱스 페이지 핸들러
 	 * @param req 컨트롤러에서 전달된 HttpServletRequest
 	 * @param res 컨트롤러에서 전달된 HttpServletResponse
 	 */
 	@Override
-	public void process(HttpServletRequest req, HttpServletResponse res){
+	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
 		// 바티스 매퍼에 전달하기 위한 검색조건을 가진 MAP
 		// 리팩토링 가능할것같은데 ......
 		Map<String, Object> searchConditionMap = new HashMap<>();
 		searchConditionMap.put("keyword", searchCondition.getKeyword());
 		searchConditionMap.put("categoryId", new FindCategoryNameId().findCategoryIdFn(searchCondition.getCategory()));
-		searchConditionMap.put("startDate",searchCondition.getStartDate());
-		searchConditionMap.put("endDate",searchCondition.getEndDate());
+		searchConditionMap.put("startDate", searchCondition.getStartDate());
+		searchConditionMap.put("endDate", searchCondition.getEndDate());
 		// 현재 페이지 정보 (초기값 1)
 		int currentPage = searchCondition.getCurrentPage();
 		req.setAttribute("currentPage",currentPage);
@@ -54,7 +45,7 @@ public class IndexHandler implements PageHandlerInterface {
 		List<ArticleVO> searchedArticles = articleDAO.getSearchedArticles(limitStartOffset,searchConditionMap);
 		req.setAttribute("articles", searchedArticles);
 		// 검색조건 유지를 위한 쿼리스트링
-		String SearchQuerystring = SearchCondition.makeQuerystring(searchCondition);
+		String SearchQuerystring = new SearchCondition().makeQuerystring(searchCondition);
 		req.setAttribute("queryString",SearchQuerystring);
 		// 검색된 게시글 수
 		int articlesCount = articleDAO.getArticlesCount(searchConditionMap);

@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.ebrainstudy__springbootbbs.article.ArticleVO" %><%--
+<%@ page import="com.example.ebrainstudy__springbootbbs.article.ArticleVO" %>
+<%@ page import="com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO" %><%--
   Created by IntelliJ IDEA.
   User: jyw
   Date: 2022/12/14
@@ -83,7 +84,12 @@
     </div>
     <div class="button_set_container">
         <div class="button_set">
+            <% Object searchQueryString = request.getAttribute("searchQueryString");%>
+            <% if (searchQueryString!=null) {%>
+            <a href="/<%=searchQueryString%>" class="list_button">목록</a>
+            <%} else { %>
             <a href="/" class="list_button">목록</a>
+            <% } %>
             <a class="modi_del_btn">수정</a>
             <a href=delete.action?id=<%=article.getArticleId()%> class="modi_del_btn">삭제</a>
         </div>

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class PageController {
+
+	/**
+	 * 검색조건 유지를 위한 필드 선언
+	 */
+	@Setter
+	private SearchConditionVO searchCondition;
 	/**
 	 * 로깅을 위한 마이로거 인스턴스 획득
 	 */
@@ -45,10 +52,12 @@ public class PageController {
 	 */
 	@RequestMapping("/")
 	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchConditionParameter){
-		// DAO 가 static 으로 선언될수있나?
 		try {
 			IndexHandler indexPageHandler = new IndexHandler(new ArticleDAO());
-			indexPageHandler.process(req, res);
+			if (searchConditionParameter != null){
+				searchCondition = searchConditionParameter;
+			}
+			indexPageHandler.process(req, res,searchCondition);
 		} catch (RuntimeException e) {
 			logger.severe(className+"homeController RuntimeException occurred");
 			logger.severe(String.valueOf(e));
@@ -67,7 +76,7 @@ public class PageController {
 	public String articleViewController(HttpServletRequest req, HttpServletResponse res, @RequestParam int id){
 		ArticleHandler articleViewHandler = new ArticleHandler(new ArticleDAO(), id);
 		articleViewHandler.setTargetArticle();
-		articleViewHandler.process(req,res);
+		articleViewHandler.process(req,res,searchCondition);
 		return "articleView";
 	}
 	/**
@@ -101,7 +110,7 @@ public class PageController {
 			if (!multipartFileList.isEmpty()){
 				inputHandler.setFileList(multipartFileList);
 			}
-			inputHandler.process(req, res);
+			inputHandler.process(req, res,searchCondition);
 		}
 		 catch (IOException | InputFIeldException e) {
 			logger.severe(className+"homeController Exception");
