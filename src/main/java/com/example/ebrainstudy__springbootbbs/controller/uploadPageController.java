@@ -3,7 +3,7 @@ package com.example.ebrainstudy__springbootbbs.controller;
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
-import com.example.ebrainstudy__springbootbbs.service.InputArticleService;
+import com.example.ebrainstudy__springbootbbs.service.InputArticlePageService;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class uploadController {
+public class uploadPageController {
 	/**
 	 * 로깅을 위한 마이로거 인스턴스 획득
 	 */
@@ -53,7 +53,7 @@ public class uploadController {
 								@RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList,
 								SearchConditionVO searchCondition){
 		try {
-			InputArticleService inputHandler = new InputArticleService(new ArticleDAO());
+			InputArticlePageService inputHandler = new InputArticlePageService(new ArticleDAO());
 			inputHandler.setInsertingArticle(newArticle);
 			// 파일 리스트가 비어있지 않을경우 setFileList setFileList 호출
 			if (!multipartFileList.isEmpty()){

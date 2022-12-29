@@ -19,7 +19,7 @@ import utils.FindCategoryNameId;
  */
 @Service
 @RequiredArgsConstructor // ArticleDAO 생성자 주입을 위한 롬복 애노테이션
-public class IndexService implements ServiceInterface {
+public class IndexPageService implements ServiceInterface {
 	// DB 데이터 CRUD 위한 DAO 객체 의존성 주입
 	private final ArticleDAO articleDAO;
 	/**

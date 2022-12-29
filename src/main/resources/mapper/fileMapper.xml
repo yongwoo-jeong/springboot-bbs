@@ -20,7 +20,9 @@
                     name_on_server,
                     name_original,
                     article_id,
-                    file_path
+                    file_path,
+                    file_size,
+                    file_extension
                 )
            VALUES
                 (
@@ -28,7 +30,9 @@
                     "${nameOnServer}",
                     "${nameOriginal}",
                     ${articleId},
-                    "${filePath}"
+                    "${filePath}",
+                    ${fileSize},
+                    ${file_extension}
                 )
   </insert>
 </mapper>

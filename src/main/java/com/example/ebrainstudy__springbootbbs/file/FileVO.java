@@ -1,5 +1,6 @@
 package com.example.ebrainstudy__springbootbbs.file;
 
+import java.math.BigInteger;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -38,5 +39,7 @@ public class FileVO {
 	 * 파일의 UUID. 프라이머리키.
 	 */
 	private String fileUuid;
+	private BigInteger fileSize;
+	private String fileExtension;
 
 	}
