@@ -1,9 +1,8 @@
 package com.example.ebrainstudy__springbootbbs.controller;
 
-import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
-import com.example.ebrainstudy__springbootbbs.service.IndexPageService;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
+import com.example.ebrainstudy__springbootbbs.service.IndexPageService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,13 @@ public class IndexPageController {
 	 * 로깅을 위한 현재 클래스 네임 획득
 	 */
 	String className = MyLogger.getClassName();
-	private IndexPageService indexPageHandler;
+	/**
+	 * 서비스 의존성 주입
+	 */
+	private IndexPageService indexPageService;
 	@Autowired
-	public void setIndexPageHandler(IndexPageService indexPageHandler){
-		this.indexPageHandler = indexPageHandler;
+	public void setIndexPageHandler(IndexPageService indexPageService){
+		this.indexPageService = indexPageService;
 	}
 	/**
 	 * Index 페이지("/") 컨트롤러
@@ -40,7 +42,7 @@ public class IndexPageController {
 	@RequestMapping("/")
 	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchConditionParameter){
 		try {
-			indexPageHandler.process(req, res, searchConditionParameter);
+			indexPageService.process(req, res, searchConditionParameter);
 		} catch (RuntimeException e) {
 			logger.severe(className+"homeController RuntimeException occurred");
 			logger.severe(String.valueOf(e));

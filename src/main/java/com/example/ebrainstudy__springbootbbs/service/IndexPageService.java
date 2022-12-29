@@ -10,8 +10,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import utils.FindCategoryNameId;
 
@@ -22,9 +20,6 @@ import utils.FindCategoryNameId;
 @Service
 @RequiredArgsConstructor // ArticleDAO 생성자 주입을 위한 롬복 애노테이션
 public class IndexPageService implements ServiceInterface {
-	@Value("${dev.file.localPath}")
-	private String path;
-
 	// DB 데이터 CRUD 위한 DAO 객체 의존성 주입
 	private final ArticleDAO articleDAO;
 	/**
@@ -36,7 +31,6 @@ public class IndexPageService implements ServiceInterface {
 	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
 		// 바티스 매퍼에 전달하기 위한 검색조건을 가진 MAP
 		// 리팩토링 가능할것같은데 ......
-		System.out.println(path);
 		Map<String, Object> searchConditionMap = new HashMap<>();
 		searchConditionMap.put("keyword", searchCondition.getKeyword());
 		searchConditionMap.put("categoryId", new FindCategoryNameId().findCategoryIdFn(searchCondition.getCategory()));
