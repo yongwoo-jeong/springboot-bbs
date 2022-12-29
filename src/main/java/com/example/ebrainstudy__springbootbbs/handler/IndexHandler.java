@@ -1,4 +1,4 @@
-package com.example.ebrainstudy__springbootbbs.pageHandler;
+package com.example.ebrainstudy__springbootbbs.handler;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
@@ -28,10 +28,11 @@ public class IndexHandler implements PageHandlerInterface {
 	 * @param res 컨트롤러에서 전달된 HttpServletResponse
 	 */
 	@Override
-	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
+	public void process(HttpServletRequest req, HttpServletResponse res){
 		// 바티스 매퍼에 전달하기 위한 검색조건을 가진 MAP
 		// 리팩토링 가능할것같은데 ......
 		Map<String, Object> searchConditionMap = new HashMap<>();
+		SearchConditionVO searchCondition = SearchCondition.getSavedCondition();
 		searchConditionMap.put("keyword", searchCondition.getKeyword());
 		searchConditionMap.put("categoryId", new FindCategoryNameId().findCategoryIdFn(searchCondition.getCategory()));
 		searchConditionMap.put("startDate", searchCondition.getStartDate());

@@ -1,11 +1,16 @@
 package com.example.ebrainstudy__springbootbbs.searchCondition;
 
+import lombok.Getter;
+import lombok.Setter;
 import utils.IsEmpty;
 
 /**
  * 검색 조건에 따른 쿼리스트링 만들어주는 클래스
  */
 public class SearchCondition {
+	@Getter
+	@Setter
+	private static SearchConditionVO savedCondition;
 	/**
 	 * 검색 조건에 따른 쿼리스트링 만들어주는 메서드
 	 * @param searchCondition 검색 조건 VO

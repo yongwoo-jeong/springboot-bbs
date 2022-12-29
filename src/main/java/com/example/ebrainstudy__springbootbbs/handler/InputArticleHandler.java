@@ -3,7 +3,6 @@ package com.example.ebrainstudy__springbootbbs.handler;
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
-import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +58,7 @@ public class InputArticleHandler implements PageHandlerInterface {
 		this.fileList = fileList;
 	}
 	@Override
-	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition) throws IOException {
+	public void process(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		articleDAO.insertNewArticle(insertingArticle);
 		res.sendRedirect("/");
 	}

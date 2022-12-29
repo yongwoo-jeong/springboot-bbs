@@ -1,4 +1,4 @@
-package com.example.ebrainstudy__springbootbbs.pageHandler;
+package com.example.ebrainstudy__springbootbbs.handler;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
@@ -17,7 +17,8 @@ public class ArticleHandler implements PageHandlerInterface {
 		this.targetArticle = articleDAO.getArticle(targetArticleId);
 	}
 	@Override
-	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
+	public void process(HttpServletRequest req, HttpServletResponse res){
+		SearchConditionVO searchCondition = SearchCondition.getSavedCondition();
 		if (searchCondition!=null){
 			String searchQueryString = new SearchCondition().makeQuerystring(searchCondition);
 			System.out.println(searchQueryString+searchCondition.getCurrentPage());
