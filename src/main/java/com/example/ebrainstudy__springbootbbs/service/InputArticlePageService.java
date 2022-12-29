@@ -3,9 +3,9 @@ package com.example.ebrainstudy__springbootbbs.service;
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
-import com.example.ebrainstudy__springbootbbs.file.FileVO;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 public class InputArticlePageService implements ServiceInterface {
+
+
 	/**
 	 * 게시글을 INSERT 하기 위해 DAO 객체 생성
 	 */
@@ -28,6 +30,7 @@ public class InputArticlePageService implements ServiceInterface {
 	 * file INSERT 될 파일목록
 	 */
 	private List<MultipartFile> fileList;
+
 	/**
 	 * 업로드 될 게시글 DTO 세터
 	 * 필드에 입력하기 전 각 항목의 제한 검증
@@ -66,6 +69,14 @@ public class InputArticlePageService implements ServiceInterface {
 			if (file.getOriginalFilename() == null && file.getSize() == 0) {
 				continue;
 			}
+
+			String nameOnServer = file.getName();
+			String nameOriginal = file.getOriginalFilename();
+			int articleId = insertingArticle.getArticleId();
+//			String filePath = env.getProperty("dev.localPath.file");
+			BigInteger fileSize = BigInteger.valueOf(file.getSize());
+			String fileExtension = file.getOriginalFilename().split("\\.")[1];
+
 		}
 		res.sendRedirect("/");
 	}

@@ -6,6 +6,7 @@ import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,6 +23,11 @@ public class IndexPageController {
 	 * 로깅을 위한 현재 클래스 네임 획득
 	 */
 	String className = MyLogger.getClassName();
+	private IndexPageService indexPageHandler;
+	@Autowired
+	public void setIndexPageHandler(IndexPageService indexPageHandler){
+		this.indexPageHandler = indexPageHandler;
+	}
 	/**
 	 * Index 페이지("/") 컨트롤러
 	 * IndexPageHandler 를 통해 검색 조건을 설정하고
@@ -34,7 +40,6 @@ public class IndexPageController {
 	@RequestMapping("/")
 	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchConditionParameter){
 		try {
-			IndexPageService indexPageHandler = new IndexPageService(new ArticleDAO());
 			indexPageHandler.process(req, res, searchConditionParameter);
 		} catch (RuntimeException e) {
 			logger.severe(className+"homeController RuntimeException occurred");

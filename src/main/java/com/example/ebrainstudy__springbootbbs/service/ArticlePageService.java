@@ -7,11 +7,13 @@ import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 public class ArticlePageService implements ServiceInterface {
 	private final ArticleDAO articleDAO;
-	private final int targetArticleId;
+	private final Integer targetArticleId;
 	private ArticleVO targetArticle;
 	public void setTargetArticle(){
 		this.targetArticle = articleDAO.getArticle(targetArticleId);
