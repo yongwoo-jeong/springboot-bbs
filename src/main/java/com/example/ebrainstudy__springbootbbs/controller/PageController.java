@@ -1,18 +1,17 @@
-package com.example.ebrainstudy__springbootbbs;
+package com.example.ebrainstudy__springbootbbs.controller;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
+import com.example.ebrainstudy__springbootbbs.handler.ArticleHandler;
+import com.example.ebrainstudy__springbootbbs.handler.IndexHandler;
+import com.example.ebrainstudy__springbootbbs.handler.InputArticleHandler;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
-import com.example.ebrainstudy__springbootbbs.pageHandler.ArticleHandler;
-import com.example.ebrainstudy__springbootbbs.pageHandler.IndexHandler;
-import com.example.ebrainstudy__springbootbbs.pageHandler.InputArticleHandler;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,11 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class PageController {
-
 	/**
 	 * 검색조건 유지를 위한 필드 선언
 	 */
-	@Setter
 	private SearchConditionVO searchCondition;
 	/**
 	 * 로깅을 위한 마이로거 인스턴스 획득
@@ -40,7 +37,6 @@ public class PageController {
 	 * 로깅을 위한 현재 클래스 네임 획득
 	 */
 	String className = MyLogger.getClassName();
-
 	/**
 	 * Index 페이지("/") 컨트롤러
 	 * IndexPageHandler 를 통해 검색 조건을 설정하고

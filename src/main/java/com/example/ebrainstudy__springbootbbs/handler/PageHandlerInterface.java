@@ -1,4 +1,4 @@
-package com.example.ebrainstudy__springbootbbs.pageHandler;
+package com.example.ebrainstudy__springbootbbs.handler;
 
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.IOException;
