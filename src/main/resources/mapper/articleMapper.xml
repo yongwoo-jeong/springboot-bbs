@@ -23,12 +23,13 @@
     </trim>
   </sql>
   <select id="selectSearchArticles" resultType="com.example.ebrainstudy__springbootbbs.article.ArticleVO">
-    SELECT * FROM article
-      <include refid="searchCondition">
+    SELECT *
+    FROM   article
+    <include refid="searchCondition">
         <property name="conditionMap" value="conditionMap"/>
       </include>
-      ORDER BY article_id DESC
-      LIMIT ${limitStartOffset}, 10
+    ORDER BY article_id DESC
+    LIMIT ${limitStartOffset}, 10
   </select>
   <select id="selectCountArticles" resultType="int" >
     SELECT COUNT(*) FROM article
@@ -36,9 +37,30 @@
       <property name="conditionMap" value="conditionMap"/>
     </include>
   </select>
+  <select id="selectArticle" resultType="com.example.ebrainstudy__springbootbbs.article.ArticleVO">
+    SELECT *
+    FROM   article
+    WHERE  article_id = #{articleId}
+  </select>
   <insert id="insertArticle">
-    INSERT INTO article ( title, writer, password, content, created_at, category_id)
-    VALUES ("${newArticle.title}", "${newArticle.writer}", "${newArticle.password}", "${newArticle.content}", NOW(), ${newArticle.categoryId})
+    INSERT INTO article
+                (
+                        title,
+                        writer,
+                        password,
+                        content,
+                        created_at,
+                        category_id
+                )
+    VALUES
+                (
+                        "${newArticle.title}",
+                        "${newArticle.writer}",
+                        "${newArticle.password}",
+                        "${newArticle.content}",
+                        Now(),
+                        ${newArticle.categoryId}
+                )
     <selectKey keyProperty="articleId" resultType="Integer" order="AFTER">
       SELECT LAST_INSERT_ID()
     </selectKey>

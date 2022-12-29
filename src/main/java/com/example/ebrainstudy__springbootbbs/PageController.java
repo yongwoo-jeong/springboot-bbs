@@ -3,9 +3,11 @@ package com.example.ebrainstudy__springbootbbs;
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
-import com.example.ebrainstudy__springbootbbs.pageHandler.IndexPageHandler;
-import com.example.ebrainstudy__springbootbbs.pageHandler.InputArticlePageHandler;
+import com.example.ebrainstudy__springbootbbs.pageHandler.ArticleViewHandler;
+import com.example.ebrainstudy__springbootbbs.pageHandler.IndexHandler;
+import com.example.ebrainstudy__springbootbbs.pageHandler.InputArticleHandler;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
+import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 전체 페이지 요청을 핸들러로 보내 처리하는 컨트롤러
+ */
 @Controller
 public class PageController {
 
@@ -43,7 +48,7 @@ public class PageController {
 	public String  homeController(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchConditionParameter){
 		// DAO 가 static 으로 선언되어야하나?
 		try {
-			IndexPageHandler indexPageHandler = new IndexPageHandler(new ArticleDAO());
+			IndexHandler indexPageHandler = new IndexHandler(new ArticleDAO());
 			indexPageHandler.setSearchCondition(searchConditionParameter);
 			indexPageHandler.process(req, res);
 		} catch (RuntimeException e) {
@@ -51,6 +56,12 @@ public class PageController {
 			logger.severe(String.valueOf(e));
 		}
 		return "index";
+	}
+	@GetMapping("/article")
+	public void articleViewController(HttpServletRequest req, HttpServletResponse res, @RequestParam int id){
+		ArticleViewHandler articleViewHandler = new ArticleViewHandler(new ArticleDAO(), id);
+
+//		return "articleView";
 	}
 	/**
 	 * /upload 로 들어오는 GET 요청을
@@ -71,21 +82,22 @@ public class PageController {
 	@PostMapping("/upload")
 	public void postNewArticle(HttpServletRequest req, HttpServletResponse res, @ModelAttribute ArticleVO newArticle,
 								@RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
-			InputArticlePageHandler inputHandler = new InputArticlePageHandler(new ArticleDAO());
+		try {
+			InputArticleHandler inputHandler = new InputArticleHandler(new ArticleDAO());
 			inputHandler.setInsertingArticle(newArticle);
-//			inputHandler.process(req, res);
+			inputHandler.process(req, res);
 			String uploadDir = "/Users/jyw/Desktop/project/java/ebrain-study__model2-bbs/apache-tomcat-9.0.10/file/";
-			for (MultipartFile file:multipartFileList ){
-				if (file.getSize() == 0){
+			for (MultipartFile file : multipartFileList) {
+				if (file.getSize() == 0) {
 					continue;
 				} else {
 					System.out.println(file.getOriginalFilename());
 				}
 			}
-
-//		 catch (ServletException|IOException e) {
-//			logger.severe(className+"homeController Exception");
-//			logger.severe(String.valueOf(e));
-//		}
+		}
+		 catch (IOException e) {
+			logger.severe(className+"homeController Exception");
+			logger.severe(String.valueOf(e));
+		}
 	}
 }

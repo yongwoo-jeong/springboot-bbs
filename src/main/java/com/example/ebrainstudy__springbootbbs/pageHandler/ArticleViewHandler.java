@@ -7,26 +7,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
-public class InputArticlePageHandler implements PageHandlerInterface {
-	/**
-	 * 게시글을 INSERT 하기 위해 DAO 객체 주입
-	 */
+public class ArticleViewHandler implements PageHandlerInterface {
 	private final ArticleDAO articleDAO;
-	/**
-	 * INSERT 될 새 게시글
-	 */
-	private ArticleVO insertingArticle;
-	public void setInsertingArticle(ArticleVO insertingArticle) {
-		this.insertingArticle = insertingArticle;
+	private final int targetArticleId;
+	private ArticleVO targetArticle;
+	public void setTargetArticle(){
+//		this.targetArticle = articleDAO
 	}
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		articleDAO.insertNewArticle(insertingArticle);
-		res.sendRedirect("/");
+
 	}
 }
