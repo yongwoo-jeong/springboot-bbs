@@ -7,10 +7,12 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.stereotype.Component;
 
 /**
  * 아티클, 코멘트, 파일 매퍼를 만들어서 반환해주는 클래스
  */
+@Component
 public class MapperMaker {
 	MyLogger logger = MyLogger.getLogger();
 	String className = MyLogger.getClassName();
