@@ -1,7 +1,7 @@
 package com.example.ebrainstudy__springbootbbs.controller;
 
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
-import com.example.ebrainstudy__springbootbbs.service.ArticlePageService;
+import com.example.ebrainstudy__springbootbbs.service.ArticleViewService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ArticleViewContorller {
-	private ArticlePageService articleViewService;
+	private ArticleViewService articleViewService;
 	@Autowired
-	public void setArticleViewService(ArticlePageService articleViewService) {
+	public void setArticleViewService(ArticleViewService articleViewService) {
 		this.articleViewService = articleViewService;
 	}
 

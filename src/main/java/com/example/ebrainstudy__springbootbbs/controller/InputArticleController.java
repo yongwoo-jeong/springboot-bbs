@@ -3,7 +3,7 @@ package com.example.ebrainstudy__springbootbbs.controller;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
-import com.example.ebrainstudy__springbootbbs.service.InsertArticlePageService;
+import com.example.ebrainstudy__springbootbbs.service.InsertArticleService;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +25,9 @@ public class InputArticleController {
 	/**
 	 * 서비스 컴포넌트 DI
 	 */
-	private final InsertArticlePageService inputService;
+	private final InsertArticleService inputService;
 	@Autowired
-	public InputArticleController(InsertArticlePageService inputService){
+	public InputArticleController(InsertArticleService inputService){
 		this.inputService = inputService;
 	}
 	/**

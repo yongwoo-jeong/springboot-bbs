@@ -19,11 +19,11 @@ import com.example.ebrainstudy__springbootbbs.utils.FindCategoryNameId;
  * 게시글을 모델에서 뷰로 전달하는 컨트롤러
  */
 @Service
-public class IndexPageService implements ServiceInterface {
+public class IndexService implements ServiceInterface {
 	// DB 데이터 CRUD 위한 DAO 객체 생성자 DI
 	private final ArticleDAO articleDAO;
 	@Autowired
-	public IndexPageService(ArticleDAO articleDAO) {
+	public IndexService(ArticleDAO articleDAO) {
 		this.articleDAO = articleDAO;
 	}
 

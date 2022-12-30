@@ -1,7 +1,7 @@
 package com.example.ebrainstudy__springbootbbs.controller;
 
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
-import com.example.ebrainstudy__springbootbbs.service.IndexPageService;
+import com.example.ebrainstudy__springbootbbs.service.IndexService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 전체 페이지 요청을 핸들러로 보내 처리하는 컨트롤러
  */
 @Controller
-public class IndexViewController {
+public class IndexController {
 	/**
 	 * 서비스 생성자 di
 	 */
-	private final IndexPageService indexPageService;
+	private final IndexService indexPageService;
 	@Autowired
-	public IndexViewController(IndexPageService indexPageService){
+	public IndexController(IndexService indexPageService){
 		this.indexPageService = indexPageService;
 	}
 	/**

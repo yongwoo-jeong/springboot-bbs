@@ -7,6 +7,7 @@ import com.example.ebrainstudy__springbootbbs.file.FileDAO;
 import com.example.ebrainstudy__springbootbbs.file.FileVO;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
@@ -22,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
  * DB INSERT 하는 서비스 컴포넌트
  */
 @Service
-public class InsertArticlePageService implements ServiceInterface {
+public class InsertArticleService implements ServiceInterface {
 	/**
 	 * 로깅을 위한 마이로거 인스턴스 획득
 	 */
@@ -42,7 +43,7 @@ public class InsertArticlePageService implements ServiceInterface {
 	private final ArticleDAO articleDAO;
 	private final FileDAO fileDAO;
 	@Autowired
-	public InsertArticlePageService(ArticleDAO articleDAO,FileDAO fileDAO){
+	public InsertArticleService(ArticleDAO articleDAO,FileDAO fileDAO){
 		this.articleDAO=articleDAO;
 		this.fileDAO=fileDAO;
 	};
@@ -58,7 +59,7 @@ public class InsertArticlePageService implements ServiceInterface {
 	/**
 	 * 업로드 될 게시글 DTO 세터
 	 * 필드에 입력하기 전 각 항목의 제한 검증
-	 * @param insertingArticle
+	 * @param insertingArticle 프론트에서 input form으로 넘겨받은 article 객체 데이터
 	 */
 	public void verifyAndSetArticle(ArticleVO insertingArticle) throws InputFIeldException {
 		// 카테고리 ID가 정상범위로 들어왔는지 확인
@@ -89,25 +90,32 @@ public class InsertArticlePageService implements ServiceInterface {
 	}
 
 	/**
-	 * 빈 파일인지 검증 후
-	 * 새 파일을 file table INSERT 하는 메서드
+	 * 검증 후 파일을 file table INSERT 하고
+	 * 서버에 남기는 메서드
 	 * @param fileList List of MultipartFile
 	 * @param articleId File FK 컬럼에 들어갈 게시글 ID
 	 */
-	public void insertFile(List<MultipartFile> fileList, Integer articleId){
+	public void insertFile(List<MultipartFile> fileList, Integer articleId) {
 		for (MultipartFile file : fileList){
 			if (file.getOriginalFilename() == null || file.getSize() == 0) {
 				continue;
 			}
-			String nameOnServer = file.getName();
-			String nameOriginal = file.getOriginalFilename();
+			String fileNameServer = file.getName();
+			String fileNameOriginal = file.getOriginalFilename();
 			String filePath = serverFilePath;
 			BigInteger fileSize = BigInteger.valueOf(file.getSize());
 			String fileExtension = file.getOriginalFilename().split("\\.")[1];
-			FileVO newFile = FileVO.builder().nameOnServer(nameOnServer).nameOriginal(nameOriginal)
+			FileVO newFile = FileVO.builder().nameOnServer(fileNameServer).nameOriginal(fileNameOriginal)
 					.articleId(articleId).filePath(filePath)
 					.fileSize(fileSize).fileExtension(fileExtension)
 					.build();
+			File fileToServer = new File(filePath+fileNameOriginal);
+			try {
+				file.transferTo(fileToServer);
+			} catch (IOException e) {
+				logger.severe(className+"InsertArticleService.insertFile Exception");
+				logger.severe(String.valueOf(e));
+			}
 			fileDAO.insertNewFile(newFile);
 		}
 	}
@@ -126,7 +134,7 @@ public class InsertArticlePageService implements ServiceInterface {
 		try {
 			res.sendRedirect("/");
 		} catch (IOException e) {
-				logger.severe(className+"homeController Exception");
+				logger.severe(className+"InsertArticleService.process Exception");
 				logger.severe(String.valueOf(e));
 			}
 		}

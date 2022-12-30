@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ArticlePageService implements ServiceInterface {
+public class ArticleViewService implements ServiceInterface {
 	private final ArticleDAO articleDAO;
 	private Integer targetArticleId;
 	public void setTargetArticleId(Integer targetArticleId) {
