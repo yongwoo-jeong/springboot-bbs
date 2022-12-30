@@ -10,6 +10,7 @@ import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -100,8 +101,8 @@ public class InsertArticleService implements ServiceInterface {
 			if (file.getOriginalFilename() == null || file.getSize() == 0) {
 				continue;
 			}
-			String fileNameServer = file.getName();
 			String fileNameOriginal = file.getOriginalFilename();
+			String fileNameServer = file.getOriginalFilename().split("\\.")[0]+(new Date()).toString().replace(" ","_");
 			String filePath = serverFilePath;
 			BigInteger fileSize = BigInteger.valueOf(file.getSize());
 			String fileExtension = file.getOriginalFilename().split("\\.")[1];

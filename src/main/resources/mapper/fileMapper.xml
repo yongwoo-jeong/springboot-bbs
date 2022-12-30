@@ -8,7 +8,7 @@
     FROM   file
     WHERE  article_id = ${articleId}
   </select>
-  <select id="selectForDownload" parameterType="String" resultType="com.example.ebrainstudy__springbootbbs.file.FileVO">
+  <select id="selectForDownload" resultType="com.example.ebrainstudy__springbootbbs.file.FileVO">
     SELECT *
     FROM   file
     WHERE  file_uuid = '${fileUuid}'

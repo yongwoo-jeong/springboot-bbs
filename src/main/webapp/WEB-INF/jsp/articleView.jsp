@@ -60,7 +60,7 @@
             for (FileVO file : FileList){
         %>
         <div class="file">
-            <a href=download.action?file_id=<%=file.getFileUuid()%>>
+            <a href=/download?fileId=<%=file.getFileUuid()%>>
                 <%=file.getNameOriginal()%>
             </a>
         </div>

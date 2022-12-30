@@ -9,4 +9,5 @@ import org.springframework.stereotype.Component;
 public interface FileMapperInterface {
 	public void insertFile(@Param("newFile") FileVO newFile);
 	public List<FileVO> selectFiles(int articleId);
+	public FileVO selectForDownload(String fileUuid);
 }

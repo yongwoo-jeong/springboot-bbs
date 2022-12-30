@@ -19,4 +19,7 @@ public class FileDAO {
 	public List<FileVO> getFiles(int articleId){
 		return mapper.selectFiles(articleId);
 	}
+	public FileVO getDownloadFile(String fileUuid){
+		return mapper.selectForDownload(fileUuid);
+	}
 }
