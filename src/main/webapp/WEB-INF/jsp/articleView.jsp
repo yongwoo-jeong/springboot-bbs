@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.ebrainstudy__springbootbbs.article.ArticleVO" %>
-<%@ page import="com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO" %><%--
+<%@ page import="com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO" %>
+<%@ page import="com.example.ebrainstudy__springbootbbs.file.FileVO" %><%--
   Created by IntelliJ IDEA.
   User: jyw
   Date: 2022/12/14
@@ -54,16 +55,16 @@
         <p><%=article.getContent()%></p>
     </div>
     <div class="file_container">
-<%--        <%--%>
-<%--            List<FileVO> FileList = (List<FileVO>) request.getAttribute("fileList");--%>
-<%--            for (FileVO file : FileList){--%>
-<%--        %>--%>
-<%--        <div class="file">--%>
-<%--            <a href=download.action?file_id=<%=file.getFileUuid()%>>--%>
-<%--                <%=file.getNameOriginal()%>--%>
-<%--            </a>--%>
-<%--        </div>--%>
-<%--        <% }%>--%>
+        <%
+            List<FileVO> FileList = (List<FileVO>) request.getAttribute("fileList");
+            for (FileVO file : FileList){
+        %>
+        <div class="file">
+            <a href=download.action?file_id=<%=file.getFileUuid()%>>
+                <%=file.getNameOriginal()%>
+            </a>
+        </div>
+        <% }%>
     </div>
     <div class="comments_container">
 <%--        <%--%>

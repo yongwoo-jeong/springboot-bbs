@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.ebrainstudy__springbootbbs.batisMapper.FileMapperInterface">
-  <select id="selectFiles" parameterType="int" resultType="com.example.ebrainstudy__springbootbbs.file.FileVO">
+  <select id="selectFiles" resultType="com.example.ebrainstudy__springbootbbs.file.FileVO">
     SELECT *
     FROM   file
     WHERE  article_id = ${articleId}
