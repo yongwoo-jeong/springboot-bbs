@@ -1,4 +1,4 @@
-package utils;
+package com.example.ebrainstudy__springbootbbs.utils;
 
 /**
  * page 쿼리스트링을 받아 적절한 page 넘버를 돌려주는 클래스

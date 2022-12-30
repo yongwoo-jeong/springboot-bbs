@@ -3,6 +3,9 @@ package com.example.ebrainstudy__springbootbbs.service;
 import com.example.ebrainstudy__springbootbbs.article.ArticleDAO;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
+import com.example.ebrainstudy__springbootbbs.file.FileDAO;
+import com.example.ebrainstudy__springbootbbs.file.FileVO;
+import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -10,18 +13,38 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * POST 요청되는 게시글, 파일 검증 후
+ * DB INSERT 하는 서비스 컴포넌트
+ */
 @Service
 public class InputArticlePageService implements ServiceInterface {
+	/**
+	 * 로깅을 위한 마이로거 인스턴스 획득
+	 */
+	MyLogger logger = MyLogger.getLogger();
+	/**
+	 * 로깅을 위한 현재 클래스 네임 획득
+	 */
+	String className = MyLogger.getClassName();
+	/**
+	 * application.property에 설정된 파일 저장 경로
+	 */
+	@Value("${dev.file.localPath}")
+	private String serverFilePath;
 	/**
 	 * 게시글을 INSERT 하기 위해 DAO 객체 의존성주입
 	 */
 	private final ArticleDAO articleDAO;
+	private final FileDAO fileDAO;
 	@Autowired
-	public InputArticlePageService(ArticleDAO articleDAO){
+	public InputArticlePageService(ArticleDAO articleDAO,FileDAO fileDAO){
 		this.articleDAO=articleDAO;
+		this.fileDAO=fileDAO;
 	};
 	/**
 	 * article INSERT 될 새 게시글
@@ -38,7 +61,7 @@ public class InputArticlePageService implements ServiceInterface {
 	 * @param insertingArticle
 	 */
 	public void verifyAndSetArticle(ArticleVO insertingArticle) throws InputFIeldException {
-		// 카테고리 ID가 정상적으로 들어왔는지 확인
+		// 카테고리 ID가 정상범위로 들어왔는지 확인
 		List<Integer> existCategory = List.of(1,2,3);
 		Integer getCategoryId = insertingArticle.getCategoryId();
 		if (!existCategory.contains(getCategoryId)){
@@ -58,28 +81,36 @@ public class InputArticlePageService implements ServiceInterface {
 
 	/**
 	 * 업로드 될 파일 DTO 세터
+	 * 파일이 있을때만 설정됨
 	 * @param fileList
 	 */
 	public void setFileList(List<MultipartFile> fileList){
 		this.fileList = fileList;
 	}
 	@Override
-	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition) throws IOException {
+	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
 		articleDAO.insertNewArticle(insertingArticle);
-		System.out.println("before insert file");
 		Integer articleId = insertingArticle.getArticleId();
-		System.out.println(articleId);
 		for (MultipartFile file : fileList){
 			if (file.getOriginalFilename() == null || file.getSize() == 0) {
 				continue;
 			}
 			String nameOnServer = file.getName();
 			String nameOriginal = file.getOriginalFilename();
-//			String filePath = env.getProperty("dev.localPath.file");
+			String filePath = serverFilePath;
 			BigInteger fileSize = BigInteger.valueOf(file.getSize());
 			String fileExtension = file.getOriginalFilename().split("\\.")[1];
-
+			FileVO newFile = FileVO.builder().nameOnServer(nameOnServer).nameOriginal(nameOriginal)
+											.articleId(articleId).filePath(filePath)
+											.fileSize(fileSize).fileExtension(fileExtension)
+											.build();
+			fileDAO.insertNewFile(newFile);
 		}
-		res.sendRedirect("/");
-	}
+		try {
+			res.sendRedirect("/");
+		} catch (IOException e) {
+				logger.severe(className+"homeController Exception");
+				logger.severe(String.valueOf(e));
+			}
+		}
 }

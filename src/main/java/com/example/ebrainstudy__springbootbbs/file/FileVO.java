@@ -39,6 +39,7 @@ public class FileVO {
 	 * 파일의 UUID. 프라이머리키.
 	 */
 	private String fileUuid;
+	@NonNull
 	private BigInteger fileSize;
 	private String fileExtension;
 

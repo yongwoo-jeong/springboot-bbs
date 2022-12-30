@@ -2,7 +2,6 @@ package com.example.ebrainstudy__springbootbbs.controller;
 
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
-import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
 import com.example.ebrainstudy__springbootbbs.service.InputArticlePageService;
 import java.io.IOException;
@@ -17,25 +16,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * /upload 로 요청되는 GET,POST 컨트롤러
+ */
 @Controller
 public class UploadPageController {
+
+	/**
+	 * 서비스 컴포넌트 DI
+	 */
 	private final InputArticlePageService inputService;
 	@Autowired
 	public UploadPageController(InputArticlePageService inputService){
 		this.inputService = inputService;
 	}
 	/**
-	 * 로깅을 위한 마이로거 인스턴스 획득
-	 */
-	MyLogger logger = MyLogger.getLogger();
-	/**
-	 * 로깅을 위한 현재 클래스 네임 획득
-	 */
-	String className = MyLogger.getClassName();
-	/**
 	 * /upload 로 들어오는 GET 요청을
-	 * 새게시글 등록 페이지로 리턴
-	 * @return
+	 * 새게시글 등록 페이지(newArticleInput.jsp)로 리턴
+	 * @return newArticleInput.jsp
 	 */
 	@GetMapping("/upload")
 	public String inputNewArticleController(){
@@ -60,12 +58,7 @@ public class UploadPageController {
 		inputService.verifyAndSetArticle(newArticle);
 		// 파일 리스트가 비어있지 않을경우 setFileList setFileList 호출
 		if (!multipartFileList.isEmpty()){ inputService.setFileList(multipartFileList);}
-		try {
-			inputService.process(req, res, searchCondition);
-		}
-		catch (IOException | InputFIeldException e) {
-			logger.severe(className+"homeController Exception");
-			logger.severe(String.valueOf(e));
-		}
+		inputService.process(req, res, searchCondition);
+
 	}
 }

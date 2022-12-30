@@ -1,8 +1,6 @@
 package com.example.ebrainstudy__springbootbbs.searchCondition;
 
-import lombok.Getter;
-import lombok.Setter;
-import utils.IsEmpty;
+import com.example.ebrainstudy__springbootbbs.utils.IsEmpty;
 
 /**
  * 검색 조건에 따른 쿼리스트링 만들어주는 클래스

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import utils.FindCategoryNameId;
+import com.example.ebrainstudy__springbootbbs.utils.FindCategoryNameId;
 
 /**
  * index 페이지에서 전체 게시글 혹은 검색 조건에 따른

@@ -1,4 +1,4 @@
-package utils;
+package com.example.ebrainstudy__springbootbbs.utils;
 
 /**
  * 문자열이 null, 빈 문자열, "null" 인지 확인해주는 유틸

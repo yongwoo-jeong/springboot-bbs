@@ -32,7 +32,7 @@
                     ${articleId},
                     "${filePath}",
                     ${fileSize},
-                    ${file_extension}
+                    ${fileExtension}
                 )
   </insert>
 </mapper>
