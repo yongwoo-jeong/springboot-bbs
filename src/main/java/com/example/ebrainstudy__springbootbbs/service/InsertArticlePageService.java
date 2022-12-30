@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
  * DB INSERT 하는 서비스 컴포넌트
  */
 @Service
-public class InputArticlePageService implements ServiceInterface {
+public class InsertArticlePageService implements ServiceInterface {
 	/**
 	 * 로깅을 위한 마이로거 인스턴스 획득
 	 */
@@ -42,7 +42,7 @@ public class InputArticlePageService implements ServiceInterface {
 	private final ArticleDAO articleDAO;
 	private final FileDAO fileDAO;
 	@Autowired
-	public InputArticlePageService(ArticleDAO articleDAO,FileDAO fileDAO){
+	public InsertArticlePageService(ArticleDAO articleDAO,FileDAO fileDAO){
 		this.articleDAO=articleDAO;
 		this.fileDAO=fileDAO;
 	};

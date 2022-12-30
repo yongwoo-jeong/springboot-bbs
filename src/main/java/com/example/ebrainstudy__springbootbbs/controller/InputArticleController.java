@@ -3,7 +3,7 @@ package com.example.ebrainstudy__springbootbbs.controller;
 import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import com.example.ebrainstudy__springbootbbs.exception.InputFIeldException;
 import com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO;
-import com.example.ebrainstudy__springbootbbs.service.InputArticlePageService;
+import com.example.ebrainstudy__springbootbbs.service.InsertArticlePageService;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
  * /upload 로 요청되는 GET,POST 컨트롤러
  */
 @Controller
-public class UploadPageController {
+public class InputArticleController {
 
 	/**
 	 * 서비스 컴포넌트 DI
 	 */
-	private final InputArticlePageService inputService;
+	private final InsertArticlePageService inputService;
 	@Autowired
-	public UploadPageController(InputArticlePageService inputService){
+	public InputArticleController(InsertArticlePageService inputService){
 		this.inputService = inputService;
 	}
 	/**

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class ArticlePageContorller {
+public class ArticleViewContorller {
 	private ArticlePageService articleViewService;
 	@Autowired
 	public void setArticleViewService(ArticlePageService articleViewService) {

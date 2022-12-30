@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ArticleDAO {
-
 	/**
 	 * article 테이블을 위한 마이바티스 매퍼 인터페이스
 	 */

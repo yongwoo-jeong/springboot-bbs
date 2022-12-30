@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 전체 페이지 요청을 핸들러로 보내 처리하는 컨트롤러
  */
 @Controller
-public class IndexPageController {
+public class IndexViewController {
 	/**
 	 * 서비스 생성자 di
 	 */
 	private final IndexPageService indexPageService;
 	@Autowired
-	public IndexPageController(IndexPageService indexPageService){
+	public IndexViewController(IndexPageService indexPageService){
 		this.indexPageService = indexPageService;
 	}
 	/**
