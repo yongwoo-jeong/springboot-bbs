@@ -87,10 +87,14 @@ public class InsertArticlePageService implements ServiceInterface {
 	public void setFileList(List<MultipartFile> fileList){
 		this.fileList = fileList;
 	}
-	@Override
-	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
-		articleDAO.insertNewArticle(insertingArticle);
-		Integer articleId = insertingArticle.getArticleId();
+
+	/**
+	 * 빈 파일인지 검증 후
+	 * 새 파일을 file table INSERT 하는 메서드
+	 * @param fileList List of MultipartFile
+	 * @param articleId File FK 컬럼에 들어갈 게시글 ID
+	 */
+	public void insertFile(List<MultipartFile> fileList, Integer articleId){
 		for (MultipartFile file : fileList){
 			if (file.getOriginalFilename() == null || file.getSize() == 0) {
 				continue;
@@ -101,11 +105,24 @@ public class InsertArticlePageService implements ServiceInterface {
 			BigInteger fileSize = BigInteger.valueOf(file.getSize());
 			String fileExtension = file.getOriginalFilename().split("\\.")[1];
 			FileVO newFile = FileVO.builder().nameOnServer(nameOnServer).nameOriginal(nameOriginal)
-											.articleId(articleId).filePath(filePath)
-											.fileSize(fileSize).fileExtension(fileExtension)
-											.build();
+					.articleId(articleId).filePath(filePath)
+					.fileSize(fileSize).fileExtension(fileExtension)
+					.build();
 			fileDAO.insertNewFile(newFile);
 		}
+	}
+	/**
+	 * article table INSERT 하는 메서드
+	 * insertFile 메서드를 호출한다.
+	 * @param req
+	 * @param res
+	 * @param searchCondition 검색 조건 유지를 위한 서치컨디션 객체를 파라미터로 받는다
+	 */
+	@Override
+	public void process(HttpServletRequest req, HttpServletResponse res, SearchConditionVO searchCondition){
+		articleDAO.insertNewArticle(insertingArticle);
+		Integer articleId = insertingArticle.getArticleId();
+		insertFile(fileList, articleId);
 		try {
 			res.sendRedirect("/");
 		} catch (IOException e) {
