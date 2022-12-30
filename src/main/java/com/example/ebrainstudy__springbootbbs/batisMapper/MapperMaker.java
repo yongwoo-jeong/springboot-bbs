@@ -7,50 +7,62 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * 아티클, 코멘트, 파일 매퍼를 만들어서 반환해주는 클래스
+ * sql 세션을 생성하고
+ * 마이바티스 매퍼 인터페스를 반환해주는 클래스
  */
 @Component
 public class MapperMaker {
+
+	/**
+	 * 로깅 위한 로거객체, 클래스네임
+	 */
 	MyLogger logger = MyLogger.getLogger();
 	String className = MyLogger.getClassName();
+	/**
+	 * SQL 세션 의존성주입
+	 */
 	private SqlSession session;
 	/**
-	 * 세션팩토리 로드 메서드
+	 * sqlSession 세터
 	 */
-	// 왜 Autowired 를 쓸 수 없는지? SqlSession 이 component 가 아니라 빈 형태로 존재할수없어서?
-	// 외부에서 의존성을 주입받지 않기때문에?
+	@Autowired
 	private void SetSession(){
-		SqlSessionFactory sqlSessionFactory = null;
+		SqlSessionFactory sqlSessionFactory;
 		String resource = "mybatis-config.xml";
 		try{
 			InputStream inputStream = Resources.getResourceAsStream(resource);
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+			// 오토커밋 설정
 			session = sqlSessionFactory.openSession(true);
 		} catch (IOException e) {
 			logger.severe(className);
 			logger.severe(String.valueOf(e));
 		}
 }
+
+	/**
+	 * 아티클 매퍼 인터페이스를 반환해주는 메서드
+	 * @return ArticleMapperInterface
+	 */
 	public ArticleMapperInterface getArticleMapper(){
 		SetSession();
 		ArticleMapperInterface mapper = session.getMapper(ArticleMapperInterface.class);
 		return mapper;
 	}
 
+	/**
+	 * 파일 매퍼 인터페이스를 반환해주는 메서드
+	 * @return FileMapperInterface
+	 */
 	public FileMapperInterface getFileMapper(){
 		SetSession();
 		FileMapperInterface mapper = session.getMapper(FileMapperInterface.class);
 		return mapper;
 	}
-
-	public void close(){
-		session.close();
-	}
-
-
 }
 
 
