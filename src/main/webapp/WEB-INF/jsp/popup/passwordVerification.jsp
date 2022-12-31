@@ -15,7 +15,7 @@
     <% String articleId = (String) request.getAttribute("articleId"); %>
     <h3>비밀번호 확인</h3>
     <div class="container" style="display: flex">
-            <form method="post" action="/passwordVerify?id=<%=articleId%>&action=<%=action%>" >
+            <form method="post" action=<%=request.getContextPath()%>/passwordVerify?id=<%=articleId%>&action=<%=action%> >
             <div class="password_row" style="display: flex">
                 <div style="background-color: rgba(0,0,0,0.25)">비밀번호*</div>
                 <div>

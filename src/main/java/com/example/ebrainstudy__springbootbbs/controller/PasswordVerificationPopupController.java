@@ -6,26 +6,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@AllArgsConstructor
 public class PasswordVerificationPopupController {
 	private final PasswordVerificationService passwordVerificationService;
 	private final DeleteArticleService deleteArticleService;
-	private int articleId;
-	@Autowired
-	public PasswordVerificationPopupController(PasswordVerificationService passwordVerificationService,DeleteArticleService deleteArticleService){
-		this.passwordVerificationService = passwordVerificationService;
-		this.deleteArticleService = deleteArticleService;
-	}
 
-	public void setArticleId(int articleId) {
-		this.articleId = articleId;
-	}
 	@GetMapping("/passwordVerificationPopup")
 	public String modifyArticlePopup(HttpServletRequest req, @RequestParam String action, @RequestParam String id){
 		req.setAttribute("action", action);
@@ -38,7 +30,6 @@ public class PasswordVerificationPopupController {
 								@RequestParam String action, @RequestParam Integer id,
 								@RequestParam("password") String password ){
 		boolean isPasswordCorrect = passwordVerificationService.passwordVerification(password, id);
-		setArticleId(id);
 		// 비밀번호가 일치하지 않는 경우 예외처리
 		if (!isPasswordCorrect){
 			try {
@@ -50,10 +41,22 @@ public class PasswordVerificationPopupController {
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-		}
+		}  else {
+			// 비밀번호가 일치할 경우 수정 혹은 삭제 알맞는 페이지로 리다이렉트
 		if ("del".equals(action)) {
-			deleteArticleService.setArticleId(articleId);
+			deleteArticleService.setArticleId(id);
 			deleteArticleService.process(req, res);
+			try {
+				String redirectPage = "http://localhost:8080/";
+				res.setContentType("text/html; charset=utf-8");
+				PrintWriter out = res.getWriter();
+				out.println("<script> window.opener.location.href='"+ redirectPage + "'; window.close(); </script>");
+				System.out.println("<script>opener.location.href='"+ redirectPage + "'; window.close(); </script>");
+				out.flush();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 		}
 //		} else if ("modi".equals(action)) {
 //

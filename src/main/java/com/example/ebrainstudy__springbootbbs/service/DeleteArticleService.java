@@ -6,12 +6,11 @@ import com.example.ebrainstudy__springbootbbs.file.FileDAO;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DeleteArticleService {
 	private final ArticleDAO articleDAO;
 	private final FileDAO fileDAO;
@@ -23,8 +22,12 @@ public class DeleteArticleService {
 	}
 
 	public void process(HttpServletRequest req, HttpServletResponse res){
-		commentDAO.deleteCommentOnArticle(articleId);
-		fileDAO.deleteFileOnArticle(articleId);
+
+		if (commentDAO.selectComments(articleId)!=null){
+			commentDAO.deleteCommentOnArticle(articleId);
+		}
+		if (fileDAO.getFiles(articleId) != null){
+			fileDAO.deleteFileOnArticle(articleId);}
 		articleDAO.deleteArticle(articleId);
 		try {
 			res.sendRedirect("/");
