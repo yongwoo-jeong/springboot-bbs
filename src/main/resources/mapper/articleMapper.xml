@@ -70,4 +70,8 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
   </insert>
+  <delete id="deleteArticle">
+    DELETE FROM article
+    WHERE article_id=#{articleId}
+  </delete>
 </mapper>

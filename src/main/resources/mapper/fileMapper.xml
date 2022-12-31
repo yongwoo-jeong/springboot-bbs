@@ -35,4 +35,8 @@
                     "${newFile.fileExtension}"
                 )
   </insert>
+  <delete id="deleteFileOnArticle">
+    DELETE FROM file
+    WHERE article_id = #{articleId}
+  </delete>
 </mapper>

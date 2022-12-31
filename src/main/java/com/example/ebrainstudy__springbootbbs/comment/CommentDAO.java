@@ -32,4 +32,8 @@ public class CommentDAO {
 		CommentVO newComment = CommentVO.builder().content(content).articleId(articleId).build();
 		commentMapper.insertComment(newComment);
 	}
+
+	public void deleteCommentOnArticle(int articleId){
+		commentMapper.deleteCommentOnArticle(articleId);
+	}
 }

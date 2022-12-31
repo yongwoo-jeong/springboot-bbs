@@ -9,14 +9,15 @@ public interface CommentMapperInterface {
 
 	/**
 	 * 각 article 에 해당하는 댓글 리스트를 리턴
-	 * @param ArticleId
+	 * @param articleId 게시글 id
 	 * @return List of CommentVO
 	 */
-	List<CommentVO> selectComments(int ArticleId);
+	List<CommentVO> selectComments(int articleId);
 
 	/**
 	 * 새로운 댓글 생성하는 메서드
 	 * @param newComment 댓글 내용과 articleId 를 가진 Map
 	 */
 	void insertComment(CommentVO newComment);
+	void deleteCommentOnArticle(int articleId);
 }

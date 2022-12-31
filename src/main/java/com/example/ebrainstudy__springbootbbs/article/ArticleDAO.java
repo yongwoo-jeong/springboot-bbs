@@ -42,4 +42,5 @@ public class ArticleDAO {
 	public void insertNewArticle(ArticleVO newArticle){
 		mapper.insertArticle(newArticle);
 	}
+	public void deleteArticle(int articleId){mapper.deleteArticle(articleId);}
 }

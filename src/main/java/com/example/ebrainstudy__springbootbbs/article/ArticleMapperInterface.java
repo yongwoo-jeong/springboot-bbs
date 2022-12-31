@@ -33,4 +33,5 @@ public interface ArticleMapperInterface {
 	public ArticleVO selectArticle(@Param("articleId") int articleId);
 	public void updateViewCount(@Param("articleId") int articleId);
 	public void insertArticle(@Param("newArticle")ArticleVO articleVO);
+	public void deleteArticle(@Param("articleId") int articleId);
 }

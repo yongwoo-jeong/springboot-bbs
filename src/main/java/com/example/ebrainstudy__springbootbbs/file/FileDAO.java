@@ -21,4 +21,6 @@ public class FileDAO {
 	public FileVO getDownloadFile(String fileUuid){
 		return mapper.selectForDownload(fileUuid);
 	}
+	public void deleteFileOnArticle(int articleId){ mapper.deleteFileOnArticle(articleId);}
+
 }
