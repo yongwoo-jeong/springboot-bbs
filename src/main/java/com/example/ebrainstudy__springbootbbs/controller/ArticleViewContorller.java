@@ -9,8 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * 개별 게시글 페이지 요청을 처리하는 컨트롤러
+ */
 @Controller
 public class ArticleViewContorller {
+
+	/**
+	 * 서비스 컴포넌트 의존성주입
+	 */
 	private ArticleViewService articleViewService;
 	@Autowired
 	public void setArticleViewService(ArticleViewService articleViewService) {
