@@ -12,6 +12,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/view_article.css">
+    <script type="text/javascript" src="/js/articleView.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -73,7 +74,6 @@
         <%
             List<CommentVO> commentList = (List<CommentVO>) request.getAttribute("commentList");
             for (CommentVO comment : commentList){
-            System.out.println(comment.getContent());
         %>
         <div class="comment_row">
             <div class="comment_date"><%=comment.getCreatedAt()%></div>
@@ -95,8 +95,8 @@
 <%--            <%} else { %>--%>
             <a href="/" class="list_button">목록</a>
 <%--            <% } %>--%>
-            <a class="modi_del_btn">수정</a>
-            <a href=/delete?id=<%=article.getArticleId()%> class="modi_del_btn">삭제</a>
+            <a id="modi_btn" class="modi_del_btn">수정</a>
+            <a id="del_btn" class="modi_del_btn">삭제</a>
         </div>
     </div>
 </div>
