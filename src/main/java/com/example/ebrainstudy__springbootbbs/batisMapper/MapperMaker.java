@@ -1,5 +1,8 @@
 package com.example.ebrainstudy__springbootbbs.batisMapper;
 
+import com.example.ebrainstudy__springbootbbs.article.ArticleMapperInterface;
+import com.example.ebrainstudy__springbootbbs.comment.CommentMapperInterface;
+import com.example.ebrainstudy__springbootbbs.file.FileMapperInterface;
 import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,6 +64,12 @@ public class MapperMaker {
 	public FileMapperInterface getFileMapper(){
 		SetSession();
 		FileMapperInterface mapper = session.getMapper(FileMapperInterface.class);
+		return mapper;
+	}
+
+	public CommentMapperInterface getCommentMapper(){
+		SetSession();
+		CommentMapperInterface mapper = session.getMapper(CommentMapperInterface.class);
 		return mapper;
 	}
 }

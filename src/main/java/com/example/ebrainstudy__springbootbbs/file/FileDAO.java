@@ -1,6 +1,5 @@
 package com.example.ebrainstudy__springbootbbs.file;
 
-import com.example.ebrainstudy__springbootbbs.batisMapper.FileMapperInterface;
 import com.example.ebrainstudy__springbootbbs.batisMapper.MapperMaker;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

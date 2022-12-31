@@ -1,6 +1,5 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.ebrainstudy__springbootbbs.article.ArticleVO" %>
-<%@ page import="com.example.ebrainstudy__springbootbbs.searchCondition.SearchConditionVO" %>
 <%@ page import="com.example.ebrainstudy__springbootbbs.file.FileVO" %><%--
   Created by IntelliJ IDEA.
   User: jyw
@@ -80,7 +79,7 @@
         </div>
 <%--        <% } %>--%>
         <div>
-            <form method="post" action=<%=request.getContextPath()%>/commentInsert.action?id=<%=article.getArticleId()%> name="uploadComment">
+            <form method="post" action=/addComment?id=<%=article.getArticleId()%> name="uploadComment">
                 <input name="new_comment" class="comment_input" type="text" placeholder="댓글을 입력해주세요" />
                 <input type="submit" class="save_button" value="저장" />
             </form>
@@ -95,7 +94,7 @@
             <a href="/" class="list_button">목록</a>
 <%--            <% } %>--%>
             <a class="modi_del_btn">수정</a>
-            <a href=delete.action?id=<%=article.getArticleId()%> class="modi_del_btn">삭제</a>
+            <a href=/delete?id=<%=article.getArticleId()%> class="modi_del_btn">삭제</a>
         </div>
     </div>
 </div>

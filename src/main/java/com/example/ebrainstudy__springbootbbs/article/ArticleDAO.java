@@ -1,6 +1,5 @@
 package com.example.ebrainstudy__springbootbbs.article;
 
-import com.example.ebrainstudy__springbootbbs.batisMapper.ArticleMapperInterface;
 import com.example.ebrainstudy__springbootbbs.batisMapper.MapperMaker;
 import java.util.List;
 import java.util.Map;

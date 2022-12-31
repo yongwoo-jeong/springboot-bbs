@@ -1,6 +1,5 @@
-package com.example.ebrainstudy__springbootbbs.batisMapper;
+package com.example.ebrainstudy__springbootbbs.article;
 
-import com.example.ebrainstudy__springbootbbs.article.ArticleVO;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Param;
