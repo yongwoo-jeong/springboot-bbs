@@ -19,10 +19,9 @@ public class CommentDAO {
 	 * @param id articleId
 	 * @return  List of commentVO
 	 */
-	public List<CommentVO> selectComments(String id) {
-		int articleId = Integer.parseInt(id);
-		List<CommentVO> commentOnArticle = commentMapper.selectComments(articleId);
-		return commentOnArticle;
+	public List<CommentVO> selectComments(Integer id) {
+		List<CommentVO> commentsOnArticle = commentMapper.selectComments(id);
+		return commentsOnArticle;
 	}
 
 	/**

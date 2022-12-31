@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.ebrainstudy__springbootbbs.article.ArticleVO" %>
-<%@ page import="com.example.ebrainstudy__springbootbbs.file.FileVO" %><%--
+<%@ page import="com.example.ebrainstudy__springbootbbs.file.FileVO" %>
+<%@ page import="com.example.ebrainstudy__springbootbbs.comment.CommentVO" %><%--
   Created by IntelliJ IDEA.
   User: jyw
   Date: 2022/12/14
@@ -69,15 +70,16 @@
         <% }%>
     </div>
     <div class="comments_container">
-<%--        <%--%>
-<%--            List<CommentVO> commentList = (List<CommentVO>) request.getAttribute("commentList");--%>
-<%--            for (CommentVO comment : commentList){--%>
-<%--        %>--%>
+        <%
+            List<CommentVO> commentList = (List<CommentVO>) request.getAttribute("commentList");
+            for (CommentVO comment : commentList){
+            System.out.println(comment.getContent());
+        %>
         <div class="comment_row">
-<%--            <div class="comment_date"><%=comment.getCreatedAt()%></div>--%>
-<%--            <div><%=comment.getContent()%></div>--%>
+            <div class="comment_date"><%=comment.getCreatedAt()%></div>
+            <div><%=comment.getContent()%></div>
         </div>
-<%--        <% } %>--%>
+        <% } %>
         <div>
             <form method="post" action=/addComment?id=<%=article.getArticleId()%> name="uploadComment">
                 <input name="new_comment" class="comment_input" type="text" placeholder="댓글을 입력해주세요" />

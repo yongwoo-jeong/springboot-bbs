@@ -15,8 +15,6 @@ public class AddCommentController {
 	@PostMapping("/addComment")
 	public String addComment(HttpServletRequest req, @RequestParam int id){
 		String commentContent = req.getParameter("new_comment");
-		System.out.println(commentContent);
-		System.out.println(id);
 		insertCommentService.setCommentContent(commentContent);
 		insertCommentService.setArticleId(id);
 		insertCommentService.process();
