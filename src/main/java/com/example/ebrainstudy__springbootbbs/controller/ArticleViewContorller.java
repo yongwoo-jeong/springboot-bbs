@@ -33,7 +33,9 @@ public class ArticleViewContorller {
 	 * @return articleView.jsp
 	 */
 	@GetMapping("/article")
-	public String articleViewController(HttpServletRequest req, HttpServletResponse res, @RequestParam int id, SearchConditionVO searchConditionParameter){
+	public String articleViewController(HttpServletRequest req, HttpServletResponse res,
+										@RequestParam int id,
+										SearchConditionVO searchConditionParameter){
 		articleViewService.setTargetArticleId(id);
 		articleViewService.process(req,res, searchConditionParameter);
 		return "articleView";

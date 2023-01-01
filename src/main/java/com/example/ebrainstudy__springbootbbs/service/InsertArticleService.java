@@ -97,27 +97,33 @@ public class InsertArticleService implements ServiceInterface {
 	 * @param articleId File FK 컬럼에 들어갈 게시글 ID
 	 */
 	public void insertFile(List<MultipartFile> fileList, Integer articleId) {
+		// multipartFile 업로드 처리
 		for (MultipartFile file : fileList){
+			// 파일명없거나 (null) 파일 사이즈가 0일 경우 건너뛰기
 			if (file.getOriginalFilename() == null || file.getSize() == 0) {
 				continue;
 			}
 			String fileNameOriginal = file.getOriginalFilename();
+			// 파일명 + 현재시간으로 서버에 저장될 파일명 결정
 			String fileNameServer = file.getOriginalFilename().split("\\.")[0]+(new Date()).toString().replace(" ","_");
 			String filePath = serverFilePath;
 			BigInteger fileSize = BigInteger.valueOf(file.getSize());
+			// 파일 확장자명
 			String fileExtension = file.getOriginalFilename().split("\\.")[1];
+			// DB에 저장될 파일 객체생성
 			FileVO newFile = FileVO.builder().nameOnServer(fileNameServer).nameOriginal(fileNameOriginal)
 					.articleId(articleId).filePath(filePath)
 					.fileSize(fileSize).fileExtension(fileExtension)
 					.build();
+			// 서버 저장될 파일 객체
 			File fileToServer = new File(filePath+fileNameOriginal);
 			try {
 				file.transferTo(fileToServer);
+				fileDAO.insertNewFile(newFile);
 			} catch (IOException e) {
 				logger.severe(className+"InsertArticleService.insertFile Exception");
 				logger.severe(String.valueOf(e));
 			}
-			fileDAO.insertNewFile(newFile);
 		}
 	}
 	/**

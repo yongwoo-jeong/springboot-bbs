@@ -49,7 +49,7 @@ public class InsertCommentService {
 	}
 
 	/**
-	 * DAO 통해 코멘트 테이블에 INSERT 해주는 메서드
+	 * DAO 통해 코멘트 테이블에 INSERT 해주는 메서드₩
 	 */
 	public void process(){
 		commentDAO.insertComment(commentContent, articleId);

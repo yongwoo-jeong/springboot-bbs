@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 파일 URL을 클릭시 다운로드 스트림을 제공하는 메서드
+ * 파일 URL GET 요청시 다운로드 스트림을 제공하는 서비스 컴포넌트
  */
 @Service
 public class FileDownloadService {
@@ -58,7 +58,7 @@ public class FileDownloadService {
 		String fileName = targetFile.getNameOriginal();
 		// 이를 토대로 java io 파일 객체를 생성
 		File fileToUser = new File(serverPath,fileName);
-		// String(유니코드문자열)을 바이트코드로 인코딩 (8859는 싱글바이트 인코딩스키마)
+		// String(유니코드문자열)을 바이트코드로 인코딩
 		// 인코딩 과정을 건너뛰면 다운로드 될 파일명이 인코딩 되지 않는다.
 		fileName =  new String(fileName.getBytes(StandardCharsets.UTF_8),StandardCharsets.ISO_8859_1);
 		try {
