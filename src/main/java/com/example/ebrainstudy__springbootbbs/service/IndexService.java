@@ -20,7 +20,7 @@ import com.example.ebrainstudy__springbootbbs.utils.FindCategoryNameId;
  */
 @Service
 public class IndexService implements ServiceInterface {
-	// DB 데이터 CRUD 위한 DAO 객체 생성자 DI
+	// DB 데이터 CRUD 위한 DAO 객체 생성자
 	private final ArticleDAO articleDAO;
 	@Autowired
 	public IndexService(ArticleDAO articleDAO) {

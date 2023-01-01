@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 	/**
-	 * 서비스 생성자 di
+	 * 인덱스페이지("/") 서비스
 	 */
 	private final IndexService indexPageService;
 	@Autowired

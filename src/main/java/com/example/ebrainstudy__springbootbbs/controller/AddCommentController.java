@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AddCommentController {
 
 	/**
-	 * 서비스 컴포넌트 의존성 주입
+	 * 댓글 INSERT 서비스 컴포넌트
 	 */
 	private InsertCommentService insertCommentService;
 	public AddCommentController(InsertCommentService insertCommentService){

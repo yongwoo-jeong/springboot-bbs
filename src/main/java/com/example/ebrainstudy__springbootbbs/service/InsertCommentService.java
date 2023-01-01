@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class InsertCommentService {
 
 	/**
-	 * INSERT에 필요한 DAO 객체 의존성 주입
+	 * 댓글 INSERT에 필요한 DAO 객체
 	 */
 	private final CommentDAO commentDAO;
 	/**

@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class InputArticleController {
 
 	/**
-	 * 서비스 컴포넌트 DI
+	 * 게시글 INSERT 서비스 컴포넌트
 	 */
 	private final InsertArticleService inputService;
 	@Autowired

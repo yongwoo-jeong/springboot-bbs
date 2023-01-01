@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class FileDownloadController {
 
 	/**
-	 * 파일 다운로드 서비스 객체 의존성
+	 * 파일 다운로드 서비스 객체
 	 */
 	private final FileDownloadService fileDownloadService;
 	@Autowired

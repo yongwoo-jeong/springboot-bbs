@@ -2,6 +2,7 @@ package com.example.ebrainstudy__springbootbbs.service;
 
 import com.example.ebrainstudy__springbootbbs.file.FileDAO;
 import com.example.ebrainstudy__springbootbbs.file.FileVO;
+import com.example.ebrainstudy__springbootbbs.logger.MyLogger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,7 +20,16 @@ import org.springframework.stereotype.Service;
 public class FileDownloadService {
 
 	/**
-	 * 다운로드 할 파일 경로, 이름 등 정보를 가져오는 DAO DI
+	 * 로거
+	 */
+	MyLogger logger = MyLogger.getLogger();
+	/**
+	 * 로거가 호출된 클래스네임
+	 */
+	String className = MyLogger.getClassName();
+
+	/**
+	 * 다운로드 할 파일 경로, 이름 등 정보를 가져오는 DAO
 	 */
 	private final FileDAO fileDAO;
 	/**
@@ -75,7 +85,8 @@ public class FileDownloadService {
 			out.close();
 			fileInputStream.close();
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			logger.severe(className+"IOEception 발생");
+			logger.severe(String.valueOf(e));
 		}
 	}
 }

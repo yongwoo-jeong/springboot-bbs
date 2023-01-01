@@ -6,18 +6,40 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * 삭제/수정 시 팝업레이어로 전달되는 요청을 처리하는 컨트롤러
+ */
 @Controller
-@AllArgsConstructor
 public class PasswordVerificationPopupController {
-	private final PasswordVerificationService passwordVerificationService;
-	private final DeleteArticleService deleteArticleService;
 
+	/**
+	 * 패스워드 검증 서비스 
+	 */
+	private final PasswordVerificationService passwordVerificationService;
+	/**
+	 * 게시글 삭제 서비스 컴포넌트
+	 */
+	private final DeleteArticleService deleteArticleService;
+	@Autowired
+	public PasswordVerificationPopupController(PasswordVerificationService passwordVerificationService,
+												DeleteArticleService deleteArticleService){
+		this.passwordVerificationService = passwordVerificationService;
+		this.deleteArticleService = deleteArticleService;
+	}
+
+	/**
+	 * 팝업레이어 GET 요청 컨트롤러
+	 * @param req 애트리뷰트를 설정하기 위한 HttpServletRequest 객체
+	 * @param action 삭제(del) or 수정(modi) 요청중 하나가 담긴 파라미터
+	 * @param id 게시글 ID
+	 * @return
+	 */
 	@GetMapping("/passwordVerificationPopup")
 	public String modifyArticlePopup(HttpServletRequest req, @RequestParam String action, @RequestParam String id){
 		req.setAttribute("action", action);

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ArticleViewContorller {
 
 	/**
-	 * 서비스 컴포넌트 의존성주입
+	 * 개별 게시글 보기 서비스 컴포넌트
 	 */
 	private ArticleViewService articleViewService;
 	@Autowired
