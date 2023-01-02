@@ -1,6 +1,6 @@
-<%@ page import="com.example.ebrainstudy__springbootbbs.article.ArticleVO" %>
+<%@ page import="com.springboot.bbs.vo.ArticleVO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.ebrainstudy__springbootbbs.utils.FindCategoryNameId" %>
+<%@ page import="com.springboot.bbs.utils.FindCategoryNameId" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>

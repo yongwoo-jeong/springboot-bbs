@@ -2,16 +2,16 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.ebrainstudy__springbootbbs.file.FileMapperInterface">
-  <select id="selectFiles" resultType="com.example.ebrainstudy__springbootbbs.file.FileVO">
+<mapper namespace="com.springboot.bbs.file.FileMapperInterface">
+  <select id="selectFiles" resultType="com.springboot.bbs.file.FileVO">
     SELECT *
     FROM   file
-    WHERE  article_id = ${articleId}
+    WHERE  article_id = #{articleId}
   </select>
-  <select id="selectForDownload" resultType="com.example.ebrainstudy__springbootbbs.file.FileVO">
+  <select id="selectForDownload" resultType="com.springboot.bbs.file.FileVO">
     SELECT *
     FROM   file
-    WHERE  file_uuid = '${fileUuid}'
+    WHERE  file_uuid = #{fileUuid}
   </select>
   <insert id="insertFile">
     INSERT INTO file
@@ -27,12 +27,12 @@
            VALUES
                 (
                     UNHEX(REPLACE(UUID(),'-','')),
-                    "${newFile.nameOnServer}",
-                    "${newFile.nameOriginal}",
-                    ${newFile.articleId},
-                    "${newFile.filePath}",
-                    ${newFile.fileSize},
-                    "${newFile.fileExtension}"
+                    #{newFile.nameOnServer},
+                    #{newFile.nameOriginal},
+                    #{newFile.articleId},
+                    #{newFile.filePath},
+                    #{newFile.fileSize},
+                    #{newFile.fileExtension}
                 )
   </insert>
   <delete id="deleteFileOnArticle">
