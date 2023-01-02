@@ -57,7 +57,7 @@
     List<ArticleVO> articles = (List<ArticleVO>) request.getAttribute("articles");
     for(ArticleVO article : articles) { %>
         <div class="post">
-            <span class="post_category"></span>
+            <span class="post_category"><%=article.getCategoryName()%></span>
 <%--                <% if ( true ){%>--%>
 <%--                <svg></svg>--%>
 <%--                <%} else {%>--%>

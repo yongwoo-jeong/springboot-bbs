@@ -57,7 +57,7 @@
     </div>
     <div class="file_container">
         <%
-            List<FileVO> FileList = (List<FileVO>) request.getAttribute("fileList");
+            List<Fiile> FileList = (List<FileVO>) request.getAttribute("fileList");
             for (FileVO file : FileList){
         %>
         <div class="file">

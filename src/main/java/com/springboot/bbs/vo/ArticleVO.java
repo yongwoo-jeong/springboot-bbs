@@ -65,4 +65,9 @@ public class ArticleVO {
 	 */
 	@NonNull
 	private Integer categoryId;
+	/**
+	 * INNER JOIN 통해 가져온 카테고리명
+	 */
+	private String categoryName;
+
 }

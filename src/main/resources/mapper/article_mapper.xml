@@ -23,8 +23,11 @@
     </trim>
   </sql>
   <select id="selectSearchArticles" resultType="com.springboot.bbs.vo.ArticleVO">
-    SELECT *
-    FROM   article
+    <!--  전체 컬럼을 가져오되, 조인값으로 가져오는 카테고리ID, 카테고리명은 VO 객체명과 동일하게 가져온다. -->
+    SELECT article_id, title, writer, password, view, content, created_at, modified_at, A.category_id AS categoryId, name AS categoryName
+    FROM   article A
+    INNER JOIN category B
+    ON A.category_id = B.category_id
 <!--    <include refid="searchCondition">-->
 <!--        <property name="conditionMap" value="conditionMap"/>-->
 <!--      </include>-->
