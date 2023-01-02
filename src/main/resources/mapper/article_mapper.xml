@@ -6,19 +6,19 @@
   <!-- 검색조건 재활용을 위한 sql 프라그먼트 -->
   <sql id="searchCondition">
     <trim prefix="where (" suffix=")" prefixOverrides="AND">
-      <if test="conditionMap != null and conditionMap.keyword != null and !conditionMap.keyword.equals('')" >
-        AND title like #{%conditionMap.keyword%}
+      <if test="searchCriteria != null and searchCriteria.keyword != null and !searchCriteria.keyword.equals('')" >
+        AND title like CONCAT('%',#{searchCriteria.keyword},'%')
       </if>
-      <if test="conditionMap != null and conditionMap.categoryId != null and conditionMap.categoryId != 0">
-        AND category_id = '#{conditionMap.categoryId}'
+      <if test="searchCriteria != null and searchCriteria.categoryId != null and searchCriteria.categoryId != 0">
+        AND A.category_id = #{searchCriteria.categoryId}
       </if>
-      <if test="conditionMap != null and conditionMap.startDate != null and !conditionMap.startDate.equals('')" >
-        AND created_at &gt;= #{conditionMap.startDate}
-        OR modified_at &gt;= #{conditionMap.startDate}
+      <if test="searchCriteria != null and searchCriteria.startDate != null and !searchCriteria.startDate.equals('')" >
+        AND created_at &gt;= #{searchCriteria.startDate}
+        OR modified_at &gt;= #{searchCriteria.startDate}
       </if>
-      <if test="conditionMap != null and conditionMap.endDate != null and !conditionMap.endDate.equals('')" >
-        AND created_at &lt;= #{conditionMap.endDate}
-        OR modified_at &lt;= #{conditionMap.endDate}
+      <if test="searchCriteria != null and searchCriteria.endDate != null and !searchCriteria.endDate.equals('')" >
+        AND created_at &lt;= #{searchCriteria.endDate}
+        OR modified_at &lt;= #{searchCriteria.endDate}
       </if>
     </trim>
   </sql>
@@ -28,16 +28,16 @@
     FROM   article A
     INNER JOIN category B
     ON A.category_id = B.category_id
-<!--    <include refid="searchCondition">-->
-<!--        <property name="conditionMap" value="conditionMap"/>-->
-<!--      </include>-->
+    <include refid="searchCondition">
+        <property name="searchCriteria" value="searchCriteria"/>
+      </include>
     ORDER BY article_id DESC
-    LIMIT #{limitStartOffset}, 10
+    LIMIT #{limitOffset}, 10
   </select>
 <!--  <select id="selectCountArticles" resultType="int" >-->
 <!--    SELECT COUNT(*) FROM article-->
 <!--    <include refid="searchCondition">-->
-<!--      <property name="conditionMap" value="conditionMap"/>-->
+<!--      <property name="searchCriteria" value="searchCriteria"/>-->
 <!--    </include>-->
 <!--  </select>-->
 <!--  <select id="selectArticle" resultType="com.springboot.bbs.vo.ArticleVO">-->

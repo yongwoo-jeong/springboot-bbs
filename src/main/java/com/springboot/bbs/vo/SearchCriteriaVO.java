@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SearchCriteriaVO {
 	private String keyword;
-	private String categoryName;
+	private Integer categoryId;
 	private String startDate;
 	private String endDate;
 	private Integer currentPage=1;

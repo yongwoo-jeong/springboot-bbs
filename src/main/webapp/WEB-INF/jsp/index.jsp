@@ -25,11 +25,11 @@
                 <div class="category_drop_down">
                     <form action="" method="post">
                         <label for="category"></label>
-                        <select name="category" id="category">
-                            <option selected="selected" value="All">전체 카테고리</option>
-                            <option value="JAVA">JAVA</option>
-                            <option value="Javascript">Javascript</option>
-                            <option value="Database">Database</option>
+                        <select name="categoryId" id="category">
+                            <option selected="selected" value="0">전체 카테고리</option>
+                            <option value="1">JAVA</option>
+                            <option value="2">Javascript</option>
+                            <option value="3">Database</option>
                         </select>
                     </form>
                 </div>
