@@ -1,6 +1,5 @@
 <%@ page import="com.springboot.bbs.vo.ArticleVO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.springboot.bbs.utils.FindCategoryNameId" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -43,8 +42,8 @@
             </div>
         </div>
     </form>
-    <% int articleCount = (int) request.getAttribute("articlesCount");%>
-    <div class="search_outcome">총 <%=articleCount%>건</div>
+<%--    <% int articleCount = (int) request.getAttribute("articlesCount");%>--%>
+<%--    <div class="search_outcome">총 <%=articleCount%>건</div>--%>
     <div class="post_container">
         <div class="post post_outline">
             <span>카테고리</span>
@@ -58,7 +57,7 @@
     List<ArticleVO> articles = (List<ArticleVO>) request.getAttribute("articles");
     for(ArticleVO article : articles) { %>
         <div class="post">
-            <span class="post_category"><%= new FindCategoryNameId().findCategoryName(article.getCategoryId())%></span>
+            <span class="post_category"></span>
 <%--                <% if ( true ){%>--%>
 <%--                <svg></svg>--%>
 <%--                <%} else {%>--%>
@@ -77,11 +76,11 @@
     <% } %>
     </div>
     <div class="pagination_container">
-        <%  Integer currentPage = (Integer) request.getAttribute("currentPage");
-            int lastPage = (int) Math.ceil((double) articleCount/10);%>
-        <%for (int i = 1; i<=lastPage; i++){%>
-        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%><%=request.getAttribute("queryString")%><%=i%>><%=i%></a>
-        <%}%>
+<%--        <%  Integer currentPage = (Integer) request.getAttribute("currentPage");--%>
+<%--            int lastPage = (int) Math.ceil((double) articleCount/10);%>--%>
+<%--        <%for (int i = 1; i<=lastPage; i++){%>--%>
+<%--        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%><%=request.getAttribute("queryString")%><%=i%>><%=i%></a>--%>
+<%--        <%}%>--%>
     </div>
     <div class="upload_container">
         <button class="button upload_button" type="button" onclick=location.href=<%=request.getContextPath()%>"/upload">등록</button>

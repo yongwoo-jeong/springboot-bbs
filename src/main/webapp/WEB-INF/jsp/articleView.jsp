@@ -1,7 +1,7 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.ebrainstudy__springbootbbs.article.ArticleVO" %>
-<%@ page import="com.example.ebrainstudy__springbootbbs.file.FileVO" %>
-<%@ page import="com.example.ebrainstudy__springbootbbs.comment.CommentVO" %><%--
+<%@ page import="com.springboot.bbs.vo.ArticleVO" %>
+<%@ page import="com.springboot.bbs.file.FileVO" %>
+<%@ page import="com.springboot.bbs.vo.CommentVO" %><%--
   Created by IntelliJ IDEA.
   User: jyw
   Date: 2022/12/14

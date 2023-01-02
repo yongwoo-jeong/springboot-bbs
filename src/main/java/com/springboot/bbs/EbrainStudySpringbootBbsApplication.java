@@ -1,10 +1,9 @@
-package com.example.ebrainstudy__springbootbbs;
+package com.springboot.bbs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 public class EbrainStudySpringbootBbsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EbrainStudySpringbootBbsApplication.class, args);

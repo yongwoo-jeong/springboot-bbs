@@ -1,4 +1,4 @@
-package com.example.ebrainstudy__springbootbbs.comment;
+package com.springboot.bbs.vo;
 
 import java.sql.Date;
 import lombok.Builder;
