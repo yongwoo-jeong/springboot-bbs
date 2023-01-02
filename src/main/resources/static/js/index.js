@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
   startDate.value = searchParam("startDate");
   endDate.value = searchParam("endDate");
-  if (searchParam("category")){
-    category.value = searchParam("category");
+  if (searchParam("categoryId")){
+    category.value = searchParam("categoryId");
   }
 })

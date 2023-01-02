@@ -1,6 +1,5 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.springboot.bbs.vo.ArticleVO" %>
-<%@ page import="com.springboot.bbs.file.FileVO" %>
 <%@ page import="com.springboot.bbs.vo.CommentVO" %><%--
   Created by IntelliJ IDEA.
   User: jyw
@@ -17,7 +16,7 @@
 </head>
 <body>
 <%
-    ArticleVO article = (ArticleVO) request.getAttribute("article");
+    ArticleVO article = (ArticleVO) request.getAttribute("targetArticle");
 %>
 <div class="container">
 <header class="header">게시판 - 보기</header>
@@ -56,30 +55,30 @@
         <p><%=article.getContent()%></p>
     </div>
     <div class="file_container">
-        <%
-            List<Fiile> FileList = (List<FileVO>) request.getAttribute("fileList");
-            for (FileVO file : FileList){
-        %>
-        <div class="file">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-            </svg>
-            <a href=/download?fileId=<%=file.getFileUuid()%>>
-                <%=file.getNameOriginal()%>
-            </a>
-        </div>
-        <% }%>
+<%--        <%--%>
+<%--            List<Fiile> FileList = (List<FileVO>) request.getAttribute("fileList");--%>
+<%--            for (FileVO file : FileList){--%>
+<%--        %>--%>
+<%--        <div class="file">--%>
+<%--            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">--%>
+<%--                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />--%>
+<%--            </svg>--%>
+<%--            <a href=/download?fileId=<%=file.getFileUuid()%>>--%>
+<%--                <%=file.getNameOriginal()%>--%>
+<%--            </a>--%>
+<%--        </div>--%>
+<%--        <% }%>--%>
     </div>
     <div class="comments_container">
-        <%
-            List<CommentVO> commentList = (List<CommentVO>) request.getAttribute("commentList");
-            for (CommentVO comment : commentList){
-        %>
-        <div class="comment_row">
-            <div class="comment_date"><%=comment.getCreatedAt()%></div>
-            <div><%=comment.getContent()%></div>
-        </div>
-        <% } %>
+<%--        <%--%>
+<%--            List<CommentVO> commentList = (List<CommentVO>) request.getAttribute("commentList");--%>
+<%--            for (CommentVO comment : commentList){--%>
+<%--        %>--%>
+<%--        <div class="comment_row">--%>
+<%--            <div class="comment_date"><%=comment.getCreatedAt()%></div>--%>
+<%--            <div><%=comment.getContent()%></div>--%>
+<%--        </div>--%>
+<%--        <% } %>--%>
         <div>
             <form method="post" action=/addComment?id=<%=article.getArticleId()%> name="uploadComment">
                 <input name="new_comment" class="comment_input" type="text" placeholder="댓글을 입력해주세요" />
