@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
-@RequiredArgsConstructor
 /**
  * 게시글 관련 요청 컨트롤러
  */
+@Controller
+@RequiredArgsConstructor
 public class ArticleController {
 
 	/**
-	 * 서비스 객체
+	 * 게시글 관련 서비스 객체
 	 */
 	private final ArticleService articleService;
 
 	/**
-	 * 홈페이지("/") GET 매핑
+	 * 홈페이지(/) GET 매핑
 	 * @param model 애트리뷰트 설정을 위한 모델객체
 	 * @param searchCriteria 검색조건, 조건이 없을 경우 아티클매퍼에서 trim 처리로 조건 제외
 	 * @return
@@ -42,10 +42,18 @@ public class ArticleController {
 		return "home";
 	}
 
+	/**
+	 * 개별 게시글(/article) 페이지 GET 매핑
+	 * @param model 애트리뷰트 설정을 위한 모델객체
+	 * @param articleId 목적이 되는 게시글 ID 를 쿼리스트링 파라미터로 받아온다
+	 * @return
+	 */
 	@GetMapping("/article")
 	public String articleDetailController(Model model, @RequestParam("id") Integer articleId){
 		ArticleVO targetArticle = articleService.articleDetailService(articleId);
 		model.addAttribute("targetArticle", targetArticle);
 		return "articleDetail";
 	}
+
+
 }
