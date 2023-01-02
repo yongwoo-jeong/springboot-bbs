@@ -61,9 +61,9 @@
                 (
                         "${newArticle.title}",
                         "${newArticle.writer}",
-                        "${newArticle.password}",
-                        "${newArticle.content}",
-                        Now(),
+                        ${newArticle.password},
+                        #{newArticle.content},
+                        NOW(),
                         ${newArticle.categoryId}
                 )
     <selectKey keyProperty="newArticle.articleId" resultType="int" order="AFTER">
