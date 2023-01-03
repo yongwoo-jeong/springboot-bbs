@@ -65,6 +65,8 @@ public class ArticleService {
 		if (newArticle.getContent().length()<4 || newArticle.getContent().length()>2000){
 			return -1;
 		}
+		// articleInput.jsp select value 로 받은 "1-JAVA" 형태 스트링을
+		// 스플릿해서 categoryId, categoryName 으로 사용
 		String[] categoryIdAndName = newArticle.getCategoryIdAndName().split("-");
 		Integer categoryId = Integer.valueOf(categoryIdAndName[0]);
 		String categoryName = categoryIdAndName[1].trim();

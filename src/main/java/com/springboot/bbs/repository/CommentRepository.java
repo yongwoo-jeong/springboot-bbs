@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+/**
+ * 댓글 레포지토리
+ */
 @Repository
 @RequiredArgsConstructor
 public class CommentRepository {
