@@ -101,6 +101,6 @@ public class ArticleService {
 														.password(newArticle.getPassword()).content(newArticle.getContent())
 														.categoryId(categoryId).categoryName(categoryName).build();
 		articleRepository.insertArticle(articleInserting);
-		return 1;
+		return articleInserting.getArticleId();
 	}
 }

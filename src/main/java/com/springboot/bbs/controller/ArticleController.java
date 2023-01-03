@@ -10,6 +10,7 @@ import com.springboot.bbs.vo.SearchCriteriaVO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,9 @@ public class ArticleController {
 	 * 파일 서비스 객체
 	 */
 	private final FileService fileService;
+
+	@Value("${dev.file.localPath}")
+	private String serverFilePath;
 
 	/**
 	 * 홈페이지(/) GET 매핑
@@ -102,12 +106,12 @@ public class ArticleController {
 	public String insertArticleController(@ModelAttribute ArticleDTO newArticle ,
 										  @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
 		// 서비스컴포넌트에서 항목 검증 시도
-		int insertStatus = articleService.insertNewArticle(newArticle);
+		int insertedArticleId = articleService.insertNewArticle(newArticle);
 		// 실패시 에러페이지
-		if (insertStatus == -1 ){
+		if (insertedArticleId == -1 ){
 			return "insertError";
 		}
-		fileService.insertFileService(multipartFileList);
+		fileService.insertFileService(multipartFileList, insertedArticleId);
 		return "redirect:/";
 	}
 
