@@ -3,6 +3,7 @@ package com.springboot.bbs.controller;
 import com.springboot.bbs.dto.ArticleDTO;
 import com.springboot.bbs.service.ArticleService;
 import com.springboot.bbs.utils.StringUtils;
+import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -56,15 +57,15 @@ public class ArticleController {
 	 * @param articleId 목적이 되는 게시글 ID 를 쿼리스트링 파라미터로 받아온다
 	 * @return
 	 */
-//	@GetMapping("/article")
-//	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
-////		ArticleVO targetArticle = articleService.articleDetailService(articleId);
-//		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
-//		model.addAttribute("targetArticle", targetArticle);
-//		model.addAttribute("queryStringParam",queryStringParam);
-//		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
-//		return "articleDetail";
-//	}
+	@GetMapping("/article")
+	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
+		ArticleVO targetArticle = articleService.articleDetailService(articleId);
+		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
+		model.addAttribute("targetArticle", targetArticle);
+		model.addAttribute("queryStringParam",queryStringParam);
+		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
+		return "articleDetail";
+	}
 
 	/**
 	 * 게시글 등록(/upload) 페이지 GET 매핑

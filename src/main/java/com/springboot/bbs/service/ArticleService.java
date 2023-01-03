@@ -38,11 +38,11 @@ public class ArticleService {
 	 * @param articleId 대상 아티클 ID
 	 * @return
 	 */
-//	public ArticleVO articleDetailService(Integer articleId){
+	public ArticleVO articleDetailService(Integer articleId){
 		// 조회수 +1
-//		articleRepository.updateViewCount(articleId);
-//		return articleRepository.selectArticleDetail(articleId);
-//	}
+		articleRepository.updateViewCount(articleId);
+		return articleRepository.selectArticleDetail(articleId);
+	}
 
 	/**
 	 * 새 게시글 등록 서비스
@@ -71,7 +71,7 @@ public class ArticleService {
 		ArticleVO articleInserting = ArticleVO.builder().title(newArticle.getTitle()).writer(newArticle.getWriter())
 														.password(newArticle.getPassword()).content(newArticle.getContent())
 														.categoryId(categoryId).categoryName(categoryName).build();
-//		articleRepository.insertArticle(articleInserting);
+		articleRepository.insertArticle(articleInserting);
 		return 1;
 	}
 }

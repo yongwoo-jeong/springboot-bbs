@@ -4,7 +4,6 @@ import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -15,13 +14,22 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class ArticleRepository {
-	private final String mapperNameSpace = "com.springboot.bbs.repository.ArticleRepository";
+
+	/**
+	 * 매퍼 네임스페이스 반복구문 스트링 처리
+	 */
+	private String mapperNameSpace = "com.springboot.bbs.repository.ArticleRepository";
+	/**
+	 * sql 세션객체 생성자
+	 */
+
 	private final SqlSession session;
 	/**
 	 * 조건에 맞는 게시글객체를 List 형태로 반환
 	 * @param searchCriteria 검색조건 (searchCriteriaVO)
 	 * @return List of ArticleVO
 	 */
+
 	public List<ArticleVO> selectSearchArticles(SearchCriteriaVO searchCriteria){
 		return session.selectList(mapperNameSpace + ".selectSearchArticles",searchCriteria);
 	};
@@ -39,14 +47,17 @@ public class ArticleRepository {
 	 * @param articleId 대상 게시글 ID
 	 * @return ArticleVO
 	 */
-	public void selectArticleDetail(@Param("articleId") Integer articleId){
+	public ArticleVO selectArticleDetail(Integer articleId){
+		return session.selectOne(mapperNameSpace+".selectArticleDetail", articleId);
 	};
 
 	/**
 	 * 게시글 조회수 +1
 	 * @param articleId 대상 게시글 ID
 	 */
-	public void updateViewCount(@Param("articleId") Integer articleId){};
+	public void updateViewCount(Integer articleId){
+		session.update(mapperNameSpace+".updateViewCount", articleId);
+	};
 
 	/**
 	 * 새 게시글을 DB INSERT
@@ -54,7 +65,7 @@ public class ArticleRepository {
 	 * @param newArticle ArticleVO
 	 * @return
 	 */
-	public int insertArticle(@Param("newArticle") ArticleVO newArticle){
-		return session.insert(mapperNameSpace + "insertArticle");
-	};
+	public void insertArticle(ArticleVO newArticle) {
+		session.insert(mapperNameSpace + ".insertArticle", newArticle);
+	}
 }

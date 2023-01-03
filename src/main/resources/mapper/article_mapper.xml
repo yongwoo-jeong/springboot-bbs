@@ -67,16 +67,16 @@
                 )
            VALUES
                 (
-                        #{newArticle.title},
-                        #{newArticle.writer},
-                        #{newArticle.password},
-                        #{newArticle.content},
+                        #{title},
+                        #{writer},
+                        #{password},
+                        #{content},
                         NOW(),
-                        #{newArticle.categoryId},
-                        #{newArticle.categoryName}
+                        #{categoryId},
+                        #{categoryName}
                 )
     <!-- 파일 INSERT를 위해 해당 게시글 ID(FK)를 반환    -->
-    <selectKey keyProperty="newArticle.articleId" resultType="int" order="AFTER">
+    <selectKey keyProperty="articleId" resultType="int" order="AFTER">
       SELECT LAST_INSERT_ID()
     </selectKey>
   </insert>
