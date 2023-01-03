@@ -75,11 +75,11 @@
     <% } %>
     </div>
     <div class="pagination_container">
-<%--        <%  Integer currentPage = (Integer) request.getAttribute("currentPage");--%>
-<%--            int lastPage = (int) Math.ceil((double) articleCount/10);%>--%>
-<%--        <%for (int i = 1; i<=lastPage; i++){%>--%>
-<%--        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%><%=request.getAttribute("queryString")%><%=i%>><%=i%></a>--%>
-<%--        <%}%>--%>
+        <%  Integer currentPage = (Integer) request.getAttribute("currentPage");
+            int lastPage = (int) Math.ceil((double) articleCount/10);
+        <%for (int i = 1; i<=lastPage; i++){%>
+        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%><%=request.getAttribute("queryString")%><%=i%>><%=i%></a>
+        <%}%>
     </div>
     <div class="upload_container">
         <button class="button upload_button" type="button" onclick=location.href=<%=request.getContextPath()%>"/upload">등록</button>

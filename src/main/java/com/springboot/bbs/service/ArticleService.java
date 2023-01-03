@@ -42,4 +42,12 @@ public class ArticleService {
 		articleRepository.updateViewCount(articleId);
 		return articleRepository.selectArticleDetail(articleId);
 	}
+
+	/**
+	 * 새 게시글 등록 서비스
+	 * @param newArticle 새 게시글 정보가 담긴 객체
+	 */
+	public void insertNewArticle(ArticleVO newArticle){
+		articleRepository.insertArticle(newArticle);
+	}
 }

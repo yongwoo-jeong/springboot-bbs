@@ -2,17 +2,32 @@ package com.springboot.bbs.utils;
 
 import com.springboot.bbs.vo.SearchCriteriaVO;
 
+/**
+ * 문자열 관련 유틸리티
+ */
 public class StringUtils {
-	public static boolean isEmpty(String args){
-		return args == null || "".equals(args);
+
+	/**
+	 * 공백문자열 혹은 null 값이 들어올 경우 True 반환하는 메서드
+	 * @param args null 확인, 혹은 toString으로 변환 후 공백문자열인지 확인
+	 * @return boolean
+	 */
+	public static boolean isEmpty(Object args){
+		return args == null || "".equals(args.toString());
 	}
 
+	/**
+	 * 검색 조건을 받아 쿼리스트링 파라미터 문자열로 변환해주는 메서드
+	 * @param searchCriteria SearchCriteriaVO
+	 * @return 쿼리스트링 파라미터 문자열
+	 */
 	public static String makeQueryString(SearchCriteriaVO searchCriteria){
 		StringBuilder querystring = new StringBuilder();
 		// 초깃값을 빈 스트링으로 만들어서 null 로 삽입되는걸 방지
 		String keyword = "";
 		String startDate = "";
 		String endDate = "";
+		Integer currentPage = 1;
 		// 각 검색 조건이 있을 경우 value 교체
 		if (!isEmpty(searchCriteria.getKeyword())){
 			keyword = searchCriteria.getKeyword();
@@ -23,11 +38,14 @@ public class StringUtils {
 		if (!isEmpty(searchCriteria.getEndDate())){
 			endDate = searchCriteria.getEndDate();
 		}
-		querystring.append("?category="+searchCriteria.getCategoryId());
-		querystring.append("&keyword="+keyword);
-		querystring.append("&startDate="+startDate);
-		querystring.append("&endDate="+endDate);
-		querystring.append("&currentPage=");
+		if (searchCriteria.getCurrentPage() != 1){
+			currentPage = searchCriteria.getCurrentPage();
+		}
+		querystring.append("?category=").append(searchCriteria.getCategoryId());
+		querystring.append("&keyword=").append(keyword);
+		querystring.append("&startDate=").append(startDate);
+		querystring.append("&endDate=").append(endDate);
+		querystring.append("&currentPage=").append(currentPage);
 		return querystring.toString();
 	}
 }

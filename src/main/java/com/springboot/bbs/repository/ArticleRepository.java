@@ -38,4 +38,10 @@ public interface ArticleRepository {
 	 * @param articleId 대상 게시글 ID
 	 */
 	void updateViewCount(@Param("articleId") Integer articleId);
+
+	/**
+	 * 새 게시글을 DB INSERT
+	 * @param newArticle ArticleVO
+	 */
+	void insertArticle(@Param("newArticle") ArticleVO newArticle);
 }

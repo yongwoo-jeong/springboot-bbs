@@ -6,22 +6,28 @@
   <!-- 검색조건 재활용을 위한 sql 프라그먼트 -->
   <sql id="searchCondition">
     <trim prefix="where (" suffix=")" prefixOverrides="AND">
+      <!-- 키워드 input 없을경우 조건에서 제외      -->
       <if test='searchCriteria.keyword != null and !searchCriteria.keyword.equals("")' >
         AND title LIKE CONCAT('%',#{searchCriteria.keyword},'%')
       </if>
+      <!-- 카테고리 선택없는 경우 조건에서 제외      -->
       <if test='searchCriteria.categoryId != null and searchCriteria.categoryId != 0'>
         AND category_id = #{searchCriteria.categoryId}
       </if>
+      <!-- 검색 시작날짜 없는경우 조건에서 제외      -->
       <if test="searchCriteria.startDate != null and !searchCriteria.startDate.equals('')" >
         AND created_at &gt;= #{searchCriteria.startDate}
         OR modified_at &gt;= #{searchCriteria.startDate}
       </if>
+      <!-- 검색 종료날짜 경우 조건에서 제외      -->
       <if test="searchCriteria.endDate != null and !searchCriteria.endDate.equals('')" >
         AND created_at &lt;= #{searchCriteria.endDate}
         OR modified_at &lt;= #{searchCriteria.endDate}
       </if>
     </trim>
   </sql>
+
+  <!-- 검색조건, 현재 페이지에 해당하는 Limit Offset 받아 해당하는 게시글 List 반환  -->
   <select id="selectSearchArticles" resultType="com.springboot.bbs.vo.ArticleVO">
     SELECT *
     FROM   article
@@ -31,22 +37,23 @@
     ORDER BY article_id DESC
     LIMIT #{searchCriteria.dbLimitOffset}, 10
   </select>
+
+  <!-- 검색조건, 현재 페이지에 해당하는 Limit Offset 받아 해당하는 게시글 수 반환 -->
   <select id="selectCountArticles" resultType="Integer" >
     SELECT COUNT(*) FROM article A
     <include refid="searchCondition">
       <property name="searchCriteria" value="searchCriteria"/>
     </include>
   </select>
+
+  <!-- 개별 게시글 보기 위해 해당하는 튜플 반환  -->
   <select id="selectArticleDetail" resultType="com.springboot.bbs.vo.ArticleVO">
     SELECT *
     FROM   article
     WHERE  article_id = #{articleId}
   </select>
-  <update id="updateViewCount">
-    UPDATE article
-    SET view = view+1
-    WHERE  article_id = #{articleId}
-  </update>
+
+  <!-- 새 게시글 등록을 위한 INSERT 쿼리  -->
   <insert id="insertArticle">
     INSERT INTO article
                 (
@@ -55,7 +62,8 @@
                         password,
                         content,
                         created_at,
-                        category_id
+                        category_id,
+                        category_name
                 )
            VALUES
                 (
@@ -65,12 +73,22 @@
                         #{newArticle.content},
                         NOW(),
                         #{newArticle.categoryId}
+                        #{newArticle.categoryName}
                 )
+    <!-- 파일 INSERT를 위해 해당 게시글 ID(FK)를 반환    -->
     <selectKey keyProperty="newArticle.articleId" resultType="int" order="AFTER">
       SELECT LAST_INSERT_ID()
     </selectKey>
   </insert>
-<!--  <delete id="deleteArticle">-->
+
+  <!-- 조회수 증가를 위한 쿼리  -->
+  <update id="updateViewCount">
+    UPDATE article
+    SET view = view+1
+    WHERE  article_id = #{articleId}
+  </update>
+
+  <!--  <delete id="deleteArticle">-->
 <!--    DELETE FROM article-->
 <!--    WHERE article_id=#{articleId}-->
 <!--  </delete>-->

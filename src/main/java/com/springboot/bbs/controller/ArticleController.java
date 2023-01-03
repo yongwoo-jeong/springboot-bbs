@@ -2,6 +2,7 @@ package com.springboot.bbs.controller;
 
 import com.springboot.bbs.dto.ArticleDTO;
 import com.springboot.bbs.service.ArticleService;
+import com.springboot.bbs.utils.StringUtils;
 import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -36,9 +38,12 @@ public class ArticleController {
 		 */
 		searchCriteria.setDbLimitOffset((searchCriteria.getCurrentPage()-1)*10);
 		ArticleDTO articleDTO = articleService.homeService(searchCriteria);
+		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
 		model.addAttribute("articles",articleDTO.getSearchedArticles());
 		model.addAttribute("articlesCount",articleDTO.getSearchedArticlesCount());
 		model.addAttribute("SearchCriteria",searchCriteria);
+		model.addAttribute("queryStringParam",queryStringParam);
+		model.addAttribute("currentPage", searchCriteria.getCurrentPage());
 		return "home";
 	}
 
@@ -53,6 +58,24 @@ public class ArticleController {
 		ArticleVO targetArticle = articleService.articleDetailService(articleId);
 		model.addAttribute("targetArticle", targetArticle);
 		return "articleDetail";
+	}
+
+	/**
+	 * 게시글 등록(/upload) 페이지 GET 매핑
+	 * @return 새 게시글 등록 FOAM 화면
+	 */
+	@GetMapping("/upload")
+	public String inputArticleController(){
+		return "articleInput";
+	}
+
+	/**
+	 * 폼을 통해 받은 새 게시글 정보 POST 요청 처리
+	 * @return
+	 */
+	@PostMapping("/upload")
+	public String insertArticleController(@ModelAttribute ArticleVO newArticle){
+		return "";
 	}
 
 
