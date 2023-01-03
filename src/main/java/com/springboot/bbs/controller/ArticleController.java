@@ -2,7 +2,7 @@ package com.springboot.bbs.controller;
 
 import com.springboot.bbs.dto.ArticleDTO;
 import com.springboot.bbs.service.ArticleService;
-import com.springboot.bbs.service.CommentService;
+import com.springboot.bbs.service.FileService;
 import com.springboot.bbs.utils.StringUtils;
 import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.CommentVO;
@@ -29,11 +29,11 @@ public class ArticleController {
 	 * 게시글 관련 서비스 객체
 	 */
 	private final ArticleService articleService;
+
 	/**
-	 * 댓글 관련 서비스 객체
-	 * articleDetail 페이지 댓글 보여주기 위해..
+	 * 파일 서비스 객체
 	 */
-	private final CommentService commentService;
+	private final FileService fileService;
 
 	/**
 	 * 홈페이지(/) GET 매핑
@@ -69,7 +69,7 @@ public class ArticleController {
 	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
 		ArticleVO targetArticle = articleService.articleDetailService(articleId);
 		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
-		List<CommentVO> commentList = commentService.getCommentList(articleId);
+		List<CommentVO> commentList = articleService.getCommentList(articleId);
 		model.addAttribute("targetArticle", targetArticle);
 		model.addAttribute("queryStringParam",queryStringParam);
 		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
@@ -79,7 +79,7 @@ public class ArticleController {
 
 	@PostMapping("/addComment")
 	public String addComment(HttpServletRequest req, @RequestParam("id") Integer articleId,@ModelAttribute CommentVO newComment){
-		commentService.addCommentService(articleId,newComment);
+		articleService.addCommentService(articleId,newComment);
 		// 댓글 POST 요청 후 이전 페이지로 돌리기 위한 referer
 		String refererPage = req.getHeader("referer");
 		return "redirect:"+refererPage;
@@ -99,13 +99,15 @@ public class ArticleController {
 	 * @return
 	 */
 	@PostMapping("/upload")
-	public String insertArticleController(@ModelAttribute ArticleDTO newArticle , @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
+	public String insertArticleController(@ModelAttribute ArticleDTO newArticle ,
+										  @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
 		// 서비스컴포넌트에서 항목 검증 시도
 		int insertStatus = articleService.insertNewArticle(newArticle);
 		// 실패시 에러페이지
 		if (insertStatus == -1 ){
 			return "insertError";
 		}
+		fileService.insertFileService(multipartFileList);
 		return "redirect:/";
 	}
 

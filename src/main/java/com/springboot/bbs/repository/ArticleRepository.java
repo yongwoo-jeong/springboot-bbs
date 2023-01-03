@@ -18,7 +18,7 @@ public class ArticleRepository {
 	/**
 	 * 매퍼 네임스페이스 반복구문 스트링 처리
 	 */
-	private final String mapperNameSpace = "com.springboot.bbs.repository.ArticleRepository";
+	private final String mapperName = "com.springboot.bbs.repository.ArticleRepository";
 
 	/**
 	 * sql 세션객체 생성자
@@ -31,7 +31,7 @@ public class ArticleRepository {
 	 * @return List of ArticleVO
 	 */
 	public List<ArticleVO> selectSearchArticles(SearchCriteriaVO searchCriteria){
-		return session.selectList(mapperNameSpace + ".selectSearchArticles",searchCriteria);
+		return session.selectList(mapperName + ".selectSearchArticles",searchCriteria);
 	};
 
 	/**
@@ -40,7 +40,7 @@ public class ArticleRepository {
 	 * @return 검색된 게시글 수
 	 */
 	public Integer selectCountArticles(SearchCriteriaVO searchCriteria){
-		return session.selectOne(mapperNameSpace + ".selectCountArticles",searchCriteria);
+		return session.selectOne(mapperName + ".selectCountArticles",searchCriteria);
 	};
 
 	/**
@@ -49,7 +49,7 @@ public class ArticleRepository {
 	 * @return ArticleVO
 	 */
 	public ArticleVO selectArticleDetail(Integer articleId){
-		return session.selectOne(mapperNameSpace+".selectArticleDetail", articleId);
+		return session.selectOne(mapperName +".selectArticleDetail", articleId);
 	};
 
 	/**
@@ -57,7 +57,7 @@ public class ArticleRepository {
 	 * @param articleId 대상 게시글 ID
 	 */
 	public void updateViewCount(Integer articleId){
-		session.update(mapperNameSpace+".updateViewCount", articleId);
+		session.update(mapperName +".updateViewCount", articleId);
 	};
 
 	/**
@@ -67,6 +67,6 @@ public class ArticleRepository {
 	 * @return
 	 */
 	public void insertArticle(ArticleVO newArticle) {
-		session.insert(mapperNameSpace + ".insertArticle", newArticle);
+		session.insert(mapperName + ".insertArticle", newArticle);
 	}
 }

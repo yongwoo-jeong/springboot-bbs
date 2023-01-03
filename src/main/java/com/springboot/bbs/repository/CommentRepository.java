@@ -16,7 +16,7 @@ public class CommentRepository {
 	/**
 	 * 매퍼 ID 생성자
 	 */
-	private final String mapperNameSpace = "com.springboot.bbs.comment.CommentMapperInterface";
+	private final String mapperName = "com.springboot.bbs.repository.CommentRepository";
 
 	/**
 	 * SqlSession 생성자
@@ -29,7 +29,7 @@ public class CommentRepository {
 	 * @return List of comment
 	 */
 	public List<CommentVO> selectComments(Integer articleId){
-		return session.selectList(mapperNameSpace+".selectComments", articleId);
+		return session.selectList(mapperName+".selectComments", articleId);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class CommentRepository {
 	 * @param commentVO 새 댓글
 	 */
 	public void insertComment(CommentVO commentVO){
-		session.insert(mapperNameSpace+".insertComment",commentVO);
+		session.insert(mapperName+".insertComment",commentVO);
 	}
 
 }
