@@ -8,6 +8,7 @@ import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.CommentVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,6 +75,14 @@ public class ArticleController {
 		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
 		model.addAttribute("commentList", commentList);
 		return "articleDetail";
+	}
+
+	@PostMapping("/addComment")
+	public String addComment(HttpServletRequest req, @RequestParam("id") Integer articleId,@ModelAttribute CommentVO newComment){
+		commentService.addCommentService(articleId,newComment);
+		// 댓글 POST 요청 후 이전 페이지로 돌리기 위한 referer
+		String refererPage = req.getHeader("referer");
+		return "redirect:"+refererPage;
 	}
 
 	/**
