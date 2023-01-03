@@ -28,7 +28,11 @@ public class StringUtils {
 		String keyword = "";
 		String startDate = "";
 		String endDate = "";
+		String categoryId = "";
 		// 각 검색 조건이 있을 경우 value 교체
+		if (!isEmpty(searchCriteria.getCategoryId())){
+			categoryId = String.valueOf(searchCriteria.getCategoryId());
+		}
 		if (!isEmpty(searchCriteria.getKeyword())){
 			keyword = searchCriteria.getKeyword();
 		}
@@ -38,7 +42,7 @@ public class StringUtils {
 		if (!isEmpty(searchCriteria.getEndDate())){
 			endDate = searchCriteria.getEndDate();
 		}
-		querystring.append("?category=").append(searchCriteria.getCategoryId());
+		querystring.append("?categoryId=").append(categoryId);
 		querystring.append("&keyword=").append(keyword);
 		querystring.append("&startDate=").append(startDate);
 		querystring.append("&endDate=").append(endDate);

@@ -35,6 +35,7 @@ public class ArticleController {
 	 */
 	@GetMapping("/")
 	public String homeController(Model model, @ModelAttribute SearchCriteriaVO searchCriteria){
+
 		/**
 		 * 조건에 따른 검색결과
 		 */
@@ -56,9 +57,12 @@ public class ArticleController {
 	 * @return
 	 */
 	@GetMapping("/article")
-	public String articleDetailController(Model model, @RequestParam("id") Integer articleId){
+	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
 		ArticleVO targetArticle = articleService.articleDetailService(articleId);
+		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
 		model.addAttribute("targetArticle", targetArticle);
+		model.addAttribute("queryStringParam",queryStringParam);
+		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
 		return "articleDetail";
 	}
 
@@ -81,7 +85,7 @@ public class ArticleController {
 		int insertStatus = articleService.insertNewArticle(newArticle);
 		// 실패시 에러페이지
 		if (insertStatus == -1 ){
-			return "error";
+			return "insertError";
 		}
 		return "redirect:/";
 	}

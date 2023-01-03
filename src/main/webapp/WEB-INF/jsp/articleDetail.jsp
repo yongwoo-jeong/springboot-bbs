@@ -86,7 +86,7 @@
 <%--            <% if (searchQueryString!=null) {%>--%>
 <%--            <a href="/<%=searchQueryString%>" class="list_button">목록</a>--%>
 <%--            <%} else { %>--%>
-            <a href="/" class="list_button">목록</a>
+            <a href="/<%=request.getAttribute("queryStringParam")%><%=request.getAttribute("currentPage")%>" class="list_button">목록</a>
 <%--            <% } %>--%>
             <a id="modi_btn" class="modi_del_btn">수정</a>
             <a id="del_btn" class="modi_del_btn">삭제</a>
