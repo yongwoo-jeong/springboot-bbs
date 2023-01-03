@@ -4,6 +4,7 @@ import com.springboot.bbs.dto.ArticleDTO;
 import com.springboot.bbs.repository.ArticleRepository;
 import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,30 @@ public class ArticleService {
 	 * 새 게시글 등록 서비스
 	 * @param newArticle 새 게시글 정보가 담긴 객체
 	 */
-	public void insertNewArticle(ArticleVO newArticle){
-		articleRepository.insertArticle(newArticle);
+	public int insertNewArticle(ArticleDTO newArticle){
+		// 게시판 등록항목 검증
+		if (newArticle.getWriter().length()> 4 || newArticle.getWriter().length()<3){
+			return -1;
+		}
+		if (newArticle.getCategoryIdAndName().isEmpty()){
+			return -1;
+		}
+		if (!Objects.equals(newArticle.getPassword(), newArticle.getPasswordConfirm())){
+			return -1;
+		}
+		if (newArticle.getTitle().length() < 3 || newArticle.getTitle().length() > 100){
+			return -1;
+		}
+		if (newArticle.getContent().length()<4 || newArticle.getContent().length()>2000){
+			return -1;
+		}
+		String[] categoryIdAndName = newArticle.getCategoryIdAndName().split("-");
+		Integer categoryId = Integer.valueOf(categoryIdAndName[0]);
+		String categoryName = categoryIdAndName[1].trim();
+		ArticleVO articleInserting = ArticleVO.builder().title(newArticle.getTitle()).writer(newArticle.getWriter())
+														.password(newArticle.getPassword()).content(newArticle.getContent())
+														.categoryId(categoryId).categoryName(categoryName).build();
+		articleRepository.insertArticle(articleInserting);
+		return 1;
 	}
 }

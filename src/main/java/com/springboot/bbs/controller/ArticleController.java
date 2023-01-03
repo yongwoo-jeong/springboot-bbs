@@ -5,6 +5,7 @@ import com.springboot.bbs.service.ArticleService;
 import com.springboot.bbs.utils.StringUtils;
 import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 게시글 관련 요청 컨트롤러
@@ -74,8 +76,14 @@ public class ArticleController {
 	 * @return
 	 */
 	@PostMapping("/upload")
-	public String insertArticleController(@ModelAttribute ArticleVO newArticle){
-		return "";
+	public String insertArticleController(@ModelAttribute ArticleDTO newArticle , @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
+		// 서비스컴포넌트에서 항목 검증 시도
+		int insertStatus = articleService.insertNewArticle(newArticle);
+		// 실패시 에러페이지
+		if (insertStatus == -1 ){
+			return "error";
+		}
+		return "redirect:/";
 	}
 
 

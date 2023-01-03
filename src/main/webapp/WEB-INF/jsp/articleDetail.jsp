@@ -1,12 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.springboot.bbs.vo.ArticleVO" %>
-<%@ page import="com.springboot.bbs.vo.CommentVO" %><%--
-  Created by IntelliJ IDEA.
-  User: jyw
-  Date: 2022/12/14
-  Time: 11:08 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.springboot.bbs.vo.CommentVO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

@@ -18,6 +18,7 @@ public class StringUtils {
 
 	/**
 	 * 검색 조건을 받아 쿼리스트링 파라미터 문자열로 변환해주는 메서드
+	 * 페이징 처리 위함
 	 * @param searchCriteria SearchCriteriaVO
 	 * @return 쿼리스트링 파라미터 문자열
 	 */
@@ -27,7 +28,6 @@ public class StringUtils {
 		String keyword = "";
 		String startDate = "";
 		String endDate = "";
-		Integer currentPage = 1;
 		// 각 검색 조건이 있을 경우 value 교체
 		if (!isEmpty(searchCriteria.getKeyword())){
 			keyword = searchCriteria.getKeyword();
@@ -38,14 +38,11 @@ public class StringUtils {
 		if (!isEmpty(searchCriteria.getEndDate())){
 			endDate = searchCriteria.getEndDate();
 		}
-		if (searchCriteria.getCurrentPage() != 1){
-			currentPage = searchCriteria.getCurrentPage();
-		}
 		querystring.append("?category=").append(searchCriteria.getCategoryId());
 		querystring.append("&keyword=").append(keyword);
 		querystring.append("&startDate=").append(startDate);
 		querystring.append("&endDate=").append(endDate);
-		querystring.append("&currentPage=").append(currentPage);
+		querystring.append("&currentPage=");
 		return querystring.toString();
 	}
 }

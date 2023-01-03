@@ -76,9 +76,9 @@
     </div>
     <div class="pagination_container">
         <%  Integer currentPage = (Integer) request.getAttribute("currentPage");
-            int lastPage = (int) Math.ceil((double) articleCount/10);
+            int lastPage = (int) Math.ceil((double) articleCount/10); %>
         <%for (int i = 1; i<=lastPage; i++){%>
-        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%><%=request.getAttribute("queryString")%><%=i%>><%=i%></a>
+        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%><%=request.getAttribute("queryStringParam")%><%=i%>><%=i%></a>
         <%}%>
     </div>
     <div class="upload_container">

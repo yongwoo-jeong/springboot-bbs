@@ -72,7 +72,7 @@
                         #{newArticle.password},
                         #{newArticle.content},
                         NOW(),
-                        #{newArticle.categoryId}
+                        #{newArticle.categoryId},
                         #{newArticle.categoryName}
                 )
     <!-- 파일 INSERT를 위해 해당 게시글 ID(FK)를 반환    -->

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jyw
-  Date: 2022/12/13
-  Time: 10:13 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -22,11 +15,11 @@
                 <div><span>카테고리 *</span></div>
                 <div>
                     <label for="category"></label>
-                    <select name="categoryId" id="category" required>
+                    <select name="categoryIdAndName" id="category" required>
                         <option value="" selected>카테고리 선택</option>z
-                        <option value="1">JAVA</option>
-                        <option value="2">Javascript</option>
-                        <option value="3">Database</option>
+                        <option value="1-JAVA" >JAVA</option>
+                        <option value="2-Javascript">Javascript</option>
+                        <option value="3-Database">Database</option>
                     </select>
                 </div>
             </div>
@@ -38,7 +31,7 @@
                 <div><span>비밀번호 *</span></div>
                 <div>
                     <input class="password" name="password" placeholder="비밀번호" type="password" minlength="4" maxlength="15" required/>
-                    <input class="password_confirm" name="password_confirm" placeholder="비밀번호 확인" type="password" minlength="4" maxlength="15" required/>
+                    <input class="password_confirm" name="passwordConfirm" placeholder="비밀번호 확인" type="password" minlength="4" maxlength="15" required/>
                 </div>
             </div>
             <div class="title_row container_row">
