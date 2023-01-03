@@ -11,8 +11,4 @@
     INSERT INTO comment ( content, created_at, article_id)
     VALUES (#{content}, NOW(), #{articleId})
   </insert>
-  <delete id="deleteCommentOnArticle">
-    DELETE FROM comment
-    WHERE article_id = #{articleId}
-  </delete>
 </mapper>

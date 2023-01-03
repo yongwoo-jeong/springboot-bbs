@@ -2,8 +2,10 @@ package com.springboot.bbs.controller;
 
 import com.springboot.bbs.dto.ArticleDTO;
 import com.springboot.bbs.service.ArticleService;
+import com.springboot.bbs.service.CommentService;
 import com.springboot.bbs.utils.StringUtils;
 import com.springboot.bbs.vo.ArticleVO;
+import com.springboot.bbs.vo.CommentVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,11 @@ public class ArticleController {
 	 * 게시글 관련 서비스 객체
 	 */
 	private final ArticleService articleService;
+	/**
+	 * 댓글 관련 서비스 객체
+	 * articleDetail 페이지 댓글 보여주기 위해..
+	 */
+	private final CommentService commentService;
 
 	/**
 	 * 홈페이지(/) GET 매핑
@@ -61,9 +68,11 @@ public class ArticleController {
 	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
 		ArticleVO targetArticle = articleService.articleDetailService(articleId);
 		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
+		List<CommentVO> commentList = commentService.getCommentList(articleId);
 		model.addAttribute("targetArticle", targetArticle);
 		model.addAttribute("queryStringParam",queryStringParam);
 		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
+		model.addAttribute("commentList", commentList);
 		return "articleDetail";
 	}
 

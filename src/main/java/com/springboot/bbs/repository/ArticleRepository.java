@@ -18,21 +18,22 @@ public class ArticleRepository {
 	/**
 	 * 매퍼 네임스페이스 반복구문 스트링 처리
 	 */
-	private String mapperNameSpace = "com.springboot.bbs.repository.ArticleRepository";
+	private final String mapperNameSpace = "com.springboot.bbs.repository.ArticleRepository";
+
 	/**
 	 * sql 세션객체 생성자
 	 */
-
 	private final SqlSession session;
+
 	/**
 	 * 조건에 맞는 게시글객체를 List 형태로 반환
 	 * @param searchCriteria 검색조건 (searchCriteriaVO)
 	 * @return List of ArticleVO
 	 */
-
 	public List<ArticleVO> selectSearchArticles(SearchCriteriaVO searchCriteria){
 		return session.selectList(mapperNameSpace + ".selectSearchArticles",searchCriteria);
 	};
+
 	/**
 	 * 조건에 맞는 게시글 수를 반환
 	 * @param searchCriteria 검색조건 (searchCriteriaVO)

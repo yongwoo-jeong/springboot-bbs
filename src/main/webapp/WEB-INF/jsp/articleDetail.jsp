@@ -64,18 +64,18 @@
 <%--        <% }%>--%>
     </div>
     <div class="comments_container">
-<%--        <%--%>
-<%--            List<CommentVO> commentList = (List<CommentVO>) request.getAttribute("commentList");--%>
-<%--            for (CommentVO comment : commentList){--%>
-<%--        %>--%>
-<%--        <div class="comment_row">--%>
-<%--            <div class="comment_date"><%=comment.getCreatedAt()%></div>--%>
-<%--            <div><%=comment.getContent()%></div>--%>
-<%--        </div>--%>
-<%--        <% } %>--%>
+        <%
+            List<CommentVO> commentList = (List<CommentVO>) request.getAttribute("commentList");
+            for (CommentVO comment : commentList){
+        %>
+        <div class="comment_row">
+            <div class="comment_date"><%=comment.getCreatedAt()%></div>
+            <div><%=comment.getContent()%></div>
+        </div>
+        <% } %>
         <div>
             <form method="post" action=/addComment?id=<%=article.getArticleId()%> name="uploadComment">
-                <input name="new_comment" class="comment_input" type="text" placeholder="댓글을 입력해주세요" />
+                <input name="content" class="comment_input" type="text" placeholder="댓글을 입력해주세요" />
                 <input type="submit" class="save_button" value="저장" />
             </form>
         </div>
