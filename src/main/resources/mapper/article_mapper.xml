@@ -7,22 +7,22 @@
   <sql id="searchCondition">
     <trim prefix="where (" suffix=")" prefixOverrides="AND">
       <!-- 키워드 input 없을경우 조건에서 제외      -->
-      <if test='searchCriteria.keyword != null and !searchCriteria.keyword.equals("")' >
-        AND title LIKE CONCAT('%',#{searchCriteria.keyword},'%')
+      <if test='keyword != null and !keyword.equals("")' >
+        AND title LIKE CONCAT('%',#{keyword},'%')
       </if>
       <!-- 카테고리 선택없는 경우 조건에서 제외      -->
-      <if test='searchCriteria.categoryId != null and searchCriteria.categoryId != 0'>
-        AND category_id = #{searchCriteria.categoryId}
+      <if test='categoryId != null and categoryId != 0'>
+        AND category_id = #{categoryId}
       </if>
       <!-- 검색 시작날짜 없는경우 조건에서 제외      -->
-      <if test="searchCriteria.startDate != null and !searchCriteria.startDate.equals('')" >
-        AND created_at &gt;= #{searchCriteria.startDate}
-        OR modified_at &gt;= #{searchCriteria.startDate}
+      <if test="startDate != null and !startDate.equals('')" >
+        AND created_at &gt;= #{startDate}
+        OR modified_at &gt;= #{startDate}
       </if>
       <!-- 검색 종료날짜 경우 조건에서 제외      -->
-      <if test="searchCriteria.endDate != null and !searchCriteria.endDate.equals('')" >
-        AND created_at &lt;= #{searchCriteria.endDate}
-        OR modified_at &lt;= #{searchCriteria.endDate}
+      <if test="endDate != null and !endDate.equals('')" >
+        AND created_at &lt;= #{endDate}
+        OR modified_at &lt;= #{endDate}
       </if>
     </trim>
   </sql>
@@ -35,7 +35,7 @@
         <property name="searchCriteria" value="searchCriteria"/>
       </include>
     ORDER BY article_id DESC
-    LIMIT #{searchCriteria.dbLimitOffset}, 10
+    LIMIT #{dbLimitOffset}, 10
   </select>
 
   <!-- 검색조건, 현재 페이지에 해당하는 Limit Offset 받아 해당하는 게시글 수 반환 -->

@@ -3,7 +3,6 @@ package com.springboot.bbs.controller;
 import com.springboot.bbs.dto.ArticleDTO;
 import com.springboot.bbs.service.ArticleService;
 import com.springboot.bbs.utils.StringUtils;
-import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -35,17 +34,18 @@ public class ArticleController {
 	 */
 	@GetMapping("/")
 	public String homeController(Model model, @ModelAttribute SearchCriteriaVO searchCriteria){
-
-		/**
-		 * 조건에 따른 검색결과
-		 */
+		// DB SELECT LIMIT offset 설정
 		searchCriteria.setDbLimitOffset((searchCriteria.getCurrentPage()-1)*10);
+		// 게시글리스트, 게시글 숫자 담은 DTO
 		ArticleDTO articleDTO = articleService.homeService(searchCriteria);
-		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
+		// 게시글 리스트
 		model.addAttribute("articles",articleDTO.getSearchedArticles());
+		// 게시글 숫자
 		model.addAttribute("articlesCount",articleDTO.getSearchedArticlesCount());
-		model.addAttribute("SearchCriteria",searchCriteria);
+		// 검색조건 쿼리스트링 파라미터
+		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
 		model.addAttribute("queryStringParam",queryStringParam);
+		// 현재페이지는 조건에 들어가지 않기때문에 따로 넘겨준다.
 		model.addAttribute("currentPage", searchCriteria.getCurrentPage());
 		return "home";
 	}
@@ -56,15 +56,15 @@ public class ArticleController {
 	 * @param articleId 목적이 되는 게시글 ID 를 쿼리스트링 파라미터로 받아온다
 	 * @return
 	 */
-	@GetMapping("/article")
-	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
-		ArticleVO targetArticle = articleService.articleDetailService(articleId);
-		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
-		model.addAttribute("targetArticle", targetArticle);
-		model.addAttribute("queryStringParam",queryStringParam);
-		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
-		return "articleDetail";
-	}
+//	@GetMapping("/article")
+//	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
+////		ArticleVO targetArticle = articleService.articleDetailService(articleId);
+//		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
+//		model.addAttribute("targetArticle", targetArticle);
+//		model.addAttribute("queryStringParam",queryStringParam);
+//		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
+//		return "articleDetail";
+//	}
 
 	/**
 	 * 게시글 등록(/upload) 페이지 GET 매핑
