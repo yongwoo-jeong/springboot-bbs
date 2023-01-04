@@ -6,12 +6,12 @@
   <select id="selectFiles" resultType="com.springboot.bbs.vo.FileVO">
     SELECT *
     FROM   file
-    WHERE  article_id = ${articleId}
+    WHERE  article_id = #{articleId}
   </select>
   <select id="selectForDownload" resultType="com.springboot.bbs.vo.FileVO">
     SELECT *
     FROM   file
-    WHERE  file_uuid = '${fileUuid}'
+    WHERE  file_uuid = #{fileUuid}
   </select>
   <insert id="insertFile">
     INSERT INTO file
@@ -27,12 +27,12 @@
            VALUES
                 (
                     UNHEX(REPLACE(UUID(),'-','')),
-                    "${nameOnServer}",
-                    "${nameOriginal}",
-                    ${articleId},
-                    "${filePath}",
-                    ${fileSize},
-                    "${fileExtension}"
+                    #{nameOnServer},
+                    #{nameOriginal},
+                    #{articleId},
+                    #{filePath},
+                    #{fileSize},
+                    #{fileExtension}
                 )
   </insert>
   <delete id="deleteFileOnArticle">
