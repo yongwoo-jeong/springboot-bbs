@@ -34,7 +34,7 @@ public class ArticleService {
 	 * @param searchCriteria 검색조건(없을 경우 쿼리문 TRIM되어 전체게시글 검색)
 	 * @return
 	 */
-	public ArticleDTO homeService(SearchCriteriaVO searchCriteria){
+	public ArticleDTO getArticleList(SearchCriteriaVO searchCriteria){
 		ArticleDTO articleDTO = new ArticleDTO();
 		articleDTO.setSearchedArticlesCount((articleRepository.selectCountArticles(searchCriteria)));
 		articleDTO.setSearchedArticles(articleRepository.selectSearchArticles(searchCriteria));
@@ -46,7 +46,7 @@ public class ArticleService {
 	 * @param articleId 대상 아티클 ID
 	 * @return
 	 */
-	public ArticleVO articleDetailService(Integer articleId){
+	public ArticleVO getArticleDetail(Integer articleId){
 		// 조회수 +1
 		articleRepository.updateViewCount(articleId);
 		return articleRepository.selectArticleDetail(articleId);
@@ -66,7 +66,7 @@ public class ArticleService {
 	 * @param articleId 댓글 입력 대상 게시글 ID
 	 * @param newComment 새 댓글 객체
 	 */
-	public void addCommentService(Integer articleId, CommentVO newComment){
+	public void insertNewComment(Integer articleId, CommentVO newComment){
 		newComment.setArticleId(articleId);
 		commentRepository.insertComment(newComment);
 	}

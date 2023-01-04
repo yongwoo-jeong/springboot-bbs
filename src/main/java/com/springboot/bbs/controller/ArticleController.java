@@ -6,6 +6,7 @@ import com.springboot.bbs.service.FileService;
 import com.springboot.bbs.utils.StringUtils;
 import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.CommentVO;
+import com.springboot.bbs.vo.FileVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +51,7 @@ public class ArticleController {
 		// DB SELECT LIMIT offset 설정
 		searchCriteria.setDbLimitOffset((searchCriteria.getCurrentPage()-1)*10);
 		// 게시글리스트, 게시글 숫자 담은 DTO
-		ArticleDTO articleDTO = articleService.homeService(searchCriteria);
+		ArticleDTO articleDTO = articleService.getArticleList(searchCriteria);
 		// 게시글 리스트 애트리뷰트
 		model.addAttribute("articles",articleDTO.getSearchedArticles());
 		// 게시글 숫자 애트리뷰트
@@ -71,19 +72,25 @@ public class ArticleController {
 	 */
 	@GetMapping("/article")
 	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
-		ArticleVO targetArticle = articleService.articleDetailService(articleId);
-		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
+		// 요청 게시글 정보 가져오기
+		ArticleVO targetArticle = articleService.getArticleDetail(articleId);
+		// 게시글에 따른 댓글 리스트
 		List<CommentVO> commentList = articleService.getCommentList(articleId);
+		// 게시글에 따른 파일 리스트
+		List< FileVO> fileList = fileService.getFileList(articleId);
+		// 검색조건유지를 위한 쿼리스트링 설정
+		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
 		model.addAttribute("targetArticle", targetArticle);
+		model.addAttribute("commentList", commentList);
+		model.addAttribute("fileList", fileList);
 		model.addAttribute("queryStringParam",queryStringParam);
 		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
-		model.addAttribute("commentList", commentList);
 		return "articleDetail";
 	}
 
 	@PostMapping("/addComment")
 	public String addComment(HttpServletRequest req, @RequestParam("id") Integer articleId,@ModelAttribute CommentVO newComment){
-		articleService.addCommentService(articleId,newComment);
+		articleService.insertNewComment(articleId,newComment);
 		// 댓글 POST 요청 후 이전 페이지로 돌리기 위한 referer
 		String refererPage = req.getHeader("referer");
 		return "redirect:"+refererPage;
@@ -113,7 +120,7 @@ public class ArticleController {
 			return "insertError";
 		}
 		// 파일 처리 서비스
-		fileService.insertFileService(multipartFileList, insertedArticleId);
+		fileService.insertNewFiles(multipartFileList, insertedArticleId);
 		// 게시글 등록후는 현재페이지 1로 설정
 		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+1;
 		return "redirect:/"+searchQueryString;

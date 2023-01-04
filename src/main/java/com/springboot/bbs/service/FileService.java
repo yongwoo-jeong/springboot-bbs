@@ -48,7 +48,7 @@ public class FileService {
 	 * @param fileList List of MultipartFile
 	 * @param articleId 게시글 id
 	 */
-	public void insertFileService(List<MultipartFile> fileList, Integer articleId){
+	public void insertNewFiles(List<MultipartFile> fileList, Integer articleId){
 		for (MultipartFile file : fileList){
 			if (FileUtils.isFileEmpty(file)) {
 				continue;
@@ -77,5 +77,9 @@ public class FileService {
 				logger.error(String.valueOf(e));
 			}
 		}
+	}
+
+	public List<FileVO> getFileList(Integer articleId){
+		return fileRepository.selectFiles(articleId);
 	}
 }
