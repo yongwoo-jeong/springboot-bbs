@@ -1,3 +1,4 @@
+<%@ page import="com.springboot.bbs.vo.SearchCriteriaVO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -8,8 +9,9 @@
 <body>
 <header class="title"><h1>게시판 - 등록</h1></header>
 <main>
+    <% String searchQueryString = request.getQueryString();%>
     <%-- HTML 태그 이외 서버상 제한 처리 필요 - writer, password, title, contet --%>
-    <form enctype="multipart/form-data" method="post" action=<%=request.getContextPath()%>/upload name="upload">
+    <form enctype="multipart/form-data" method="post" action=<%=request.getContextPath()%>/upload?<%=searchQueryString%> name="upload">
         <div class="upload_form_container">
             <div class="category_row container_row">
                 <div><span>카테고리 *</span></div>

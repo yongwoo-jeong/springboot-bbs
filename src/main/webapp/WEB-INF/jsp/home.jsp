@@ -26,7 +26,7 @@
                     <form action="" method="post">
                         <label for="category"></label>
                         <select name="categoryId" id="category">
-                            <option selected="selected" value="0">전체 카테고리</option>
+                            <option selected="selected" value="">전체 카테고리</option>
                             <option value="1">JAVA</option>
                             <option value="2">Javascript</option>
                             <option value="3">Database</option>
@@ -82,7 +82,7 @@
         <%}%>
     </div>
     <div class="upload_container">
-        <button class="button upload_button" type="button" onclick=location.href=<%=request.getContextPath()%>"/upload">등록</button>
+        <button class="button upload_button" type="button" onclick=location.href=<%=request.getContextPath()%>"/upload<%=request.getAttribute("queryStringParam")%><%=request.getAttribute("currentPage")%>">등록</button>
     </div>
 </div>
 </body>

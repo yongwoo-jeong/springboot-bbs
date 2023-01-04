@@ -51,11 +51,11 @@ public class ArticleController {
 		searchCriteria.setDbLimitOffset((searchCriteria.getCurrentPage()-1)*10);
 		// 게시글리스트, 게시글 숫자 담은 DTO
 		ArticleDTO articleDTO = articleService.homeService(searchCriteria);
-		// 게시글 리스트
+		// 게시글 리스트 애트리뷰트
 		model.addAttribute("articles",articleDTO.getSearchedArticles());
-		// 게시글 숫자
+		// 게시글 숫자 애트리뷰트
 		model.addAttribute("articlesCount",articleDTO.getSearchedArticlesCount());
-		// 검색조건 쿼리스트링 파라미터
+		// 검색조건 쿼리스트링 파라미터 애트리뷰트
 		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
 		model.addAttribute("queryStringParam",queryStringParam);
 		// 현재페이지는 조건에 들어가지 않기때문에 따로 넘겨준다.
@@ -94,7 +94,7 @@ public class ArticleController {
 	 * @return 새 게시글 등록 FOAM 화면
 	 */
 	@GetMapping("/upload")
-	public String inputArticleController(){
+	public String inputArticleController(Model model){
 		return "articleInput";
 	}
 
@@ -104,15 +104,19 @@ public class ArticleController {
 	 */
 	@PostMapping("/upload")
 	public String insertArticleController(@ModelAttribute ArticleDTO newArticle ,
-										  @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
+										  @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList,
+											@ModelAttribute SearchCriteriaVO searchCriteria){
 		// 서비스컴포넌트에서 항목 검증 시도
 		int insertedArticleId = articleService.insertNewArticle(newArticle);
 		// 실패시 에러페이지
 		if (insertedArticleId == -1 ){
 			return "insertError";
 		}
+		// 파일 처리 서비스
 		fileService.insertFileService(multipartFileList, insertedArticleId);
-		return "redirect:/";
+		// 게시글 등록후는 현재페이지 1로 설정
+		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+1;
+		return "redirect:/"+searchQueryString;
 	}
 
 

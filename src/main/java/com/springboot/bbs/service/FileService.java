@@ -38,6 +38,9 @@ public class FileService {
 	 */
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	/**
+	 * 파일 유틸리티
+	 */
 	private FileUtils fileUtils;
 
 	/**
