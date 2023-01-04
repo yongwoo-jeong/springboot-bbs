@@ -27,6 +27,7 @@ dependencies {
     implementation 'javax.servlet:jstl'
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+    implementation 'commons-io:commons-io:2.11.0'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'

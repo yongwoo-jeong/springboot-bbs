@@ -1,11 +1,13 @@
 package com.springboot.bbs.service;
 
+import com.springboot.bbs.dto.FileDTO;
 import com.springboot.bbs.repository.FileRepository;
-import com.springboot.bbs.utils.FileUtils;
+import com.springboot.bbs.utils.MyFileUtils;
 import com.springboot.bbs.vo.FileVO;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +43,7 @@ public class FileService {
 	/**
 	 * 파일 유틸리티
 	 */
-	private FileUtils fileUtils;
+	private MyFileUtils fileUtils;
 
 	/**
 	 * 파일 추가 서비스
@@ -50,7 +52,7 @@ public class FileService {
 	 */
 	public void insertNewFiles(List<MultipartFile> fileList, Integer articleId){
 		for (MultipartFile file : fileList){
-			if (FileUtils.isFileEmpty(file)) {
+			if (MyFileUtils.isFileEmpty(file)) {
 				continue;
 			}
 			// 유저가 업로드한 파일명
@@ -69,7 +71,7 @@ public class FileService {
 									.fileSize(fileSize).fileExtension(fileExtension)
 									.build();
 			// 서버 저장될 파일
-			File fileToServer = new File(filePath+fileNameOriginal);
+			File fileToServer = new File(filePath+fileNameServer);
 			try {
 				file.transferTo(fileToServer);
 				fileRepository.insertFile(newFile);
@@ -79,7 +81,22 @@ public class FileService {
 		}
 	}
 
+	/**
+	 * 게시글에 따른 파일 리스트 제공 서비스
+	 * @param articleId 게시글 id
+	 * @return
+	 */
 	public List<FileVO> getFileList(Integer articleId){
 		return fileRepository.selectFiles(articleId);
+	}
+
+	public FileDTO makeFileByte(String fileUuid){
+		FileDTO fileDTO = new FileDTO();
+		// 다운로드 대상 파일 객체
+		FileVO targetFile = fileRepository.selectFile(fileUuid);
+		String encodedFileName = new String(targetFile.getNameOriginal().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+		fileDTO.setFileName(encodedFileName);
+		fileDTO.setTargetFile(new File(targetFile.getFilePath()+targetFile.getNameOnServer()));
+		return fileDTO;
 	}
 }
