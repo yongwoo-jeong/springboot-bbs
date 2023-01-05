@@ -63,12 +63,10 @@ public class ArticleVO {
 	 * 카테고리 ID - 외래키
 	 * INT(11) NOT NULL
 	 */
-	@NonNull
 	private Integer categoryId;
 	/**
 	 * INNER JOIN 통해 가져온 카테고리명
 	 */
-	@NonNull
 	private String categoryName;
 
 }

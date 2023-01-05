@@ -10,10 +10,8 @@
 <body>
 <header class="title"><h1>게시판 - 등록</h1></header>
 <main>
-    <% String searchQueryString = request.getQueryString();%>
     <% ArticleVO article = (ArticleVO) request.getAttribute("article"); %>
-    <%-- HTML 태그 이외 서버상 제한 처리 필요 - writer, password, title, contet --%>
-    <form enctype="multipart/form-data" method="post" action=<%=request.getContextPath()%>/upload?<%=searchQueryString%> name="upload">
+    <form enctype="multipart/form-data" method="post" action=<%=request.getContextPath()%>/onEdit?id=<%=article.getArticleId()%> name="edit">
         <div class="upload_form_container">
             <div class="category_row container_row">
                 <div><span>카테고리</span></div>
@@ -79,6 +77,22 @@
             </div>
         </div>
         <div class="button_container">
+            <% SearchCriteriaVO searchCriteria = (SearchCriteriaVO) request.getAttribute("searchCriteria");
+                if (searchCriteria.getKeyword()!=null){ %>
+            <input type="hidden" name="keyword" value=<%=request.getParameter("keyword")%>>
+            <%}%>
+            <% if (searchCriteria.getCategoryId()!=null){ %>
+            <input type="hidden" name="categoryId" value=<%=request.getParameter("categoryId")%>>
+            <%}%>
+            <% if (searchCriteria.getStartDate()!=null){ %>
+            <input type="hidden" name="startDate" value=<%=request.getParameter("startDate")%>>
+            <%}%>
+            <% if (searchCriteria.getEndDate()!=null){ %>
+            <input type="hidden" name="endDate" value=<%=request.getParameter("endDate")%>>
+            <%}%>
+            <% if (searchCriteria.getCurrentPage() != null){ %>
+            <input type="hidden" name="currentPage" value=<%=request.getParameter("currentPage")%>>
+            <%}%>
             <a onclick="history.back();" class="cancel_button">취소</a>
             <input type="submit" class="save_button" value="저장" />
         </div>

@@ -77,4 +77,8 @@ public class ArticleRepository {
 	public void deleteArticle(Integer articleId){
 		session.delete(mapperName+".deleteArticle", articleId);
 	}
+
+	public void updateArticle(ArticleVO article){
+		session.update(mapperName+".updateArticle", article);
+	}
 }

@@ -131,4 +131,12 @@ public class ArticleService {
 		fileRepository.deleteFiles(articleId);
 		articleRepository.deleteArticle(articleId);
 	}
+
+	public void updateArticle(ArticleDTO userInputArticle, Integer articleId){
+		ArticleVO insertingArticle = ArticleVO.builder().articleId(articleId).title(userInputArticle.getTitle())
+														.writer(userInputArticle.getWriter()).password(userInputArticle.getPassword())
+														.content(userInputArticle.getContent()).build();
+		System.out.println(insertingArticle.getTitle());
+		articleRepository.updateArticle(insertingArticle);
+	}
 }

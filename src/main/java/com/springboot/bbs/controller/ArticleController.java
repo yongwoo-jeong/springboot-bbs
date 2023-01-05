@@ -112,7 +112,7 @@ public class ArticleController {
 	@PostMapping("/upload")
 	public String insertArticleController(@ModelAttribute ArticleDTO newArticle ,
 										  @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList,
-											@ModelAttribute SearchCriteriaVO searchCriteria){
+										  @ModelAttribute SearchCriteriaVO searchCriteria){
 		// 서비스컴포넌트에서 항목 검증 시도
 		int insertedArticleId = articleService.insertNewArticle(newArticle);
 		// 실패시 에러페이지
@@ -164,6 +164,30 @@ public class ArticleController {
 		}
 		ArticleVO article = articleService.getArticleDetail(articleId);
 		model.addAttribute("article", article);
+		model.addAttribute("searchCriteria", searchCriteria);
 		return "articleEdit";
+	}
+
+	/**
+	 * 게시글 수정 요청 POST 요청 컨트롤러
+	 * @param userUpdatedArticle 수정된 게시글 객체
+	 * @param multipartFileList 수정된 파일 리스트
+	 * @param searchCriteria 검색조건
+	 * @return
+	 */
+	@PostMapping("/onEdit")
+	public String onEditController(@ModelAttribute ArticleDTO userUpdatedArticle ,
+								   @ModelAttribute SearchCriteriaVO searchCriteria,
+								   @RequestParam("id") Integer articleId,
+								   @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
+		String dbPassword = articleService.getArticleDetail(articleId).getPassword();
+		if (!dbPassword.equals(userUpdatedArticle.getPassword())){
+			return "error";
+		}
+		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+searchCriteria.getCurrentPage();
+		articleService.updateArticle(userUpdatedArticle, articleId);
+		return "redirect:/article?id="+articleId+"&"+searchQueryString.substring(1);
+
+
 	}
 }
