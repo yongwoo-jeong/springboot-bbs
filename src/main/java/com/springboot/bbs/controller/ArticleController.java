@@ -128,21 +128,42 @@ public class ArticleController {
 
 	/**
 	 * 게시글 삭제 컨트롤러
-	 * @param articleId
-	 * @param userInputPassword
+	 * @param articleId 게시글 id
+	 * @param userInputPassword 유저 입력 비밀번호
+	 * @param searchCriteria 검색조건 객체
 	 */
 	@PostMapping ("/deleteArticle")
 	public String deleteArticleController(@RequestParam("id") Integer articleId,
+										  @RequestParam("password") String userInputPassword,
+										  @ModelAttribute SearchCriteriaVO searchCriteria){
+		Boolean isPasswordCorrect = articleService.isPasswordConfirmed(userInputPassword,articleId);
+		if (!isPasswordCorrect){
+			return "error";
+		}
+		articleService.deleteArticle(articleId);
+		// 검색조건유지를 위한 쿼리스트링파라미터
+		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+searchCriteria.getCurrentPage();
+		return "redirect:/"+ searchQueryString;
+	}
+
+	/**
+	 * 게시글 수정 페이지 컨트롤러
+	 * @param articleId 게시글 id
+	 * @param userInputPassword 유저 입력 비밀번호
+	 * @param searchCriteria 검색조건 객체
+	 * @return
+	 */
+	@PostMapping("/editArticle")
+	public String editArticleController(Model model,
+										@RequestParam("id") Integer articleId,
 										@RequestParam("password") String userInputPassword,
 										@ModelAttribute SearchCriteriaVO searchCriteria){
 		Boolean isPasswordCorrect = articleService.isPasswordConfirmed(userInputPassword,articleId);
 		if (!isPasswordCorrect){
 			return "error";
-		} else {
-			articleService.deleteArticle(articleId);
-			// 검색조건유지를 위한 쿼리스트링파라미터
-			String searchQueryString = StringUtils.makeQueryString(searchCriteria)+searchCriteria.getCurrentPage();
-			return "redirect:/"+ searchQueryString;
 		}
+		ArticleVO article = articleService.getArticleDetail(articleId);
+		model.addAttribute("article", article);
+		return "articleEdit";
 	}
 }

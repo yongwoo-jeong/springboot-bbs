@@ -84,10 +84,10 @@
     <div class="button_set_container">
         <div class="button_set">
             <a href="/<%=request.getAttribute("queryStringParam")%><%=request.getAttribute("currentPage")%>" class="list_button">목록</a>
-            <a hidden="/delete"<%=article.getArticleId()%> id="modi_btn" class="modi_del_btn">수정</a>
+            <a id="modi_btn" class="modi_del_btn">수정</a>
             <div style="display: none" class="modal-fade" id="modi_modal">
                 <div class="modal-dialog">
-                    <form method="post" action="/deleteArticle?id=<%=article.getArticleId()%>">
+                    <form method="post" action="/editArticle?id=<%=article.getArticleId()%>">
                         <input class="password" type="password" name="password" />
                         <% if (!"".equals(request.getParameter("keyword"))){ %>
                         <input type="hidden" name="keyword" value=<%=request.getParameter("keyword")%>>
@@ -106,7 +106,7 @@
                         <%}%>
                         <input type="submit" value="확인">
                     </form>
-                    <button type="button" class="close" >&times;</button>
+                    <button type="button" class="close" id="modiClose">&times;</button>
                 </div>
             </div>
             <a id="del_btn" class="modi_del_btn">삭제</a>
@@ -131,7 +131,7 @@
                         <%}%>
                         <input type="submit" value="확인">
                     </form>
-                    <button type="button" class="close" >&times;</button>
+                    <button type="button" class="close" id="delClose" >&times;</button>
                 </div>
             </div>
         </div>
