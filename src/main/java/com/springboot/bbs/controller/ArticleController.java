@@ -163,7 +163,9 @@ public class ArticleController {
 			return "error";
 		}
 		ArticleVO article = articleService.getArticleDetail(articleId);
+		List<FileVO> fileList = fileService.getFileList(articleId);
 		model.addAttribute("article", article);
+		model.addAttribute("fileList",fileList);
 		model.addAttribute("searchCriteria", searchCriteria);
 		return "articleEdit";
 	}
@@ -187,7 +189,6 @@ public class ArticleController {
 		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+searchCriteria.getCurrentPage();
 		articleService.updateArticle(userUpdatedArticle, articleId);
 		return "redirect:/article?id="+articleId+"&"+searchQueryString.substring(1);
-
 
 	}
 }

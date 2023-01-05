@@ -136,7 +136,6 @@ public class ArticleService {
 		ArticleVO insertingArticle = ArticleVO.builder().articleId(articleId).title(userInputArticle.getTitle())
 														.writer(userInputArticle.getWriter()).password(userInputArticle.getPassword())
 														.content(userInputArticle.getContent()).build();
-		System.out.println(insertingArticle.getTitle());
 		articleRepository.updateArticle(insertingArticle);
 	}
 }

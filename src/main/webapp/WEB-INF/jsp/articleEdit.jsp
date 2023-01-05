@@ -1,5 +1,7 @@
 <%@ page import="com.springboot.bbs.vo.SearchCriteriaVO" %>
 <%@ page import="com.springboot.bbs.vo.ArticleVO" %>
+<%@ page import="com.springboot.bbs.vo.FileVO" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -58,21 +60,31 @@
             <div class="attach_file_row container_row">
                 <div><span>파일첨부</span></div>
                 <div class="filebox_container">
+                    <% List<FileVO> fileList = (List<FileVO>) request.getAttribute("fileList");
+                     if (fileList != null) {
+                        for (int i=0; i<fileList.size(); i++){ %>
+							<div class="exist_file_row" id="exist_file_row<%=i%>" >
+                                <div class="icon_div">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                                </div>
+                                <a class="file_name"><%=fileList.get(i).getNameOriginal()%></a>
+                                <a href="/download?fileId=<%=fileList.get(i).getFileUuid()%>" class="file_download">Download</a>
+                                <input id="file_uuid<%=i%>" type="hidden" value=<%=fileList.get(i).getFileUuid()%>>
+                                <div class="delete_file" id="delete_row<%=i%>">&times;</div>
+                            </div>
+                            <div style="display: none" class="restore_row" id="restoreRow<%=i%>">
+                                <a class="afterDelete" id="afterDelete<%=i%>">파일 삭제됨</a>
+                                <div class="restoreBtn" id="restoreBtn<%=i%>">취소</div>
+                            </div>
+                        <% }} %>
+                    <% for (int i=1; i<=(3-fileList.size()); i++){ %>
                     <div class="filebox">
-                        <input class="upload_name1" />
-                        <label for="file1">파일 찾기</label>
-                        <input type="file" name="files" id="file1" />
+                        <input class="upload_name<%=i%>" />
+                        <label for="file<%=i%>">파일 찾기</label>
+                        <input type="file" name="files" id="file<%=i%>" />
                     </div>
-                    <div class="filebox">
-                        <input class="upload_name2" />
-                        <label for="file2">파일 찾기</label>
-                        <input type="file" name="files" id="file2" />
-                    </div>
-                    <div class="filebox">
-                        <input class="upload_name3" />
-                        <label for="file3">파일 찾기</label>
-                        <input type="file" name="files" id="file3" />
-                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>
