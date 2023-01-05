@@ -46,8 +46,12 @@
     WHERE article_id = #{articleId}
   </delete>
   <!-- 게시글 삭제 시 관련 파일 삭제  -->
-  <delete id="deleteFile">
+  <delete id="deleteFiles">
     DELETE FROM file
     WHERE article_id= #{articleId}
+  </delete>
+  <delete id="deleteFile">
+    DELETE FROM file
+    WHERE file_uuid=#{fileUuid}
   </delete>
 </mapper>

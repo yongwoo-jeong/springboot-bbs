@@ -181,6 +181,7 @@ public class ArticleController {
 	public String onEditController(@ModelAttribute ArticleDTO userUpdatedArticle ,
 								   @ModelAttribute SearchCriteriaVO searchCriteria,
 								   @RequestParam("id") Integer articleId,
+								   @RequestParam String deleteFileList,
 								   @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
 		String dbPassword = articleService.getArticleDetail(articleId).getPassword();
 		if (!dbPassword.equals(userUpdatedArticle.getPassword())){
@@ -188,6 +189,11 @@ public class ArticleController {
 		}
 		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+searchCriteria.getCurrentPage();
 		articleService.updateArticle(userUpdatedArticle, articleId);
+		String[] fileWillDelete = deleteFileList.split(",");
+		for (String fileUuid : fileWillDelete){
+			fileService.deleteFile(fileUuid);
+		}
+		fileService.insertNewFiles(multipartFileList, articleId);
 		return "redirect:/article?id="+articleId+"&"+searchQueryString.substring(1);
 
 	}

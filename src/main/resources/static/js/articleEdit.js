@@ -21,8 +21,15 @@ document.addEventListener("DOMContentLoaded", function() {
   const fileTwoPlaceholder = document.querySelector(".upload_name2");
   const fileThree = document.querySelector("#file3");
   const fileThreePlaceholder = document.querySelector(".upload_name3");
+  const deleteFileList = document.getElementById("deleteFileList");
+  const submitBtn = document.querySelector(".save_button");
 
   let deletingFiles = [];
+
+  // 제출 버튼 클릭 시 삭제 파일 명단 리스트로 넘겨주기
+  submitBtn.addEventListener("click", ()=>{
+    deleteFileList.value = deletingFiles;
+  })
 
   // 리스트에서 특정값제거위한 함수
   function removeListItem(value){
@@ -48,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
     })
   }
 
+  // 두번째파일
   if (existTwoDeleteBtn){
     existTwoDeleteBtn.addEventListener("click",()=>{
       existFileRowTwo.style.display = "none";
@@ -62,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
 
+  // 세번째파일
   if(existThreeDeleteBtn){
     existThreeDeleteBtn.addEventListener("click",()=>{
       existFileRowThree.style.display = "none";

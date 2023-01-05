@@ -90,6 +90,11 @@ public class FileService {
 		return fileRepository.selectFiles(articleId);
 	}
 
+	/**
+	 * 다운로드 타겟 파일 튜플 정보제공
+	 * @param fileUuid
+	 * @return
+	 */
 	public FileDTO getTargetFile(String fileUuid){
 		FileDTO fileDTO = new FileDTO();
 		// 다운로드 대상 파일 객체
@@ -98,5 +103,13 @@ public class FileService {
 		fileDTO.setFileName(encodedFileName);
 		fileDTO.setTargetFile(new File(targetFile.getFilePath()+targetFile.getNameOnServer()));
 		return fileDTO;
+	}
+
+	/**
+	 * 특정 파일 삭제 서비스
+	 * @param fileUuid 파일 uuid
+	 */
+	public void deleteFile(String fileUuid){
+		fileRepository.deleteFile(fileUuid);
 	}
 }

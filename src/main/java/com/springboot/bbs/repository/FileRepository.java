@@ -50,10 +50,18 @@ public class FileRepository {
 	}
 
 	/**
-	 * 게시글 관련 파일 삭제
+	 * 게시글 관련 파일들 삭제
 	 * @param articleId 게시글 id
 	 */
 	public void deleteFiles(Integer articleId){
-		session.delete(mapperName+".deleteFile", articleId);
+		session.delete(mapperName+".deleteFiles", articleId);
+	}
+
+	/**
+	 * 게시글 수정시 필요한 개별파일 삭제
+	 * @param fileUuid 파일 uuid (PK)
+	 */
+	public void deleteFile(String fileUuid){
+		session.delete(mapperName+".deleteFile", fileUuid);
 	}
 }

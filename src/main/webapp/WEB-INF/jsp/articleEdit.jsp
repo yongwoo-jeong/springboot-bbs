@@ -106,6 +106,7 @@
             <input type="hidden" name="currentPage" value=<%=request.getParameter("currentPage")%>>
             <%}%>
             <a onclick="history.back();" class="cancel_button">취소</a>
+            <input type="hidden" name="deleteFileList" id="deleteFileList" value="">
             <input type="submit" class="save_button" value="저장" />
         </div>
     </form>
