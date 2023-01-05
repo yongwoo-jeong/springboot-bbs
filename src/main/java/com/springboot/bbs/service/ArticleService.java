@@ -3,6 +3,7 @@ package com.springboot.bbs.service;
 import com.springboot.bbs.dto.ArticleDTO;
 import com.springboot.bbs.repository.ArticleRepository;
 import com.springboot.bbs.repository.CommentRepository;
+import com.springboot.bbs.repository.FileRepository;
 import com.springboot.bbs.vo.ArticleVO;
 import com.springboot.bbs.vo.CommentVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
@@ -27,6 +28,8 @@ public class ArticleService {
 	 * 코멘트 레포지토리 생성자
 	 */
 	private final CommentRepository commentRepository;
+
+	private final FileRepository fileRepository;
 
 	/**
 	 * 홈화면을 보여주기 위해 검색된 게시글(혹은 전체게시글)과
@@ -104,6 +107,12 @@ public class ArticleService {
 		return articleInserting.getArticleId();
 	}
 
+	/**
+	 * 사용자 입력 비밀번호가 db 패스워드와 일치하는지 검증
+	 * @param inputPassword 유저가 articleDetail 모달창에서 입력한 비밀번호
+	 * @param articleId 타겟 게시글
+	 * @return 불리언값
+	 */
 	public boolean isPasswordConfirmed(String inputPassword, Integer articleId){
 		String dbPassword = articleRepository.selectArticleDetail(articleId).getPassword();
 		if (!dbPassword.equals(inputPassword)){
@@ -112,7 +121,14 @@ public class ArticleService {
 		return true;
 	}
 
+	/**
+	 * 게시글을 삭제해주는 서비스컴포넌트
+	 * 관련 파일, 댓글들도 모두 삭제
+	 * @param articleId
+	 */
 	public void deleteArticle(Integer articleId){
-		
+		commentRepository.deleteComments(articleId);
+		fileRepository.deleteFiles(articleId);
+		articleRepository.deleteArticle(articleId);
 	}
 }

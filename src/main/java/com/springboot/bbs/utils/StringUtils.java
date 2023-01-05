@@ -1,6 +1,8 @@
 package com.springboot.bbs.utils;
 
 import com.springboot.bbs.vo.SearchCriteriaVO;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 문자열 관련 유틸리티
@@ -34,7 +36,7 @@ public class StringUtils {
 			categoryId = String.valueOf(searchCriteria.getCategoryId());
 		}
 		if (!isEmpty(searchCriteria.getKeyword())){
-			keyword = searchCriteria.getKeyword();
+			keyword = URLEncoder.encode(searchCriteria.getKeyword(), StandardCharsets.UTF_8);
 		}
 		if (!isEmpty(searchCriteria.getStartDate())){
 			startDate = searchCriteria.getStartDate();

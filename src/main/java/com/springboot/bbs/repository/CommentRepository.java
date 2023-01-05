@@ -40,4 +40,11 @@ public class CommentRepository {
 		session.insert(mapperName+".insertComment",commentVO);
 	}
 
+	/**
+	 * 게시글 관련 댓글 삭제
+	 * @param articleId 게시글 id
+	 */
+	public void deleteComments(Integer articleId){
+		session.delete(mapperName+".deleteComment", articleId);
+	}
 }

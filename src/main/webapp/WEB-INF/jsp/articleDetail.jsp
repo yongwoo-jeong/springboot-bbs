@@ -1,7 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.springboot.bbs.vo.ArticleVO" %>
 <%@ page import="com.springboot.bbs.vo.CommentVO" %>
-<%@ page import="java.io.File" %>
 <%@ page import="com.springboot.bbs.vo.FileVO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -86,11 +85,50 @@
         <div class="button_set">
             <a href="/<%=request.getAttribute("queryStringParam")%><%=request.getAttribute("currentPage")%>" class="list_button">목록</a>
             <a hidden="/delete"<%=article.getArticleId()%> id="modi_btn" class="modi_del_btn">수정</a>
+            <div style="display: none" class="modal-fade" id="modi_modal">
+                <div class="modal-dialog">
+                    <form method="post" action="/deleteArticle?id=<%=article.getArticleId()%>">
+                        <input class="password" type="password" name="password" />
+                        <% if (!"".equals(request.getParameter("keyword"))){ %>
+                        <input type="hidden" name="keyword" value=<%=request.getParameter("keyword")%>>
+                        <%}%>
+                        <% if (!"".equals(request.getParameter("categoryId"))){ %>
+                        <input type="hidden" name="categoryId" value=<%=request.getParameter("categoryId")%>>
+                        <%}%>
+                        <% if (!"".equals(request.getParameter("startDate"))){ %>
+                        <input type="hidden" name="startDate" value=<%=request.getParameter("startDate")%>>
+                        <%}%>
+                        <% if (!"".equals(request.getParameter("endDate"))){ %>
+                        <input type="hidden" name="endDate" value=<%=request.getParameter("endDate")%>>
+                        <%}%>
+                        <% if (!"".equals(request.getParameter("currentPage"))){ %>
+                        <input type="hidden" name="currentPage" value=<%=request.getParameter("currentPage")%>>
+                        <%}%>
+                        <input type="submit" value="확인">
+                    </form>
+                    <button type="button" class="close" >&times;</button>
+                </div>
+            </div>
             <a id="del_btn" class="modi_del_btn">삭제</a>
             <div style="display: none" class="modal-fade" id="delete_modal">
                 <div class="modal-dialog">
                     <form method="post" action="/deleteArticle?id=<%=article.getArticleId()%>">
                         <input class="password" type="password" name="password" />
+                        <% if (!"".equals(request.getParameter("keyword"))){ %>
+                        <input type="hidden" name="keyword" value=<%=request.getParameter("keyword")%>>
+                        <%}%>
+                        <% if (!"".equals(request.getParameter("categoryId"))){ %>
+                        <input type="hidden" name="categoryId" value=<%=request.getParameter("categoryId")%>>
+                        <%}%>
+                        <% if (!"".equals(request.getParameter("startDate"))){ %>
+                        <input type="hidden" name="startDate" value=<%=request.getParameter("startDate")%>>
+                        <%}%>
+                        <% if (!"".equals(request.getParameter("endDate"))){ %>
+                        <input type="hidden" name="endDate" value=<%=request.getParameter("endDate")%>>
+                        <%}%>
+                        <% if (!"".equals(request.getParameter("currentPage"))){ %>
+                        <input type="hidden" name="currentPage" value=<%=request.getParameter("currentPage")%>>
+                        <%}%>
                         <input type="submit" value="확인">
                     </form>
                     <button type="button" class="close" >&times;</button>

@@ -126,10 +126,23 @@ public class ArticleController {
 		return "redirect:/"+searchQueryString;
 	}
 
+	/**
+	 * 게시글 삭제 컨트롤러
+	 * @param articleId
+	 * @param userInputPassword
+	 */
 	@PostMapping ("/deleteArticle")
-	public void deleteArticleController(@RequestParam("id") Integer articleId, @RequestParam("password") String userInputPassword){
+	public String deleteArticleController(@RequestParam("id") Integer articleId,
+										@RequestParam("password") String userInputPassword,
+										@ModelAttribute SearchCriteriaVO searchCriteria){
 		Boolean isPasswordCorrect = articleService.isPasswordConfirmed(userInputPassword,articleId);
-				
+		if (!isPasswordCorrect){
+			return "error";
+		} else {
+			articleService.deleteArticle(articleId);
+			// 검색조건유지를 위한 쿼리스트링파라미터
+			String searchQueryString = StringUtils.makeQueryString(searchCriteria)+searchCriteria.getCurrentPage();
+			return "redirect:/"+ searchQueryString;
+		}
 	}
-
 }

@@ -88,8 +88,9 @@
     WHERE  article_id = #{articleId}
   </update>
 
-  <!--  <delete id="deleteArticle">-->
-<!--    DELETE FROM article-->
-<!--    WHERE article_id=#{articleId}-->
-<!--  </delete>-->
+<!--  삭제 -->
+  <delete id="deleteArticle">
+    DELETE FROM article
+    WHERE article_id= #{articleId}
+  </delete>
 </mapper>

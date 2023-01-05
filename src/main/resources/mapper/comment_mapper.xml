@@ -3,12 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springboot.bbs.repository.CommentRepository">
+  <!-- 게시글 상세 페이지 위한 댓글리스트 SELECT    -->
   <select id="selectComments" resultType="com.springboot.bbs.vo.CommentVO">
     SELECT * FROM comment
       WHERE article_id = #{articleId}
   </select>
+  <!-- 새 댓글 등록  -->
   <insert id="insertComment">
     INSERT INTO comment ( content, created_at, article_id)
     VALUES (#{content}, NOW(), #{articleId})
   </insert>
+  <!-- 댓글삭제  -->
+  <delete id="deleteComment">
+    DELETE FROM comment
+    WHERE article_id= #{articleId}
+  </delete>
 </mapper>

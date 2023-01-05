@@ -48,4 +48,12 @@ public class FileRepository {
 	public FileVO selectFile(String fileUuid){
 		return session.selectOne(mapperName+".selectForDownload", fileUuid);
 	}
+
+	/**
+	 * 게시글 관련 파일 삭제
+	 * @param articleId 게시글 id
+	 */
+	public void deleteFiles(Integer articleId){
+		session.delete(mapperName+".deleteFile", articleId);
+	}
 }
