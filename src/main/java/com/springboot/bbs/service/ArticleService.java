@@ -103,4 +103,16 @@ public class ArticleService {
 		articleRepository.insertArticle(articleInserting);
 		return articleInserting.getArticleId();
 	}
+
+	public boolean isPasswordConfirmed(String inputPassword, Integer articleId){
+		String dbPassword = articleRepository.selectArticleDetail(articleId).getPassword();
+		if (!dbPassword.equals(inputPassword)){
+			return false;
+		}
+		return true;
+	}
+
+	public void deleteArticle(Integer articleId){
+		
+	}
 }

@@ -90,7 +90,7 @@ public class FileService {
 		return fileRepository.selectFiles(articleId);
 	}
 
-	public FileDTO makeFileByte(String fileUuid){
+	public FileDTO getTargetFile(String fileUuid){
 		FileDTO fileDTO = new FileDTO();
 		// 다운로드 대상 파일 객체
 		FileVO targetFile = fileRepository.selectFile(fileUuid);

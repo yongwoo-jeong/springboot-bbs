@@ -6,8 +6,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" href="/css/view_article.css">
-    <script type="text/javascript" src="/js/articleView.js"></script>
+    <link rel="stylesheet" href="/css/articleDetail.css">
+    <script type="text/javascript" src="/js/articleDetail.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -85,8 +85,17 @@
     <div class="button_set_container">
         <div class="button_set">
             <a href="/<%=request.getAttribute("queryStringParam")%><%=request.getAttribute("currentPage")%>" class="list_button">목록</a>
-            <a id="modi_btn" class="modi_del_btn">수정</a>
+            <a hidden="/delete"<%=article.getArticleId()%> id="modi_btn" class="modi_del_btn">수정</a>
             <a id="del_btn" class="modi_del_btn">삭제</a>
+            <div style="display: none" class="modal-fade" id="delete_modal">
+                <div class="modal-dialog">
+                    <form method="post" action="/deleteArticle?id=<%=article.getArticleId()%>">
+                        <input class="password" type="password" name="password" />
+                        <input type="submit" value="확인">
+                    </form>
+                    <button type="button" class="close" >&times;</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

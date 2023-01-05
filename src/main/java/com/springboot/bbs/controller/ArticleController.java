@@ -126,5 +126,10 @@ public class ArticleController {
 		return "redirect:/"+searchQueryString;
 	}
 
+	@PostMapping ("/deleteArticle")
+	public void deleteArticleController(@RequestParam("id") Integer articleId, @RequestParam("password") String userInputPassword){
+		Boolean isPasswordCorrect = articleService.isPasswordConfirmed(userInputPassword,articleId);
+				
+	}
 
 }
