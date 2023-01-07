@@ -11,8 +11,9 @@
 <body>
 <header class="title"><h1>게시판 - 등록</h1></header>
 <main>
-    <% ArticleVO article = (ArticleVO) request.getAttribute("article"); %>
-    <form enctype="multipart/form-data" method="post" action=<%=request.getContextPath()%>/onEdit?id=<%=article.getArticleId()%> name="edit">
+    <% String queryString = request.getQueryString();
+        ArticleVO article = (ArticleVO) request.getAttribute("article"); %>
+    <form enctype="multipart/form-data" method="post" action="<%=request.getContextPath()%>/onEdit?id=<%=article.getArticleId()%>&<%=queryString%>" name="edit">
         <div class="upload_form_container">
             <div class="category_row container_row">
                 <div><span>카테고리</span></div>
@@ -88,22 +89,22 @@
             </div>
         </div>
         <div class="button_container">
-            <% SearchCriteriaVO searchCriteria = (SearchCriteriaVO) request.getAttribute("searchCriteria");
-                if (searchCriteria.getKeyword()!=null){ %>
-            <input type="hidden" name="keyword" value=<%=request.getParameter("keyword")%>>
-            <%}%>
-            <% if (searchCriteria.getCategoryId()!=null){ %>
-            <input type="hidden" name="categoryId" value=<%=request.getParameter("categoryId")%>>
-            <%}%>
-            <% if (searchCriteria.getStartDate()!=null){ %>
-            <input type="hidden" name="startDate" value=<%=request.getParameter("startDate")%>>
-            <%}%>
-            <% if (searchCriteria.getEndDate()!=null){ %>
-            <input type="hidden" name="endDate" value=<%=request.getParameter("endDate")%>>
-            <%}%>
-            <% if (searchCriteria.getCurrentPage() != null){ %>
-            <input type="hidden" name="currentPage" value=<%=request.getParameter("currentPage")%>>
-            <%}%>
+<%--            <% SearchCriteriaVO searchCriteria = (SearchCriteriaVO) request.getAttribute("searchCriteria");--%>
+<%--                if (searchCriteria.getKeyword()!=null){ %>--%>
+<%--            <input type="hidden" name="keyword" value=<%=request.getParameter("keyword")%>>--%>
+<%--            <%}%>--%>
+<%--            <% if (searchCriteria.getCategoryId()!=null){ %>--%>
+<%--            <input type="hidden" name="categoryId" value=<%=request.getParameter("categoryId")%>>--%>
+<%--            <%}%>--%>
+<%--            <% if (searchCriteria.getStartDate()!=null){ %>--%>
+<%--            <input type="hidden" name="startDate" value=<%=request.getParameter("startDate")%>>--%>
+<%--            <%}%>--%>
+<%--            <% if (searchCriteria.getEndDate()!=null){ %>--%>
+<%--            <input type="hidden" name="endDate" value=<%=request.getParameter("endDate")%>>--%>
+<%--            <%}%>--%>
+<%--            <% if (searchCriteria.getCurrentPage() != null){ %>--%>
+<%--            <input type="hidden" name="currentPage" value=<%=request.getParameter("currentPage")%>>--%>
+<%--            <%}%>--%>
             <a onclick="history.back();" class="cancel_button">취소</a>
             <input type="hidden" name="deleteFileList" id="deleteFileList" value="">
             <input type="submit" class="save_button" value="저장" />

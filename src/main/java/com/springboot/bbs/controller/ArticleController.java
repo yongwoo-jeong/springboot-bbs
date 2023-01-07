@@ -142,8 +142,8 @@ public class ArticleController {
 		}
 		articleService.deleteArticle(articleId);
 		// 검색조건유지를 위한 쿼리스트링파라미터
-		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+searchCriteria.getCurrentPage();
-		return "redirect:/"+ searchQueryString;
+		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+1;
+		return "redirect:/"+searchQueryString;
 	}
 
 	/**

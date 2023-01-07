@@ -1,13 +1,15 @@
 package com.springboot.bbs.vo;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 /**
  * 검색조건 객체
  */
+@Getter
+@Setter
 public class SearchCriteriaVO {
 
 	/**
