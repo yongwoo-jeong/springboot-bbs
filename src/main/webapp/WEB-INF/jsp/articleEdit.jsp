@@ -6,7 +6,6 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/upload.css">
-    <script type="text/javascript" src="/js/articleEdit.js"></script>
     <title>게시판 - 등록</title>
 </head>
 <body>
@@ -111,8 +110,6 @@
         </div>
     </form>
 </main>
-<script>
-
-</script>
+  <script type="text/javascript" src="/js/articleEdit.js"></script>
 </body>
 </html>

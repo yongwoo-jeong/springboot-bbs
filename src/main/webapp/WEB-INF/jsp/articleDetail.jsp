@@ -6,7 +6,6 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/articleDetail.css">
-    <script type="text/javascript" src="/js/articleDetail.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -137,5 +136,6 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/js/articleDetail.js"></script>
 </body>
 </html>

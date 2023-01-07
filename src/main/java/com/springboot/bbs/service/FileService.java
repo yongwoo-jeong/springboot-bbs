@@ -51,6 +51,9 @@ public class FileService {
 	 * @param articleId 게시글 id
 	 */
 	public void insertNewFiles(List<MultipartFile> fileList, Integer articleId){
+		if (fileList == null){
+			return;
+		}
 		for (MultipartFile file : fileList){
 			if (MyFileUtils.isFileEmpty(file)) {
 				continue;
