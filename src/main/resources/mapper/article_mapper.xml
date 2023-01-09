@@ -94,7 +94,7 @@
   <!-- 업데이트  -->
   <update id="updateArticle">
   UPDATE article
-  SET writer=#{writer}, title=#{title}, content=#{content}
+  SET writer=#{writer}, title=#{title}, content=#{content}, modified_at=NOW()
   WHERE article_id = #{articleId}
   </update>
 

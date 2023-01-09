@@ -1,6 +1,5 @@
 package com.springboot.bbs.vo;
 
-import java.sql.Date;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -64,7 +63,7 @@ public class ArticleVO {
 	 * 게시글 수정시간
 	 * DATETIME
 	 */
-	private Date modifiedAt;
+	private String  modifiedAt;
 
 	/**
 	 * 카테고리 ID - 외래키
