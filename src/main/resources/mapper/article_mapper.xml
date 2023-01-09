@@ -62,8 +62,7 @@
                         password,
                         content,
                         created_at,
-                        category_id,
-                        category_name
+                        category_id
                 )
            VALUES
                 (
@@ -72,8 +71,7 @@
                         #{password},
                         #{content},
                         NOW(),
-                        #{categoryId},
-                        #{categoryName}
+                        #{categoryId}
                 )
     <!-- 파일 INSERT를 위해 해당 게시글 ID(FK)를 반환    -->
     <selectKey keyProperty="articleId" resultType="int" order="AFTER">
@@ -99,4 +97,9 @@
   SET writer=#{writer}, title=#{title}, content=#{content}
   WHERE article_id = #{articleId}
   </update>
+
+  <select id="selectCategories" resultType="com.springboot.bbs.vo.CategoryVO">
+    SELECT *
+    FROM category
+  </select>
 </mapper>

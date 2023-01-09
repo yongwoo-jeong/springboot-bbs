@@ -1,10 +1,11 @@
 package com.springboot.bbs.service;
 
-import com.springboot.bbs.dto.ArticleDTO;
 import com.springboot.bbs.repository.ArticleRepository;
 import com.springboot.bbs.repository.CommentRepository;
 import com.springboot.bbs.repository.FileRepository;
+import com.springboot.bbs.utils.StringUtils;
 import com.springboot.bbs.vo.ArticleVO;
+import com.springboot.bbs.vo.CategoryVO;
 import com.springboot.bbs.vo.CommentVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
 import java.util.List;
@@ -29,7 +30,14 @@ public class ArticleService {
 	 */
 	private final CommentRepository commentRepository;
 
+	/**
+	 * 파일 레포지토리 생성자
+	 */
 	private final FileRepository fileRepository;
+
+	public List<CategoryVO> selectCategories(){
+		return articleRepository.selectCategories();
+	}
 
 	/**
 	 * 홈화면을 보여주기 위해 검색된 게시글(혹은 전체게시글)과
@@ -37,11 +45,12 @@ public class ArticleService {
 	 * @param searchCriteria 검색조건(없을 경우 쿼리문 TRIM되어 전체게시글 검색)
 	 * @return
 	 */
-	public ArticleDTO getArticleList(SearchCriteriaVO searchCriteria){
-		ArticleDTO articleDTO = new ArticleDTO();
-		articleDTO.setSearchedArticlesCount((articleRepository.selectCountArticles(searchCriteria)));
-		articleDTO.setSearchedArticles(articleRepository.selectSearchArticles(searchCriteria));
-		return articleDTO;
+	public List<ArticleVO> selectArticleList(SearchCriteriaVO searchCriteria){
+		return articleRepository.selectSearchArticles(searchCriteria);
+	}
+
+	public int selectSearchedArticleCount(SearchCriteriaVO searchCriteria){
+		return articleRepository.selectCountArticles(searchCriteria);
 	}
 
 	/**
@@ -49,7 +58,7 @@ public class ArticleService {
 	 * @param articleId 대상 아티클 ID
 	 * @return
 	 */
-	public ArticleVO getArticleDetail(Integer articleId){
+	public ArticleVO selectArticleDetail(Integer articleId){
 		// 조회수 +1
 		articleRepository.updateViewCount(articleId);
 		return articleRepository.selectArticleDetail(articleId);
@@ -60,7 +69,7 @@ public class ArticleService {
 	 * @param articleId 해당 게시글 id
 	 * @return
 	 */
-	public List<CommentVO> getCommentList(Integer articleId){
+	public List<CommentVO> selectCommentList(Integer articleId){
 		return commentRepository.selectComments(articleId);
 	}
 
@@ -78,15 +87,15 @@ public class ArticleService {
 	 * 새 게시글 등록 서비스
 	 * @param newArticle 새 게시글 정보가 담긴 객체
 	 */
-	public int insertNewArticle(ArticleDTO newArticle){
+	public int insertNewArticle(ArticleVO newArticle, String passwordConfirm){
 		// 게시판 등록항목 검증
 		if (newArticle.getWriter().length()> 4 || newArticle.getWriter().length()<3){
 			return -1;
 		}
-		if (newArticle.getCategoryIdAndName().isEmpty()){
+		if (StringUtils.isEmpty(newArticle.getCategoryId())){
 			return -1;
 		}
-		if (!Objects.equals(newArticle.getPassword(), newArticle.getPasswordConfirm())){
+		if (!Objects.equals(newArticle.getPassword(), passwordConfirm)){
 			return -1;
 		}
 		if (newArticle.getTitle().length() < 3 || newArticle.getTitle().length() > 100){
@@ -97,12 +106,9 @@ public class ArticleService {
 		}
 		// articleInput.jsp select value 로 받은 "1-JAVA" 형태 스트링을
 		// 스플릿해서 categoryId, categoryName 으로 사용
-		String[] categoryIdAndName = newArticle.getCategoryIdAndName().split("-");
-		Integer categoryId = Integer.valueOf(categoryIdAndName[0]);
-		String categoryName = categoryIdAndName[1].trim();
 		ArticleVO articleInserting = ArticleVO.builder().title(newArticle.getTitle()).writer(newArticle.getWriter())
 														.password(newArticle.getPassword()).content(newArticle.getContent())
-														.categoryId(categoryId).categoryName(categoryName).build();
+														.categoryId(newArticle.getCategoryId()).build();
 		articleRepository.insertArticle(articleInserting);
 		return articleInserting.getArticleId();
 	}
@@ -132,7 +138,7 @@ public class ArticleService {
 		articleRepository.deleteArticle(articleId);
 	}
 
-	public void updateArticle(ArticleDTO userInputArticle, Integer articleId){
+	public void updateArticle(ArticleVO userInputArticle, Integer articleId){
 		ArticleVO insertingArticle = ArticleVO.builder().articleId(articleId).title(userInputArticle.getTitle())
 														.writer(userInputArticle.getWriter()).password(userInputArticle.getPassword())
 														.content(userInputArticle.getContent()).build();

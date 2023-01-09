@@ -2,6 +2,7 @@
 <%@ page import="com.springboot.bbs.vo.ArticleVO" %>
 <%@ page import="com.springboot.bbs.vo.FileVO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.springboot.bbs.vo.CategoryVO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,12 +14,13 @@
 <main>
     <% String queryString = request.getQueryString();
         ArticleVO article = (ArticleVO) request.getAttribute("article"); %>
-    <form enctype="multipart/form-data" method="post" action="<%=request.getContextPath()%>/onEdit?id=<%=article.getArticleId()%>&<%=queryString%>" name="edit">
+    <form enctype="multipart/form-data" method="post" action="<%=request.getContextPath()%>/updateAction?id=<%=article.getArticleId()%>&<%=queryString%>" name="edit">
         <div class="upload_form_container">
             <div class="category_row container_row">
                 <div><span>카테고리</span></div>
                 <div>
-                    <span><%=article.getCategoryName()%></span>
+                    <% List<CategoryVO> categories = (List<CategoryVO>) request.getAttribute("categories"); %>
+                    <span><%=categories.get(article.getCategoryId()-1).getCategoryName()%></span>
                 </div>
             </div>
             <div class="container_row">

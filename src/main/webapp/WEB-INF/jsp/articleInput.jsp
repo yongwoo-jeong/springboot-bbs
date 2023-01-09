@@ -1,4 +1,6 @@
 <%@ page import="com.springboot.bbs.vo.SearchCriteriaVO" %>
+<%@ page import="com.springboot.bbs.vo.CategoryVO" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,17 +12,20 @@
 <main>
     <% String searchQueryString = request.getQueryString();%>
     <%-- HTML 태그 이외 서버상 제한 처리 필요 - writer, password, title, contet --%>
-    <form enctype="multipart/form-data" method="post" action=<%=request.getContextPath()%>/upload?<%=searchQueryString%> name="upload">
+    <form enctype="multipart/form-data" method="post" action=<%=request.getContextPath()%>/insertArticle?<%=searchQueryString%> name="upload">
         <div class="upload_form_container">
             <div class="category_row container_row">
                 <div><span>카테고리 *</span></div>
                 <div>
                     <label for="category"></label>
-                    <select name="categoryIdAndName" id="category" required>
-                        <option value="" selected>카테고리 선택</option>z
-                        <option value="1-JAVA" >JAVA</option>
-                        <option value="2-Javascript">Javascript</option>
-                        <option value="3-Database">Database</option>
+                    <select name="categoryId" id="category">
+                        <%
+                            List<CategoryVO> categories = (List<CategoryVO>) request.getAttribute("categories");
+                        %>
+                        <option selected="selected" value="">전체 카테고리</option>
+                        <% for (CategoryVO category : categories){ %>
+                        <option value=<%=category.getCategoryId()%>><%=category.getCategoryName()%></option>
+                        <% } %>
                     </select>
                 </div>
             </div>

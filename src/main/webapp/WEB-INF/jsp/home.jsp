@@ -1,5 +1,6 @@
 <%@ page import="com.springboot.bbs.vo.ArticleVO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.springboot.bbs.vo.CategoryVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,10 +27,13 @@
                     <form action="" method="post">
                         <label for="category"></label>
                         <select name="categoryId" id="category">
+                        <%
+                            List<CategoryVO> categories = (List<CategoryVO>) request.getAttribute("categories");
+                        %>
                             <option selected="selected" value="">전체 카테고리</option>
-                            <option value="1">JAVA</option>
-                            <option value="2">Javascript</option>
-                            <option value="3">Database</option>
+                            <% for (CategoryVO category : categories){ %>
+                            <option value=<%=category.getCategoryId()%>><%=category.getCategoryName()%></option>
+                            <% } %>
                         </select>
                     </form>
                 </div>
@@ -57,7 +61,7 @@
     List<ArticleVO> articles = (List<ArticleVO>) request.getAttribute("articles");
     for(ArticleVO article : articles) { %>
         <div class="post">
-            <span class="post_category"><%=article.getCategoryName()%></span>
+            <span class="post_category"><%=categories.get(article.getCategoryId()-1).getCategoryName()%></span>
 <%--                <% if ( true ){%>--%>
 <%--                <svg></svg>--%>
 <%--                <%} else {%>--%>
@@ -82,7 +86,7 @@
         <%}%>
     </div>
     <div class="upload_container">
-        <button class="button upload_button" type="button" onclick=location.href=<%=request.getContextPath()%>"/upload<%=request.getAttribute("queryStringParam")%><%=request.getAttribute("currentPage")%>">등록</button>
+        <button class="button upload_button" type="button" onclick=location.href=<%=request.getContextPath()%>"/insertArticle<%=request.getAttribute("queryStringParam")%><%=request.getAttribute("currentPage")%>">등록</button>
     </div>
 </div>
 </body>

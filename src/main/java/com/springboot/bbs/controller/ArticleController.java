@@ -1,10 +1,10 @@
 package com.springboot.bbs.controller;
 
-import com.springboot.bbs.dto.ArticleDTO;
 import com.springboot.bbs.service.ArticleService;
 import com.springboot.bbs.service.FileService;
 import com.springboot.bbs.utils.StringUtils;
 import com.springboot.bbs.vo.ArticleVO;
+import com.springboot.bbs.vo.CategoryVO;
 import com.springboot.bbs.vo.CommentVO;
 import com.springboot.bbs.vo.FileVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
@@ -48,14 +48,17 @@ public class ArticleController {
 	 */
 	@GetMapping("/")
 	public String homeController(Model model, @ModelAttribute SearchCriteriaVO searchCriteria){
+		// 카테고리명
+		List<CategoryVO> categories = articleService.selectCategories();
+		model.addAttribute("categories",categories);
 		// DB SELECT LIMIT offset 설정
 		searchCriteria.setDbLimitOffset((searchCriteria.getCurrentPage()-1)*10);
 		// 게시글리스트, 게시글 숫자 담은 DTO
-		ArticleDTO articleDTO = articleService.getArticleList(searchCriteria);
+		List<ArticleVO> searchedArticles = articleService.selectArticleList(searchCriteria);
+		int countArticles =  articleService.selectSearchedArticleCount(searchCriteria);
 		// 게시글 리스트 애트리뷰트
-		model.addAttribute("articles",articleDTO.getSearchedArticles());
-		// 게시글 숫자 애트리뷰트
-		model.addAttribute("articlesCount",articleDTO.getSearchedArticlesCount());
+		model.addAttribute("articles",searchedArticles);
+		model.addAttribute("articlesCount",countArticles);
 		// 검색조건 쿼리스트링 파라미터 애트리뷰트
 		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
 		model.addAttribute("queryStringParam",queryStringParam);
@@ -73,9 +76,9 @@ public class ArticleController {
 	@GetMapping("/article")
 	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
 		// 요청 게시글 정보 가져오기
-		ArticleVO targetArticle = articleService.getArticleDetail(articleId);
+		ArticleVO targetArticle = articleService.selectArticleDetail(articleId);
 		// 게시글에 따른 댓글 리스트
-		List<CommentVO> commentList = articleService.getCommentList(articleId);
+		List<CommentVO> commentList = articleService.selectCommentList(articleId);
 		// 게시글에 따른 파일 리스트
 		List< FileVO> fileList = fileService.getFileList(articleId);
 		// 검색조건유지를 위한 쿼리스트링 설정
@@ -100,8 +103,11 @@ public class ArticleController {
 	 * 게시글 등록(/upload) 페이지 GET 매핑
 	 * @return 새 게시글 등록 FOAM 화면
 	 */
-	@GetMapping("/upload")
+	@GetMapping("/insertArticle")
 	public String inputArticleController(Model model){
+		// 카테고리명
+		List<CategoryVO> categories = articleService.selectCategories();
+		model.addAttribute("categories",categories);
 		return "articleInput";
 	}
 
@@ -109,12 +115,13 @@ public class ArticleController {
 	 * 폼을 통해 받은 새 게시글 정보 POST 요청 처리
 	 * @return
 	 */
-	@PostMapping("/upload")
-	public String insertArticleController(@ModelAttribute ArticleDTO newArticle ,
+	@PostMapping("/insertArticle")
+	public String insertArticleController(@ModelAttribute ArticleVO newArticle,
+										  @RequestParam("passwordConfirm") String passwordConfirm,
 										  @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList,
 										  @ModelAttribute SearchCriteriaVO searchCriteria){
 		// 서비스컴포넌트에서 항목 검증 시도
-		int insertedArticleId = articleService.insertNewArticle(newArticle);
+		int insertedArticleId = articleService.insertNewArticle(newArticle, passwordConfirm);
 		// 실패시 에러페이지
 		if (insertedArticleId == -1 ){
 			return "insertError";
@@ -153,7 +160,7 @@ public class ArticleController {
 	 * @param searchCriteria 검색조건 객체
 	 * @return
 	 */
-	@PostMapping("/editArticle")
+	@PostMapping("/update")
 	public String editArticleController(Model model,
 										@RequestParam("id") Integer articleId,
 										@RequestParam("password") String userInputPassword,
@@ -162,8 +169,11 @@ public class ArticleController {
 		if (!isPasswordCorrect){
 			return "error";
 		}
-		ArticleVO article = articleService.getArticleDetail(articleId);
+		ArticleVO article = articleService.selectArticleDetail(articleId);
 		List<FileVO> fileList = fileService.getFileList(articleId);
+		// 카테고리명
+		List<CategoryVO> categories = articleService.selectCategories();
+		model.addAttribute("categories",categories);
 		model.addAttribute("article", article);
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("searchCriteria", searchCriteria);
@@ -177,13 +187,13 @@ public class ArticleController {
 	 * @param searchCriteria 검색조건
 	 * @return
 	 */
-	@PostMapping("/onEdit")
-	public String onEditController(@ModelAttribute ArticleDTO userUpdatedArticle ,
+	@PostMapping("/updateAction")
+	public String onEditController(@ModelAttribute ArticleVO userUpdatedArticle ,
 								   @ModelAttribute SearchCriteriaVO searchCriteria,
 								   @RequestParam("id") Integer articleId,
 								   @RequestParam String deleteFileList,
 								   @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList){
-		String dbPassword = articleService.getArticleDetail(articleId).getPassword();
+		String dbPassword = articleService.selectArticleDetail(articleId).getPassword();
 		if (!dbPassword.equals(userUpdatedArticle.getPassword())){
 			return "error";
 		}

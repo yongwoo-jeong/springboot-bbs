@@ -1,6 +1,7 @@
 package com.springboot.bbs.repository;
 
 import com.springboot.bbs.vo.ArticleVO;
+import com.springboot.bbs.vo.CategoryVO;
 import com.springboot.bbs.vo.SearchCriteriaVO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class ArticleRepository {
 	 * @return List of ArticleVO
 	 */
 	public List<ArticleVO> selectSearchArticles(SearchCriteriaVO searchCriteria){
-		return session.selectList(mapperName + ".selectSearchArticles",searchCriteria);
+		return session.selectList(mapperName + ".selectSearchArticles", searchCriteria);
 	};
 
 	/**
@@ -81,4 +82,9 @@ public class ArticleRepository {
 	public void updateArticle(ArticleVO article){
 		session.update(mapperName+".updateArticle", article);
 	}
+
+	public List<CategoryVO> selectCategories(){
+		return session.selectList(mapperName+".selectCategories");
+	}
+
 }

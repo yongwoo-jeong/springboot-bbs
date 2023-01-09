@@ -86,7 +86,7 @@
             <a id="modi_btn" class="modi_del_btn">수정</a>
             <div style="display: none" class="modal-fade" id="modi_modal">
                 <div class="modal-dialog">
-                    <form method="post" action="/editArticle?id=<%=article.getArticleId()%>&<%=request.getAttribute("queryStringParam").toString().substring(1)%><%=request.getAttribute("currentPage")%>">
+                    <form method="post" action="/update?id=<%=article.getArticleId()%>&<%=request.getAttribute("queryStringParam").toString().substring(1)%><%=request.getAttribute("currentPage")%>">
                         <input class="password" type="password" name="password" />
 <%--                        <% if (!"".equals(request.getParameter("keyword"))){ %>--%>
 <%--                        <input type="hidden" name="keyword" value=<%=request.getParameter("keyword")%>>--%>
