@@ -21,6 +21,7 @@ public class StringUtils {
 	/**
 	 * 검색 조건을 받아 쿼리스트링 파라미터 문자열로 변환해주는 메서드
 	 * 페이징 처리 위함
+	 * TODO 한번밖에 안쓰이기때문에 다른 로직으로 교체.. 
 	 * @param searchCriteria SearchCriteriaVO
 	 * @return 쿼리스트링 파라미터 문자열
 	 */
@@ -50,5 +51,15 @@ public class StringUtils {
 		querystring.append("&endDate=").append(endDate);
 		querystring.append("&currentPage=");
 		return querystring.toString();
+	}
+
+	/**
+	 * replaceAll 통해 쿼리스트링 속 id=123 지워주는 유틸
+	 * TODO 코멘트, 파일 생각해서 URL 속 id -> articleId 로 교체
+	 * @param queryString
+	 * @return
+	 */
+	public static String deleteArticleId(String queryString){
+		return queryString.replaceAll("^id=\\d+[&]","");
 	}
 }

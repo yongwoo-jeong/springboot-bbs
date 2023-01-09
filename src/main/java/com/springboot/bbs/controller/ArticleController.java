@@ -74,7 +74,7 @@ public class ArticleController {
 	 * @return
 	 */
 	@GetMapping("/article")
-	public String articleDetailController(Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
+	public String articleDetailController(HttpServletRequest req,Model model, @RequestParam("id") Integer articleId, @ModelAttribute SearchCriteriaVO searchCriteria){
 		// 요청 게시글 정보 가져오기
 		ArticleVO targetArticle = articleService.selectArticleDetail(articleId);
 		// 게시글에 따른 댓글 리스트
@@ -82,12 +82,9 @@ public class ArticleController {
 		// 게시글에 따른 파일 리스트
 		List< FileVO> fileList = fileService.getFileList(articleId);
 		// 검색조건유지를 위한 쿼리스트링 설정
-		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
 		model.addAttribute("targetArticle", targetArticle);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("fileList", fileList);
-		model.addAttribute("queryStringParam",queryStringParam);
-		model.addAttribute("currentPage",searchCriteria.getCurrentPage());
 		return "articleDetail";
 	}
 
@@ -95,8 +92,7 @@ public class ArticleController {
 	public String addComment(HttpServletRequest req, @RequestParam("id") Integer articleId,@ModelAttribute CommentVO newComment){
 		articleService.insertNewComment(articleId,newComment);
 		// 댓글 POST 요청 후 이전 페이지로 돌리기 위한 referer
-		String refererPage = req.getHeader("referer");
-		return "redirect:"+refererPage;
+		return "redirect:/article?"+req.getQueryString();
 	}
 
 	/**
@@ -116,7 +112,8 @@ public class ArticleController {
 	 * @return
 	 */
 	@PostMapping("/insertArticle")
-	public String insertArticleController(@ModelAttribute ArticleVO newArticle,
+	public String insertArticleController(HttpServletRequest req,
+										  @ModelAttribute ArticleVO newArticle,
 										  @RequestParam("passwordConfirm") String passwordConfirm,
 										  @RequestParam(value = "files",required = false) List<MultipartFile> multipartFileList,
 										  @ModelAttribute SearchCriteriaVO searchCriteria){
@@ -129,7 +126,7 @@ public class ArticleController {
 		// 파일 처리 서비스
 		fileService.insertNewFiles(multipartFileList, insertedArticleId);
 		// 게시글 등록후는 현재페이지 1로 설정
-		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+1;
+		String searchQueryString = req.getQueryString();
 		return "redirect:/"+searchQueryString;
 	}
 
@@ -140,7 +137,8 @@ public class ArticleController {
 	 * @param searchCriteria 검색조건 객체
 	 */
 	@PostMapping ("/deleteArticle")
-	public String deleteArticleController(@RequestParam("id") Integer articleId,
+	public String deleteArticleController(HttpServletRequest req,
+									      @RequestParam("id") Integer articleId,
 										  @RequestParam("password") String userInputPassword,
 										  @ModelAttribute SearchCriteriaVO searchCriteria){
 		Boolean isPasswordCorrect = articleService.isPasswordConfirmed(userInputPassword,articleId);
@@ -149,8 +147,8 @@ public class ArticleController {
 		}
 		articleService.deleteArticle(articleId);
 		// 검색조건유지를 위한 쿼리스트링파라미터
-		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+1;
-		return "redirect:/"+searchQueryString;
+		String queryString = StringUtils.deleteArticleId(req.getQueryString());
+		return "redirect:/?"+queryString;
 	}
 
 	/**
@@ -188,7 +186,8 @@ public class ArticleController {
 	 * @return
 	 */
 	@PostMapping("/updateAction")
-	public String onEditController(@ModelAttribute ArticleVO userUpdatedArticle ,
+	public String onEditController(HttpServletRequest req,
+								   @ModelAttribute ArticleVO userUpdatedArticle ,
 								   @ModelAttribute SearchCriteriaVO searchCriteria,
 								   @RequestParam("id") Integer articleId,
 								   @RequestParam String deleteFileList,
@@ -197,14 +196,14 @@ public class ArticleController {
 		if (!dbPassword.equals(userUpdatedArticle.getPassword())){
 			return "error";
 		}
-		String searchQueryString = StringUtils.makeQueryString(searchCriteria)+searchCriteria.getCurrentPage();
 		articleService.updateArticle(userUpdatedArticle, articleId);
 		String[] fileWillDelete = deleteFileList.split(",");
 		for (String fileUuid : fileWillDelete){
 			fileService.deleteFile(fileUuid);
 		}
 		fileService.insertNewFiles(multipartFileList, articleId);
-		return "redirect:/article?id="+articleId+"&"+searchQueryString.substring(1);
+		String queryString = req.getQueryString();
+		return "redirect:/article?"+queryString;
 
 	}
 }

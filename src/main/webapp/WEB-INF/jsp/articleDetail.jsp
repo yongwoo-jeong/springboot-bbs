@@ -74,7 +74,7 @@
         </div>
         <% } %>
         <div>
-            <form method="post" action=/addComment?id=<%=article.getArticleId()%> name="uploadComment">
+            <form method="post" action=/addComment?<%=request.getQueryString()%> name="uploadComment">
                 <input name="content" class="comment_input" type="text" placeholder="댓글을 입력해주세요" />
                 <input type="submit" class="save_button" value="저장" />
             </form>
@@ -82,27 +82,12 @@
     </div>
     <div class="button_set_container">
         <div class="button_set">
-            <a href="/<%=request.getAttribute("queryStringParam")%><%=request.getAttribute("currentPage")%>" class="list_button">목록</a>
+            <a href="/?<%=request.getQueryString().replaceAll("^id=\\d+[&]","")%>" class="list_button">목록</a>
             <a id="modi_btn" class="modi_del_btn">수정</a>
             <div style="display: none" class="modal-fade" id="modi_modal">
                 <div class="modal-dialog">
-                    <form method="post" action="/update?id=<%=article.getArticleId()%>&<%=request.getAttribute("queryStringParam").toString().substring(1)%><%=request.getAttribute("currentPage")%>">
+                    <form method="post" action="/update?<%=request.getQueryString()%>">
                         <input class="password" type="password" name="password" />
-<%--                        <% if (!"".equals(request.getParameter("keyword"))){ %>--%>
-<%--                        <input type="hidden" name="keyword" value=<%=request.getParameter("keyword")%>>--%>
-<%--                        <%}%>--%>
-<%--                        <% if (!"".equals(request.getParameter("categoryId"))){ %>--%>
-<%--                        <input type="hidden" name="categoryId" value=<%=request.getParameter("categoryId")%>>--%>
-<%--                        <%}%>--%>
-<%--                        <% if (!"".equals(request.getParameter("startDate"))){ %>--%>
-<%--                        <input type="hidden" name="startDate" value=<%=request.getParameter("startDate")%>>--%>
-<%--                        <%}%>--%>
-<%--                        <% if (!"".equals(request.getParameter("endDate"))){ %>--%>
-<%--                        <input type="hidden" name="endDate" value=<%=request.getParameter("endDate")%>>--%>
-<%--                        <%}%>--%>
-<%--                        <% if (!"".equals(request.getParameter("currentPage"))){ %>--%>
-<%--                        <input type="hidden" name="currentPage" value=<%=request.getParameter("currentPage")%>>--%>
-<%--                        <%}%>--%>
                         <input type="submit" value="확인">
                     </form>
                     <button type="button" class="close" id="modiClose">&times;</button>
@@ -111,23 +96,8 @@
             <a id="del_btn" class="modi_del_btn">삭제</a>
             <div style="display: none" class="modal-fade" id="delete_modal">
                 <div class="modal-dialog">
-                    <form method="post" action="/deleteArticle?id=<%=article.getArticleId()%>&<%=request.getAttribute("queryStringParam").toString().substring(1)%><%=request.getAttribute("currentPage")%>">
+                    <form method="post" action="/deleteArticle?<%=request.getQueryString()%>%>">
                         <input class="password" type="password" name="password" />
-<%--                        <% if (!"".equals(request.getParameter("keyword"))){ %>--%>
-<%--                        <input type="hidden" name="keyword" value=<%=request.getParameter("keyword")%>>--%>
-<%--                        <%}%>--%>
-<%--                        <% if (!"".equals(request.getParameter("categoryId"))){ %>--%>
-<%--                        <input type="hidden" name="categoryId" value=<%=request.getParameter("categoryId")%>>--%>
-<%--                        <%}%>--%>
-<%--                        <% if (!"".equals(request.getParameter("startDate"))){ %>--%>
-<%--                        <input type="hidden" name="startDate" value=<%=request.getParameter("startDate")%>>--%>
-<%--                        <%}%>--%>
-<%--                        <% if (!"".equals(request.getParameter("endDate"))){ %>--%>
-<%--                        <input type="hidden" name="endDate" value=<%=request.getParameter("endDate")%>>--%>
-<%--                        <%}%>--%>
-<%--                        <% if (!"".equals(request.getParameter("currentPage"))){ %>--%>
-<%--                        <input type="hidden" name="currentPage" value=<%=request.getParameter("currentPage")%>>--%>
-<%--                        <%}%>--%>
                         <input type="submit" value="확인">
                     </form>
                     <button type="button" class="close" id="delClose" >&times;</button>
