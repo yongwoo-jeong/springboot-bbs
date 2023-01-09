@@ -1,6 +1,7 @@
 <%@ page import="com.springboot.bbs.vo.ArticleVO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.springboot.bbs.vo.CategoryVO" %>
+<%@ page import="com.springboot.bbs.vo.FileVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -62,15 +63,15 @@
     for(ArticleVO article : articles) { %>
         <div class="post">
             <span class="post_category"><%=categories.get(article.getCategoryId()-1).getCategoryName()%></span>
-<%--                <% if ( true ){%>--%>
-<%--                <svg></svg>--%>
-<%--                <%} else {%>--%>
-<%--            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">--%>
-<%--                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />--%>
-<%--            </svg>--%>
-<%--            <%}%>--%>
-            <a class="post_title" href="${pageContext.request.contextPath}article?id=<%= article.getArticleId()%>&<%=request.getAttribute("queryStringParam").toString().substring(1)%><%=request.getAttribute("currentPage")%>"><%=(
-                    article.getTitle().length() > 20) ? article.getTitle().substring(0,20)+"..." : article.getTitle()%></a>
+                <% if ( true  ){%>
+                <svg></svg>
+                <%} else {%>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            <%}%>
+            <a class="post_title" href="${pageContext.request.contextPath}article?id=<%= article.getArticleId()%>&<%=request.getQueryString()%>">
+                <%=(article.getTitle().length() > 20) ? article.getTitle().substring(0,20)+"..." : article.getTitle()%></a>
             <span><%=article.getWriter()%></span>
             <span class="view_span"><%=article.getView()%></span>
             <span><%=article.getCreatedAt()%></span>
@@ -82,12 +83,26 @@
         <%  Integer currentPage = (Integer) request.getAttribute("currentPage");
             int lastPage = (int) Math.ceil((double) articleCount/10); %>
         <%for (int i = 1; i<=lastPage; i++){%>
-        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=<%=request.getContextPath()%><%=request.getAttribute("queryStringParam")%><%=i%>><%=i%></a>
+        <a class="pagination"  <%=(i == currentPage) ? "style='color:red'" : "" %> href=javascript:paging(<%=i%>)><%=i%></a>
         <%}%>
     </div>
     <div class="upload_container">
-        <button class="button upload_button" type="button" onclick=location.href=<%=request.getContextPath()%>"/insertArticle<%=request.getAttribute("queryStringParam")%><%=request.getAttribute("currentPage")%>">등록</button>
+        <button class="button upload_button" type="button" onclick=location.href=<%=request.getContextPath()%>"/insertArticle?<%=request.getQueryString()%>">등록</button>
     </div>
 </div>
+<script>
+    function paging(pageNumber){
+      let queryString = (new URL(document.location)).searchParams.toString().replace(/&currentPage=[\d+]$/,"");
+      console.log(queryString);
+      if (queryString===""){
+        queryString = "?currentPage=";
+      } else
+      {
+        queryString = "?"+queryString+"&currentPage=";
+      }
+      queryString = queryString+pageNumber;
+      location.replace(queryString);
+    }
+</script>
 </body>
 </html>

@@ -42,6 +42,7 @@ public class ArticleController {
 
 	/**
 	 * 홈페이지(/) GET 매핑
+	 * TODO 파일 이너 조인으로 가져와야 파일 표시가능
 	 * @param model 애트리뷰트 설정을 위한 모델객체
 	 * @param searchCriteria 검색조건, 조건이 없을 경우 아티클매퍼에서 trim 처리로 조건 제외
 	 * @return
@@ -59,9 +60,6 @@ public class ArticleController {
 		// 게시글 리스트 애트리뷰트
 		model.addAttribute("articles",searchedArticles);
 		model.addAttribute("articlesCount",countArticles);
-		// 검색조건 쿼리스트링 파라미터 애트리뷰트
-		String queryStringParam = StringUtils.makeQueryString(searchCriteria);
-		model.addAttribute("queryStringParam",queryStringParam);
 		// 현재페이지는 조건에 들어가지 않기때문에 따로 넘겨준다.
 		model.addAttribute("currentPage", searchCriteria.getCurrentPage());
 		return "home";
@@ -120,11 +118,8 @@ public class ArticleController {
 										  @ModelAttribute SearchCriteriaVO searchCriteria){
 		// 서비스컴포넌트에서 항목 검증 시도
 		int insertedArticleId = articleService.insertNewArticle(newArticle, passwordConfirm);
-		System.out.println(insertedArticleId);
-
 		// 실패시 에러페이지
 		if (insertedArticleId < 0 ){
-			System.out.println(insertedArticleId);
 			return "insertError";
 		}
 		// 파일 처리 서비스
