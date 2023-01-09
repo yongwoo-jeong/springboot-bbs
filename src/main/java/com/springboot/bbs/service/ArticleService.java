@@ -85,24 +85,13 @@ public class ArticleService {
 
 	/**
 	 * 새 게시글 등록 서비스
+	 * TODO enum 예외처리 활용..
 	 * @param newArticle 새 게시글 정보가 담긴 객체
 	 */
 	public int insertNewArticle(ArticleVO newArticle, String passwordConfirm){
-		// 게시판 등록항목 검증
-		if (newArticle.getWriter().length()> 4 || newArticle.getWriter().length()<3){
-			return -1;
-		}
-		if (StringUtils.isEmpty(newArticle.getCategoryId())){
-			return -1;
-		}
-		if (!Objects.equals(newArticle.getPassword(), passwordConfirm)){
-			return -1;
-		}
-		if (newArticle.getTitle().length() < 3 || newArticle.getTitle().length() > 100){
-			return -1;
-		}
-		if (newArticle.getContent().length()<4 || newArticle.getContent().length()>2000){
-			return -1;
+		int status = validateArticleForm(newArticle, passwordConfirm);
+		if (status!=0){
+			return status;
 		}
 		// articleInput.jsp select value 로 받은 "1-JAVA" 형태 스트링을
 		// 스플릿해서 categoryId, categoryName 으로 사용
@@ -144,4 +133,27 @@ public class ArticleService {
 														.content(userInputArticle.getContent()).build();
 		articleRepository.updateArticle(insertingArticle);
 	}
+
+
+	private int validateArticleForm(ArticleVO newArticle, String passwordConfirm){
+		// 게시판 등록항목 검증
+		if (!Objects.equals(newArticle.getPassword(), passwordConfirm)){
+			return -1;
+		}
+		if (newArticle.getWriter().length()> 4 || newArticle.getWriter().length()<3){
+			return -2;
+		}
+		if (StringUtils.isEmpty(newArticle.getCategoryId())){
+			return -3;
+		}
+
+		if (newArticle.getTitle().length() < 3 || newArticle.getTitle().length() > 100){
+			return -4;
+		}
+		if (newArticle.getContent().length()<4 || newArticle.getContent().length()>2000){
+			return -5;
+		}
+		return 0;
+	}
 }
+

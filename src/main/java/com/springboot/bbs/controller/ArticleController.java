@@ -109,6 +109,7 @@ public class ArticleController {
 
 	/**
 	 * 폼을 통해 받은 새 게시글 정보 POST 요청 처리
+	 * TODO 에러코드 받아서 enum 으로 처리
 	 * @return
 	 */
 	@PostMapping("/insertArticle")
@@ -119,15 +120,18 @@ public class ArticleController {
 										  @ModelAttribute SearchCriteriaVO searchCriteria){
 		// 서비스컴포넌트에서 항목 검증 시도
 		int insertedArticleId = articleService.insertNewArticle(newArticle, passwordConfirm);
+		System.out.println(insertedArticleId);
+
 		// 실패시 에러페이지
-		if (insertedArticleId == -1 ){
+		if (insertedArticleId < 0 ){
+			System.out.println(insertedArticleId);
 			return "insertError";
 		}
 		// 파일 처리 서비스
 		fileService.insertNewFiles(multipartFileList, insertedArticleId);
 		// 게시글 등록후는 현재페이지 1로 설정
 		String searchQueryString = req.getQueryString();
-		return "redirect:/"+searchQueryString;
+		return "redirect:/?"+searchQueryString;
 	}
 
 	/**
